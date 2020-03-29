@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Treemap</title>
+    <!-- Styles -->
+    <style>
+      #chartdiv {
+        width: 100%;
+        height: 700px;
+      }
+    </style>
+
+    <!-- Resources -->
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+    <!-- EXPORT EXCEL -->
+    <script src="dados.js"></script>
+
+    <!-- Chart code -->
+    <script>
+      am4core.ready(function() {
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        function groupByInterpretacao(data) {
+          var data = data;
+
+          var groupedData = {};
+
+          for (var it = 0; it < data.length; it++) {
+            var item = data[it];
+            if (!groupedData[item.Interpretacao])
+              groupedData[item.Interpretacao] = [];
+            groupedData[item.Interpretacao].push(item);
+          }
+          return groupedData;
+        }
+
+        function processData(data) {
+          /*
+            Preencher o gráfico com os dados da planilha (não precisa programar a leitura, 
+            pode jogar fixo no código).
+            - Assim teríamos, por exemplo, uma área maior chamada "Alto Potencial" 
+            (semelhante ao Ford do exemplo) e entro dele subareas com os clusters 1, 2 e 3, 
+            que estão classificados como "Alto Potencial" (este valor é encontrado na coluna Interpretacao da planilha).
+        */
+
+          let dataProcess = groupByInterpretacao(data);
+          let treeData = [];
+          let smallCluster = { name: "Other", children: [] };
+
+          Object.keys(dataProcess).map(item => {
+            var clusterTotal = 0;
+            var clusterData = { name: item, color: "#FFF", children: [] };
+
+            dataProcess[item].map(it => {
+              let qtdClient = parseInt(it.QtdClientes);
+              clusterTotal += qtdClient;
+
+              clusterData.color = it.color;
+
+              clusterData.children.push({
+                name: it.NomeCluster,
+                count: qtdClient,
+                obj: it,
+                color: it.color
+              });
+            });
+            // only bigger cluster
+            if (clusterTotal > 0) {
+              treeData.push(clusterData);
+            }
+          });
+
+          return treeData;
+        }
+
+        // create chart
+        var chart = am4core.create("chartdiv", am4charts.TreeMap);
+        chart.padding(0, 0, 0, 0);
+        chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
+        // only one level visible initially
+        chart.maxLevels = 2;
+
+        // - O valor que deverá ser incluído em cada item do gráfico é a quantidade de clientes.
+        chart.dataFields.value = "count";
+
+        //Poder customizar as cores;
+        chart.dataFields.color = "color";
+
+        //- O texto de cada item deverá conter o campo "Nome do Cluster"
+        chart.dataFields.name = "name";
+
+        chart.dataFields.children = "children";
+        chart.homeText = "Tree Map Cluster";
+
+        // enable navigation
+        chart.navigationBar = new am4charts.NavigationBar();
+        chart.zoomable = false;
+
+        // level 0 series template
+        var level0SeriesTemplate = chart.seriesTemplates.create("0");
+        level0SeriesTemplate.strokeWidth = 2;
+
+        // by default only current level series bullets are visible, but as we need brand bullets to be visible all the time, we modify it's hidden state
+        level0SeriesTemplate.bulletsContainer.hiddenState.properties.opacity = 1;
+        level0SeriesTemplate.bulletsContainer.hiddenState.properties.visible = true;
+
+        // create hover state
+        var columnTemplate = level0SeriesTemplate.columns.template;
+
+        var hoverState = columnTemplate.states.create("hover");
+
+        // darken
+        hoverState.adapter.add("fill", function(fill, target) {
+          if (fill instanceof am4core.Color) {
+            return am4core.color(am4core.colors.brighten(fill.rgb, -0.2));
+          }
+
+          return fill;
+        });
+
+        //add label text
+
+        var label = columnTemplate.createChild(am4core.Label);
+        label.align = "center";
+        label.valign = "middle";
+        label.opacity = 0.8;
+        label.fontWeight = "normal";
+        label.fontFamily = "arial";
+        label.adapter.add("text", function(text, target) {
+          var dataItem = target.parent.dataItem;
+          if (dataItem) {
+            return dataItem.treeMapDataItem.name;
+          }
+        });
+
+        // add logo
+
+        /*
+        var image = columnTemplate.createChild(am4core.Image);
+        image.opacity = 0.55;
+        image.align = "center";
+        image.valign = "middle";
+        image.width = am4core.percent(90);
+        image.height = am4core.percent(90);
+
+        // add adapter for href to load correct image
+        image.adapter.add("href", function(href, target) {
+          var dataItem = target.parent.dataItem;
+          if (dataItem) {
+            return `https://via.placeholder.com/400/${dataItem.treeMapDataItem.color.replace(
+              "#",
+              ""
+            )}/FFFFFF?text=${dataItem.treeMapDataItem.name}`;
+
+            return (
+              "https://www.amcharts.com/lib/images/logos/" +
+              dataItem.treeMapDataItem.name.toLowerCase() +
+              ".png"
+            );
+          }
+        });
+        */
+
+        var level1SeriesTemplate = chart.seriesTemplates.create("1");
+        level1SeriesTemplate.columns.template.fillOpacity = 0;
+        level1SeriesTemplate.columns.template.strokeOpacity = 0.4;
+        level1SeriesTemplate.columns.template.events.on(
+          "hit",
+          function(ev) {
+            console.warn("clicked on ", ev);
+          },
+          this
+        );
+
+        // - O Hint deverá conter: Quantidade de Clientes; Tícket Médio (MediaM); Volume de Vendas (SomatorioM);
+        level1SeriesTemplate.columns.template.tooltipHTML =
+          "<p>{obj.Interpretacao} | Qt. cliente {count}; Tícket Médio: {obj.MediaM}; Volume de Vendas: {obj.SomatorioM} </>";
+
+        var bullet1 = level1SeriesTemplate.bullets.push(
+          new am4charts.LabelBullet()
+        );
+        bullet1.locationX = 0.5;
+        bullet1.locationY = 0.5;
+        bullet1.label.text = "{name}";
+        bullet1.label.fill = am4core.color("#FFFFFF");
+        bullet1.label.fontSize = 12;
+        bullet1.label.fillOpacity = 0.9;
+
+        chart.data = processData(DATAEXCEL);
+      }); // end am4core.ready()
+    </script>
+  </head>
+  <body>
+    <!-- HTML -->
+    <div id="chartdiv"></div>
+  </body>
+</html>
