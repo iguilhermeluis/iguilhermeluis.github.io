@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Semi-circle Pie chart</title>
+    <!-- Styles -->
+    <style>
+      #chartdiv {
+        width: 100%;
+        height: 500px;
+      }
+    </style>
+
+    <!-- Resources -->
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+    <!-- EXPORT EXCEL -->
+    <script src="dados.js"></script>
+
+    <!-- Chart code -->
+    <script>
+      am4core.ready(function() {
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        var chart = am4core.create("chartdiv", am4charts.PieChart);
+        chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+        chart.data = DATAEXCEL;
+
+        chart.radius = am4core.percent(70);
+        chart.innerRadius = am4core.percent(40);
+        chart.startAngle = 180;
+        chart.endAngle = 360;
+
+        var series = chart.series.push(new am4charts.PieSeries());
+        series.dataFields.value = "SomatorioM";
+        series.dataFields.category = "NomeCluster";
+        series.slices.template.propertyFields.fill = "color";
+
+        series.slices.template.tooltipHTML =
+          "<p>{Interpretacao} | Qt. cliente {QtdClientes}; Tícket Médio: {MediaM}; Volume de Vendas: {SomatorioM} </>";
+
+        series.slices.template.events.on(
+          "hit",
+          function(ev) {
+            //object json
+            console.log(ev.target.dataItem.dataContext);
+            alert(`Clicado em ${ev.target.dataItem.dataContext.NomeCluster}`);
+          },
+          this
+        );
+
+        series.slices.template.cornerRadius = 0;
+        series.slices.template.innerCornerRadius = 0;
+        series.slices.template.draggable = true;
+        series.slices.template.inert = true;
+        series.alignLabels = false;
+
+        series.hiddenState.properties.startAngle = 90;
+        series.hiddenState.properties.endAngle = 90;
+
+        series.labels.template.relativeRotation = 90;
+        series.ticks.template.disabled = true;
+        series.alignLabels = false;
+        series.labels.template.text =
+          "{NomeCluster} | {value.percent.formatNumber('#.0')}%";
+        series.labels.template.radius = am4core.percent(-40);
+        series.labels.template.fill = am4core.color("white");
+
+        let label = series.createChild(am4core.Label);
+        label.horizontalCenter = "middle";
+        label.verticalCenter = "middle";
+        label.fontSize = 30;
+        label.text = "Total {values.value.sum}";
+
+        chart.legend = new am4charts.Legend();
+      }); // end am4core.ready()
+    </script>
+  </head>
+  <body>
+    <!-- HTML -->
+    <div id="chartdiv"></div>
+  </body>
+</html>

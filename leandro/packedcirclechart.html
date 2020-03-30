@@ -106,6 +106,15 @@
         networkSeries.nodes.template.tooltipText =
           "{name}; Quantidade: {QtdClientes}; Tícket Médio {MediaM};  Volume de Vendas: {SomatorioM} ";
 
+        networkSeries.nodes.template.events.on(
+          "hit",
+          function(ev) {
+            //object json
+            console.log(ev.target.dataItem.dataContext);
+            alert(`Clicado em ${ev.target.dataItem.dataContext.NomeCluster}`);
+          },
+          this
+        );
         networkSeries.nodes.template.fillOpacity = 1;
         networkSeries.nodes.template.outerCircle.scale = 1;
 
