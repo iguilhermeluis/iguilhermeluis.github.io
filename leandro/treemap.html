@@ -175,9 +175,8 @@
         level1SeriesTemplate.columns.template.events.on(
           "hit",
           function(ev) {
-            console.log(ev.target.dataItem.dataContext);
-            let nomeCluster = ev.target.dataItem.dataContext.NomeCluster;
-            alert(`Clicado em ${nomeCluster}`);
+            console.warn(ev.target.dataItem.dataContext.dataContext.obj);
+            alert(`Clicado em ${ev.target.dataItem.dataContext.name}`);
           },
           this
         );
