@@ -168,18 +168,6 @@ var DATAEXCEL = [
     color: "#e74c3c"
   },
   {
-    CodigoCluster: "21",
-    NomeCluster: "801",
-    QtdClientes: "4",
-    MediaR: "2",
-    MediaF: "3",
-    MediaM: "152.7125",
-    MediaMSum: "458.135",
-    SomatorioM: "1832.54",
-    Interpretacao: "Em risco",
-    color: "#e74c3c"
-  },
-  {
     CodigoCluster: "28",
     NomeCluster: "14",
     QtdClientes: "127",
