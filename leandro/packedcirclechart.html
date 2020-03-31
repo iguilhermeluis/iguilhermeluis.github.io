@@ -2,13 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Packed circle chart</title>
+    <meta
+      name="viewport"
+      id="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <script>
+      if (screen.width >= 768 && screen.width <= 1136) {
+        var ratio = Math.round(screen.width / 13) / 100;
+        document
+          .getElementById("viewport")
+          .setAttribute("content", "width=1300, initial-scale=" + ratio);
+      }
+    </script>
     <!-- Styles -->
     <style>
+      body {
+        zoom: 1;
+      }
       #chartdiv {
         width: 100%;
         height: 550px;
+      }
+      @media only screen and (max-width: 641px) {
+        #chartdiv {
+          width: 100%;
+          height: 900px;
+        }
       }
     </style>
 
@@ -119,7 +140,7 @@
         networkSeries.nodes.template.outerCircle.scale = 1;
 
         networkSeries.nodes.template.label.text = "{name}";
-        networkSeries.fontSize = 9;
+        networkSeries.fontSize = 10;
         networkSeries.nodes.template.label.hideOversized = true;
         networkSeries.nodes.template.label.truncate = true;
         networkSeries.minRadius = am4core.percent(2);
