@@ -12,10 +12,10 @@
       }
 
       @media only screen and (max-width: 641px) {
-        /* #chartdiv {
+        #chartdiv {
           width: 100%;
-          height: 900px;
-        }*/
+          height: 700px;
+        }
       }
     </style>
 
@@ -84,7 +84,7 @@
         */
         series.labels.template.paddingTop = 0;
         series.labels.template.paddingBottom = 0;
-        series.labels.template.fontSize = 12;
+        series.labels.template.fontSize = 14;
 
         series.labels.template.text =
           "{NomeCluster} | {value.percent.formatNumber('#.0')}%";
@@ -98,6 +98,7 @@
         label.fontWeight = "bold";
         label.text = "Total {values.value.sum}";
         label.align = "center";
+        label.y = -20;
 
         var legend = new am4charts.Legend();
         legend.parent = chart.chartContainer;
@@ -109,6 +110,7 @@
           var legenddata = [];
           var teste = [];
           var sequenceNumber = [];
+          var sumValue = [];
 
           function toggleSlice(item) {
             var slice = series.dataItems.getIndex(item);
@@ -120,6 +122,10 @@
           }
 
           series.slices.each(function(slice, i) {
+            let value = parseFloat(
+              slice.dataItem.label.readerTitle.split(" | ")[1].replace("%", "")
+            );
+
             if (!teste[slice.fill]) teste[slice.fill] = [];
             teste[slice.fill] = {
               name: slice.dataItem.categoryX,
@@ -129,16 +135,23 @@
             if (!sequenceNumber[slice.fill]) sequenceNumber[slice.fill] = [];
             sequenceNumber[slice.fill].push(i);
 
+            if (!sumValue[slice.fill]) sumValue[slice.fill] = [];
+            sumValue[slice.fill].push(value);
+
             legenddata.push({
               name: slice.dataItem.categoryX,
               fill: slice.fill
             });
           });
+
           teste2 = Object.keys(teste).map(el => {
+            let valueSlice = sumValue[el].reduce((a, b) => a + b, 0).toFixed(2);
+            teste[el].name = teste[el].name + " | " + valueSlice + "%";
             let dataSequence = { sequence: sequenceNumber[el] };
             return { ...teste[el], ...dataSequence };
           });
 
+          console.warn(teste2);
           legend.data = teste2;
 
           legend.itemContainers.template.events.on("hit", function(ev) {
@@ -156,19 +169,17 @@
             if (target instanceof am4charts.PieChart) {
               var state = target.states.create(stateId);
 
-              state.properties.dy = -150;
-              state.properties.marginBottom = 100;
+              state.properties.dy = -130;
 
               return state;
             } else if (target instanceof am4charts.Legend) {
               var state = target.states.create(stateId);
               state.sprite.fontSize = 10;
-              state.sprite.dy = 40;
+              state.sprite.dy = 0;
               return state;
             }
 
             if (target.text == "Total {values.value.sum}") {
-              console.warn(target);
               var state = target.states.create(stateId);
 
               state.sprite.fontSize = 21;
