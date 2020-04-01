@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Semi-circle Pie chart</title>
+    <!-- Styles -->
+    <style>
+      #chartdiv {
+        width: 100%;
+        height: 500px;
+      }
+
+      @media only screen and (max-width: 641px) {
+        #chartdiv {
+          width: 100%;
+          height: 900px;
+        }
+      }
+    </style>
+
+    <!-- Resources -->
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+    <!-- EXPORT EXCEL -->
+    <script src="dados.js"></script>
+
+    <!-- Chart code -->
+    <script>
+      am4core.ready(function() {
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        var chart = am4core.create("chartdiv", am4charts.PieChart);
+        chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+        function groupByInterpretacao(data) {
+          var data = data;
+
+          var groupedData = {};
+
+          for (var it = 0; it < data.length; it++) {
+            var item = data[it];
+            if (!groupedData[item.Interpretacao])
+              groupedData[item.Interpretacao] = [];
+            groupedData[item.Interpretacao].push(item);
+          }
+          return groupedData;
+        }
+
+        function processData(data) {
+          /*
+            Preencher o gráfico com os dados da planilha (não precisa programar a leitura,
+            pode jogar fixo no código).
+            - Assim teríamos, por exemplo, uma área maior chamada "Alto Potencial"
+            (semelhante ao Ford do exemplo) e entro dele subareas com os clusters 1, 2 e 3,
+            que estão classificados como "Alto Potencial" (este valor é encontrado na coluna Interpretacao da planilha).
+        */
+
+          let dataProcess = groupByInterpretacao(data);
+          let treeData = [];
+          let smallCluster = { name: "Other", children: [] };
+
+          Object.keys(dataProcess).map(item => {
+            var clusterTotal = 0;
+            var clusterData = {
+              name: item,
+              SomatorioM: 0,
+              color: "#FFF",
+              children: []
+            };
+
+            dataProcess[item].map(it => {
+              let MediaM = parseFloat(it.MediaM);
+              clusterTotal += MediaM;
+
+              clusterData.color = it.color;
+
+              clusterData.children.push({
+                name: it.NomeCluster,
+                count: MediaM,
+                color: it.color,
+                ...it
+              });
+            });
+            // only bigger cluster
+            if (clusterTotal > 0) {
+              let SomatorioM = 0;
+
+              clusterData.children.map(item => {
+                SomatorioM += parseFloat(item.SomatorioM);
+              });
+
+              console.warn("somatorio", SomatorioM);
+              clusterData.SomatorioM = SomatorioM;
+              treeData.push(clusterData);
+            }
+          });
+
+          console.warn("porcessa", treeData);
+
+          return treeData;
+        }
+
+        chart.data = processData(DATAEXCEL);
+
+        chart.radius = am4core.percent(70);
+        chart.innerRadius = am4core.percent(40);
+        chart.startAngle = 180;
+        chart.endAngle = 360;
+
+        var series = chart.series.push(new am4charts.PieSeries());
+        series.dataFields.value = "SomatorioM";
+        series.dataFields.category = "name";
+
+        //networkSeries.dataFields.value = "value";
+        series.dataFields.children = "children";
+
+        series.slices.template.propertyFields.fill = "color";
+
+        series.slices.template.tooltipHTML =
+          "<p>{Interpretacao} | Qt. cliente {QtdClientes}; Tícket Médio: {MediaM}; Volume de Vendas: {SomatorioM} </>";
+
+        series.slices.template.events.on(
+          "hit",
+          function(ev) {
+            //object json
+            console.log(ev.target.dataItem.dataContext);
+            alert(`Clicado em ${ev.target.dataItem.dataContext.NomeCluster}`);
+          },
+          this
+        );
+
+        /*
+        series.slices.template.cornerRadius = 10;
+series.slices.template.innerCornerRadius = 7;
+        */
+
+        series.slices.template.cornerRadius = 10;
+        series.slices.template.innerCornerRadius = 7;
+        series.slices.template.draggable = true;
+        series.slices.template.inert = true;
+        series.alignLabels = false;
+
+        series.hiddenState.properties.startAngle = 90;
+        series.hiddenState.properties.endAngle = 90;
+
+        /* series.labels.template.relativeRotation = 90;
+        series.ticks.template.disabled = true;
+        series.alignLabels = false;
+        series.labels.template.radius = am4core.percent(-40);
+        series.labels.template.fill = am4core.color("black");
+
+        */
+        series.labels.template.text =
+          "{NomeCluster} | {value.percent.formatNumber('#.0')}%";
+
+        let label = series.createChild(am4core.Label);
+        label.horizontalCenter = "middle";
+        label.verticalCenter = "middle";
+        label.fontSize = 36;
+        label.fontFamily = "sansSerif";
+        label.fill = "#595959";
+        label.fontWeight = "bold";
+        label.text = "Total {values.value.sum}";
+
+        chart.legend = new am4charts.Legend();
+        chart.legend.labels.template.text = "[bold {color}]{name}[/]";
+      }); // end am4core.ready()
+    </script>
+  </head>
+  <body>
+    <!-- HTML -->
+    <div id="chartdiv"></div>
+  </body>
+</html>

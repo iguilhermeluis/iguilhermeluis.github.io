@@ -23,7 +23,7 @@
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-
+    <script src="https://www.amcharts.com/lib/4/plugins/sliceGrouper.js"></script>
     <!-- EXPORT EXCEL -->
     <script src="dados.js"></script>
 
@@ -45,8 +45,11 @@
         chart.endAngle = 360;
 
         var series = chart.series.push(new am4charts.PieSeries());
+        series.maxLevels = 1;
         series.dataFields.value = "SomatorioM";
         series.dataFields.category = "NomeCluster";
+
+        series.dataFields.categoryX = "Interpretacao";
         series.slices.template.propertyFields.fill = "color";
 
         series.slices.template.tooltipHTML =
@@ -57,15 +60,12 @@
           function(ev) {
             //object json
             console.log(ev.target.dataItem.dataContext);
-            alert(`Clicado em ${ev.target.dataItem.dataContext.NomeCluster}`);
+            console.warn(
+              `====Clicado em ${ev.target.dataItem.dataContext.NomeCluster}`
+            );
           },
           this
         );
-
-        /*
-        series.slices.template.cornerRadius = 10;
-series.slices.template.innerCornerRadius = 7;
-        */
 
         series.slices.template.cornerRadius = 10;
         series.slices.template.innerCornerRadius = 7;
@@ -76,22 +76,121 @@ series.slices.template.innerCornerRadius = 7;
         series.hiddenState.properties.startAngle = 90;
         series.hiddenState.properties.endAngle = 90;
 
-        series.labels.template.relativeRotation = 90;
+        /* series.labels.template.relativeRotation = 90;
         series.ticks.template.disabled = true;
         series.alignLabels = false;
-        series.labels.template.text =
-          "{NomeCluster} | {value.percent.formatNumber('#.0')}%";
         series.labels.template.radius = am4core.percent(-40);
         series.labels.template.fill = am4core.color("black");
+
+        */
+        series.labels.template.paddingTop = 0;
+        series.labels.template.paddingBottom = 0;
+        series.labels.template.fontSize = 12;
+
+        series.labels.template.text =
+          "{NomeCluster} | {value.percent.formatNumber('#.0')}%";
 
         let label = series.createChild(am4core.Label);
         label.horizontalCenter = "middle";
         label.verticalCenter = "middle";
-        label.fontSize = 18;
+        label.fontSize = 36;
+        label.fontFamily = "sansSerif";
+        label.fill = "#595959";
+        label.fontWeight = "bold";
         label.text = "Total {values.value.sum}";
 
-        chart.legend = new am4charts.Legend();
+        /* chart.legend = new am4charts.Legend();
+        console.warn(chart.legend.uid);
+        chart.legend.categories = "color";
+        chart.legend.labels.template.text = "[bold {color}]{name}[/]";*/
+
+        var legend = new am4charts.Legend();
+        legend.parent = chart.chartContainer;
+        //legend.itemContainers.template.togglable = true;
+        legend.marginBottom = -20;
+
+        series.events.on("ready", function(ev) {
+          var legenddata = [];
+          var teste = [];
+          var sequenceNumber = [];
+
+          function toggleSlice(item) {
+            console.log("entrei no toggle", item);
+            var slice = series.dataItems.getIndex(item);
+            if (slice.visible) {
+              slice.hide();
+            } else {
+              slice.show();
+            }
+          }
+
+          series.slices.each(function(slice, i) {
+            console.warn(slice.dataItem.categoryX);
+
+            if (!teste[slice.fill]) teste[slice.fill] = [];
+            teste[slice.fill] = {
+              name: slice.dataItem.categoryX,
+              fill: slice.fill
+            };
+
+            if (!sequenceNumber[slice.fill]) sequenceNumber[slice.fill] = [];
+            sequenceNumber[slice.fill].push(i);
+
+            legenddata.push({
+              name: slice.dataItem.categoryX,
+              fill: slice.fill
+            });
+          });
+          teste2 = Object.keys(teste).map(el => {
+            let dataSequence = { sequence: sequenceNumber[el] };
+            return { ...teste[el], ...dataSequence };
+          });
+
+          legend.data = teste2;
+
+          legend.itemContainers.template.events.on("hit", function(ev) {
+            let sequenceItem = ev.target.dataItem._dataContext.sequence;
+            sequenceItem.map(el => {
+              //hidden
+              toggleSlice(el);
+            });
+          });
+        });
       }); // end am4core.ready()
+
+      function legenda() {
+        let legenda = document.querySelectorAll(
+          "g[aria-describedby=id-96-description"
+        );
+
+        let newGraph = [];
+
+        Object.keys(legenda).map(el => {
+          let switches = legenda[el].querySelectorAll("g[role=switch]");
+
+          Object.keys(switches).map(st => {
+            let stroke = switches[st]
+              .querySelectorAll("g[stroke-opacity]")[1]
+              .getAttribute("fill");
+
+            let porcent = parseFloat(
+              switches[st]
+                .querySelectorAll("tspan")[1]
+                .innerHTML.replace("%", "")
+            );
+
+            if (!newGraph[stroke]) newGraph[stroke] = [];
+            newGraph[stroke].push(porcent);
+          });
+        });
+
+        const reducer = (accumulator, currentValue) =>
+          accumulator + currentValue;
+
+        Object.keys(newGraph).map(el => {
+          newGraph[el] = newGraph[el].reduce(reducer);
+        });
+      }
     </script>
   </head>
   <body>
