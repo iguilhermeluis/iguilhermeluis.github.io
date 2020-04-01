@@ -169,13 +169,13 @@
             if (target instanceof am4charts.PieChart) {
               var state = target.states.create(stateId);
 
-              state.properties.dy = -130;
+              state.properties.y = window.innerWidth < 300 ? -150 : -110;
 
               return state;
             } else if (target instanceof am4charts.Legend) {
               var state = target.states.create(stateId);
               state.sprite.fontSize = 10;
-              state.sprite.dy = 0;
+              state.sprite.dy = window.innerWidth < 300 ? 130 : -30;
               return state;
             }
 
@@ -184,7 +184,7 @@
 
               state.sprite.fontSize = 21;
               state.sprite.y = 15;
-              state.sprite.x = window.innerWidth / 2 - 135;
+              state.sprite.x = window.innerWidth / 2 - 146.7;
               state.sprite.textAlign = "center";
               return state;
             }
