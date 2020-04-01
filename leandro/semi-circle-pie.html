@@ -8,7 +8,7 @@
     <style>
       #chartdiv {
         width: 100%;
-        height: 500px;
+        height: 600px;
       }
 
       @media only screen and (max-width: 641px) {
@@ -151,7 +151,6 @@
             return { ...teste[el], ...dataSequence };
           });
 
-          console.warn(teste2);
           legend.data = teste2;
 
           legend.itemContainers.template.events.on("hit", function(ev) {
@@ -164,18 +163,24 @@
         });
 
         chart.responsive.rules.push({
-          relevant: am4core.ResponsiveBreakpoints.widthM,
+          relevant: function(target) {
+            if (target.pixelWidth <= 600) {
+              console.log("menor", target.pixelWidth);
+              return true;
+            }
+            return false;
+          },
           state: function(target, stateId) {
             if (target instanceof am4charts.PieChart) {
               var state = target.states.create(stateId);
 
-              state.properties.y = window.innerWidth < 300 ? -150 : -110;
+              state.properties.y = -110;
 
               return state;
             } else if (target instanceof am4charts.Legend) {
               var state = target.states.create(stateId);
-              state.sprite.fontSize = 10;
-              state.sprite.dy = window.innerWidth < 300 ? 130 : -30;
+              state.sprite.fontSize = 8;
+              state.sprite.dy = -20;
               return state;
             }
 
@@ -184,7 +189,7 @@
 
               state.sprite.fontSize = 21;
               state.sprite.y = 15;
-              state.sprite.x = window.innerWidth / 2 - 146.7;
+              state.sprite.x = window.innerWidth / 2 - 146.7 + 20;
               state.sprite.textAlign = "center";
               return state;
             }
