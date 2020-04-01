@@ -12,10 +12,10 @@
       }
 
       @media only screen and (max-width: 641px) {
-        #chartdiv {
+        /* #chartdiv {
           width: 100%;
           height: 900px;
-        }
+        }*/
       }
     </style>
 
@@ -36,7 +36,7 @@
 
         var chart = am4core.create("chartdiv", am4charts.PieChart);
         chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-
+        chart.responsive.enabled = true;
         chart.data = DATAEXCEL;
 
         chart.radius = am4core.percent(70);
@@ -69,7 +69,7 @@
 
         series.slices.template.cornerRadius = 10;
         series.slices.template.innerCornerRadius = 7;
-        series.slices.template.draggable = true;
+        series.slices.template.draggable = false;
         series.slices.template.inert = true;
         series.alignLabels = false;
 
@@ -81,7 +81,6 @@
         series.alignLabels = false;
         series.labels.template.radius = am4core.percent(-40);
         series.labels.template.fill = am4core.color("black");
-
         */
         series.labels.template.paddingTop = 0;
         series.labels.template.paddingBottom = 0;
@@ -98,16 +97,13 @@
         label.fill = "#595959";
         label.fontWeight = "bold";
         label.text = "Total {values.value.sum}";
-
-        /* chart.legend = new am4charts.Legend();
-        console.warn(chart.legend.uid);
-        chart.legend.categories = "color";
-        chart.legend.labels.template.text = "[bold {color}]{name}[/]";*/
+        label.align = "center";
 
         var legend = new am4charts.Legend();
         legend.parent = chart.chartContainer;
-        //legend.itemContainers.template.togglable = true;
-        legend.marginBottom = -20;
+        legend.align = "bottom";
+        legend.valign = "bottom";
+        legend.marginTop = "200px";
 
         series.events.on("ready", function(ev) {
           var legenddata = [];
@@ -115,7 +111,6 @@
           var sequenceNumber = [];
 
           function toggleSlice(item) {
-            console.log("entrei no toggle", item);
             var slice = series.dataItems.getIndex(item);
             if (slice.visible) {
               slice.hide();
@@ -125,8 +120,6 @@
           }
 
           series.slices.each(function(slice, i) {
-            console.warn(slice.dataItem.categoryX);
-
             if (!teste[slice.fill]) teste[slice.fill] = [];
             teste[slice.fill] = {
               name: slice.dataItem.categoryX,
@@ -155,6 +148,37 @@
               toggleSlice(el);
             });
           });
+        });
+
+        chart.responsive.rules.push({
+          relevant: am4core.ResponsiveBreakpoints.widthM,
+          state: function(target, stateId) {
+            if (target instanceof am4charts.PieChart) {
+              var state = target.states.create(stateId);
+
+              state.properties.dy = -150;
+              state.properties.marginBottom = 100;
+
+              return state;
+            } else if (target instanceof am4charts.Legend) {
+              var state = target.states.create(stateId);
+              state.sprite.fontSize = 10;
+              state.sprite.dy = 40;
+              return state;
+            }
+
+            if (target.text == "Total {values.value.sum}") {
+              console.warn(target);
+              var state = target.states.create(stateId);
+
+              state.sprite.fontSize = 21;
+              state.sprite.y = 15;
+              state.sprite.x = window.innerWidth / 2 - 135;
+              state.sprite.textAlign = "center";
+              return state;
+            }
+            return null;
+          }
         });
       }); // end am4core.ready()
 
