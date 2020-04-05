@@ -9,7 +9,7 @@ var DATAEXCEL = [
     MediaMSum: "448.289459459459",
     SomatorioM: "33173.42",
     Interpretacao: "Alto Potencial",
-    color: "#3498db",
+    color: "#3498db"
   },
   {
     CodigoCluster: "2",
@@ -21,7 +21,7 @@ var DATAEXCEL = [
     MediaMSum: "980.214782608696",
     SomatorioM: "22544.94",
     Interpretacao: "Alto Potencial",
-    color: "#3498db",
+    color: "#3498db"
   },
   {
     CodigoCluster: "3",
@@ -33,7 +33,7 @@ var DATAEXCEL = [
     MediaMSum: "946.15",
     SomatorioM: "8515.35",
     Interpretacao: "Alto Potencial",
-    color: "#3498db",
+    color: "#3498db"
   },
   {
     CodigoCluster: "7",
@@ -45,7 +45,7 @@ var DATAEXCEL = [
     MediaMSum: "109.452439862543",
     SomatorioM: "31850.6600000001",
     Interpretacao: "Casuais / Novos entrantes",
-    color: "#16a085",
+    color: "#16a085"
   },
   {
     CodigoCluster: "5",
@@ -57,7 +57,7 @@ var DATAEXCEL = [
     MediaMSum: "1178.86583333333",
     SomatorioM: "14146.39",
     Interpretacao: "Cliente Fiel",
-    color: "#9b59b6",
+    color: "#9b59b6"
   },
   {
     CodigoCluster: "6",
@@ -69,7 +69,7 @@ var DATAEXCEL = [
     MediaMSum: "615.945",
     SomatorioM: "6159.45",
     Interpretacao: "Cliente Fiel",
-    color: "#9b59b6",
+    color: "#9b59b6"
   },
   {
     CodigoCluster: "24",
@@ -81,7 +81,7 @@ var DATAEXCEL = [
     MediaMSum: "103.815925925926",
     SomatorioM: "28030.3000000001",
     Interpretacao: "Em risco",
-    color: "#e74c3c",
+    color: "#e74c3c"
   },
   {
     CodigoCluster: "25",
@@ -93,7 +93,7 @@ var DATAEXCEL = [
     MediaMSum: "276.516260504201",
     SomatorioM: "65810.8699999999",
     Interpretacao: "Em risco",
-    color: "#e74c3c",
+    color: "#e74c3c"
   },
   {
     CodigoCluster: "12",
@@ -105,7 +105,7 @@ var DATAEXCEL = [
     MediaMSum: "463.2392",
     SomatorioM: "23161.96",
     Interpretacao: "Em risco",
-    color: "#e74c3c",
+    color: "#e74c3c"
   },
   {
     CodigoCluster: "32",
@@ -117,7 +117,7 @@ var DATAEXCEL = [
     MediaMSum: "523.572142857143",
     SomatorioM: "14660.02",
     Interpretacao: "Em risco",
-    color: "#e74c3c",
+    color: "#e74c3c"
   },
   {
     CodigoCluster: "14",
@@ -129,7 +129,7 @@ var DATAEXCEL = [
     MediaMSum: "891.23",
     SomatorioM: "22280.75",
     Interpretacao: "Em risco",
-    color: "#e74c3c",
+    color: "#e74c3c"
   },
   {
     CodigoCluster: "34",
@@ -141,7 +141,7 @@ var DATAEXCEL = [
     MediaMSum: "284.120625",
     SomatorioM: "4545.93",
     Interpretacao: "Em risco",
-    color: "#e74c3c",
+    color: "#e74c3c"
   },
   {
     CodigoCluster: "16",
@@ -153,7 +153,7 @@ var DATAEXCEL = [
     MediaMSum: "1048.16818181818",
     SomatorioM: "11529.85",
     Interpretacao: "Em risco",
-    color: "#e74c3c",
+    color: "#e74c3c"
   },
   {
     CodigoCluster: "20",
@@ -165,7 +165,7 @@ var DATAEXCEL = [
     MediaMSum: "865.761666666667",
     SomatorioM: "5194.57",
     Interpretacao: "Em risco",
-    color: "#e74c3c",
+    color: "#e74c3c"
   },
   {
     CodigoCluster: "28",
@@ -177,7 +177,7 @@ var DATAEXCEL = [
     MediaMSum: "321.597952755905",
     SomatorioM: "40842.94",
     Interpretacao: "Hibernando",
-    color: "#34495e",
+    color: "#34495e"
   },
   {
     CodigoCluster: "29",
@@ -189,7 +189,7 @@ var DATAEXCEL = [
     MediaMSum: "239.094479166667",
     SomatorioM: "22953.07",
     Interpretacao: "Hibernando",
-    color: "#34495e",
+    color: "#34495e"
   },
   {
     CodigoCluster: "30",
@@ -201,7 +201,7 @@ var DATAEXCEL = [
     MediaMSum: "219.658947368421",
     SomatorioM: "12520.56",
     Interpretacao: "Hibernando",
-    color: "#34495e",
+    color: "#34495e"
   },
   {
     CodigoCluster: "33",
@@ -213,7 +213,7 @@ var DATAEXCEL = [
     MediaMSum: "265.113529411765",
     SomatorioM: "4506.93",
     Interpretacao: "Hibernando",
-    color: "#34495e",
+    color: "#34495e"
   },
   {
     CodigoCluster: "19",
@@ -225,7 +225,7 @@ var DATAEXCEL = [
     MediaMSum: "2500.325",
     SomatorioM: "5000.65",
     Interpretacao: "Não posso perder",
-    color: "#e67e22",
+    color: "#e67e22"
   },
   {
     CodigoCluster: "26",
@@ -237,7 +237,7 @@ var DATAEXCEL = [
     MediaMSum: "91.7227510917031",
     SomatorioM: "21004.51",
     Interpretacao: "Perdido",
-    color: "#7f8c8d",
+    color: "#7f8c8d"
   },
   {
     CodigoCluster: "27",
@@ -249,7 +249,7 @@ var DATAEXCEL = [
     MediaMSum: "110.869861111111",
     SomatorioM: "23947.89",
     Interpretacao: "Perdido",
-    color: "#7f8c8d",
+    color: "#7f8c8d"
   },
   {
     CodigoCluster: "31",
@@ -261,7 +261,7 @@ var DATAEXCEL = [
     MediaMSum: "166.516346153846",
     SomatorioM: "8658.85",
     Interpretacao: "Perdido",
-    color: "#7f8c8d",
+    color: "#7f8c8d"
   },
   {
     CodigoCluster: "8",
@@ -273,7 +273,7 @@ var DATAEXCEL = [
     MediaMSum: "278.911698113208",
     SomatorioM: "73911.6000000001",
     Interpretacao: "Promissor",
-    color: "#f1c40f",
+    color: "#f1c40f"
   },
   {
     CodigoCluster: "9",
@@ -285,7 +285,7 @@ var DATAEXCEL = [
     MediaMSum: "259.537142857143",
     SomatorioM: "9083.8",
     Interpretacao: "Promissor",
-    color: "#f1c40f",
+    color: "#f1c40f"
   },
   {
     CodigoCluster: "10",
@@ -297,7 +297,7 @@ var DATAEXCEL = [
     MediaMSum: "536.715",
     SomatorioM: "17174.88",
     Interpretacao: "Promissor",
-    color: "#f1c40f",
+    color: "#f1c40f"
   },
   {
     CodigoCluster: "11",
@@ -309,7 +309,7 @@ var DATAEXCEL = [
     MediaMSum: "560.125961538462",
     SomatorioM: "29126.55",
     Interpretacao: "Recuperar",
-    color: "#22a6b3",
+    color: "#22a6b3"
   },
   {
     CodigoCluster: "13",
@@ -321,7 +321,7 @@ var DATAEXCEL = [
     MediaMSum: "391.14",
     SomatorioM: "11734.2",
     Interpretacao: "Recuperar",
-    color: "#22a6b3",
+    color: "#22a6b3"
   },
   {
     CodigoCluster: "15",
@@ -333,7 +333,7 @@ var DATAEXCEL = [
     MediaMSum: "1134.293",
     SomatorioM: "22685.86",
     Interpretacao: "Recuperar",
-    color: "#22a6b3",
+    color: "#22a6b3"
   },
   {
     CodigoCluster: "35",
@@ -345,7 +345,7 @@ var DATAEXCEL = [
     MediaMSum: "518.553333333333",
     SomatorioM: "6222.64",
     Interpretacao: "Recuperar",
-    color: "#22a6b3",
+    color: "#22a6b3"
   },
   {
     CodigoCluster: "17",
@@ -357,7 +357,7 @@ var DATAEXCEL = [
     MediaMSum: "1554.57",
     SomatorioM: "15545.7",
     Interpretacao: "Recuperar",
-    color: "#22a6b3",
+    color: "#22a6b3"
   },
   {
     CodigoCluster: "18",
@@ -369,7 +369,7 @@ var DATAEXCEL = [
     MediaMSum: "1878.78666666667",
     SomatorioM: "5636.36",
     Interpretacao: "Recuperar",
-    color: "#22a6b3",
+    color: "#22a6b3"
   },
   {
     CodigoCluster: "22",
@@ -381,7 +381,7 @@ var DATAEXCEL = [
     MediaMSum: "916.73",
     SomatorioM: "1833.46",
     Interpretacao: "Recuperar",
-    color: "#22a6b3",
+    color: "#22a6b3"
   },
   {
     CodigoCluster: "23",
@@ -393,7 +393,7 @@ var DATAEXCEL = [
     MediaMSum: "967.9",
     SomatorioM: "967.9",
     Interpretacao: "Recuperar",
-    color: "#22a6b3",
+    color: "#22a6b3"
   },
   {
     CodigoCluster: "4",
@@ -405,6 +405,6 @@ var DATAEXCEL = [
     MediaMSum: "2671.06727272727",
     SomatorioM: "29381.74",
     Interpretacao: "VIP",
-    color: "#2d3436",
-  },
+    color: "#2d3436"
+  }
 ];

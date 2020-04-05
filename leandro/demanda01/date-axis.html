@@ -68,12 +68,10 @@
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-    <!-- EXPORT EXCEL -->
-    <script src="dados.js"></script>
 
     <!-- Chart code -->
     <script>
-      am4core.ready(function () {
+      am4core.ready(function() {
         // Themes begin
         am4core.useTheme(am4themes_animated);
         // Themes end
@@ -87,7 +85,151 @@
         chart.maskBullets = false;
 
         // Add data
-        chart.data = DATAEXCEL;
+        chart.data = [
+          {
+            date: "2012-01-01",
+            distance: 227,
+            townName: "New York",
+            townName2: "New York",
+            townSize: 12,
+            latitude: 40.71,
+            duration: 408,
+            color: "#27ae60"
+          },
+          {
+            date: "2012-01-02",
+            distance: 371,
+            townName: "Washington",
+            townSize: 7,
+            latitude: 38.89,
+            duration: 482,
+            color: "#27ae60"
+          },
+          {
+            date: "2012-01-03",
+            distance: 433,
+            townName: "Wilmington",
+            townSize: 3,
+            latitude: 34.22,
+            duration: 562,
+            color: "#27ae60"
+          },
+          {
+            date: "2012-01-04",
+            distance: 345,
+            townName: "Jacksonville",
+            townSize: 3.5,
+            latitude: 30.35,
+            duration: 379,
+            color: "#f1c40f"
+          },
+          {
+            date: "2012-01-05",
+            distance: 480,
+            townName: "Miami",
+            townName2: "Miami",
+            townSize: 5,
+            latitude: 25.83,
+            duration: 501,
+            color: "#f1c40f"
+          },
+          {
+            date: "2012-01-06",
+            distance: 386,
+            townName: "Tallahassee",
+            townSize: 3.5,
+            latitude: 30.46,
+            duration: 443,
+            color: "#27ae60"
+          },
+          {
+            date: "2012-01-07",
+            distance: 348,
+            townName: "New Orleans",
+            townSize: 5,
+            latitude: 29.94,
+            duration: 405,
+            color: "#27ae60"
+          },
+          {
+            date: "2012-01-08",
+            distance: 238,
+            townName: "Houston",
+            townName2: "Houston",
+            townSize: 8,
+            latitude: 29.76,
+            duration: 309,
+            color: "#27ae60"
+          },
+          {
+            date: "2012-01-09",
+            distance: 218,
+            townName: "Dalas",
+            townSize: 8,
+            latitude: 32.8,
+            duration: 287,
+            color: "#27ae60"
+          },
+          {
+            date: "2012-01-10",
+            distance: 349,
+            townName: "Oklahoma City",
+            townSize: 5,
+            latitude: 35.49,
+            duration: 485,
+            color: "#27ae60"
+          },
+          {
+            date: "2012-01-11",
+            distance: 603,
+            townName: "Kansas City",
+            townSize: 5,
+            latitude: 39.1,
+            duration: 890,
+            color: "#27ae60"
+          },
+          {
+            date: "2012-01-12",
+            distance: 534,
+            townName: "Denver",
+            townName2: "Denver",
+            townSize: 9,
+            latitude: 39.74,
+            duration: 810,
+            color: "#27ae60"
+          },
+          {
+            date: "2012-01-13",
+            townName: "Salt Lake City",
+            townSize: 6,
+            distance: 425,
+            duration: 670,
+            latitude: 40.75,
+            dashLength: 8,
+            alpha: 0.4,
+            color: "#27ae60"
+          },
+          {
+            date: "2012-01-14",
+            latitude: 36.1,
+            duration: 470,
+            townName: "Las Vegas",
+            townName2: "Las Vegas",
+            color: "#27ae60"
+          },
+          {
+            date: "2012-01-15",
+            color: "#27ae60"
+          },
+          {
+            date: "2012-01-16",
+            color: "#27ae60"
+          },
+          {
+            date: "2012-01-17",
+            color: "#27ae60"
+          }
+        ];
 
         // Create axes
         var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -126,7 +268,7 @@
         distanceSeries.columns.template.propertyFields.stroke = "color";
         distanceSeries.columns.template.events.on(
           "hit",
-          function (ev) {
+          function(ev) {
             console.warn("clicked on ", ev);
             alert(`Distance ${ev.target._uid}`);
           },
@@ -148,7 +290,7 @@
         durationSeries.tooltipText = "{valueY.formatDuration()}";
         durationSeries.events.on(
           "hit",
-          function (ev) {
+          function(ev) {
             console.warn("clicked on ", ev);
             alert(`duration ${ev.target._uid}`);
           },
@@ -168,7 +310,7 @@
 
         durationRectangle.events.on(
           "hit",
-          (ev) => {
+          ev => {
             const val = ev.target._uid;
             alert(`Bullet blue ${val}`);
             console.info(val);
@@ -190,7 +332,7 @@
 
         latitudeSeries.events.on(
           "hit",
-          (ev) => {
+          ev => {
             const val = ev.target._uid;
             alert(`Seties ${val}`);
             console.info(val);
@@ -206,7 +348,7 @@
         latitudeBullet.circle.propertyFields.radius = "townSize";
         latitudeBullet.events.on(
           "hit",
-          (ev) => {
+          ev => {
             const val = ev.target._uid;
             alert(`Bullet violet ${val}`);
             console.info(val);

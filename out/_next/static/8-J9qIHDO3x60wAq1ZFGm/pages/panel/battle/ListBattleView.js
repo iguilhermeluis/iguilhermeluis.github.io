@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[29],{"9xeb":function(n,w,e){(window.__NEXT_P=window.__NEXT_P||[]).push(["/panel/battle/ListBattleView",function(){return e("t+wi")}])}},[["9xeb",0,1,12,2,4,6,7,10,11,13]]]);
