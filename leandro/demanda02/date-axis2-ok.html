@@ -89,7 +89,14 @@
         var chart = am4core.create("chartdiv", am4charts.XYChart);
         chart.colors.step = 2;
         chart.maskBullets = false;
-        chart.data = DATAEXCEL;
+
+        var DATAEXCELFORMAT = DATAEXCEL.map((item) => {
+          let calcBullet = (parseFloat(item.MediaM) / 100).toFixed(0);
+          let ver = { calcBullet: calcBullet };
+          return { ...item, ...ver };
+        });
+
+        chart.data = DATAEXCELFORMAT;
 
         // Add legend
         chart.legend = new am4charts.Legend();
@@ -194,7 +201,7 @@
         );
         mediaMBullet.circle.fill = am4core.color("#fff");
         mediaMBullet.circle.strokeWidth = 2;
-        // mediaMBullet.circle.propertyFields.radius = "townSize";
+        mediaMBullet.circle.propertyFields.radius = "calcBullet";
         mediaMBullet.events.on(
           "hit",
           (ev) => {
