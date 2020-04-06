@@ -91,7 +91,7 @@
         chart.maskBullets = false;
 
         var DATAEXCELFORMAT = DATAEXCEL.map((item) => {
-          let calcBullet = (parseFloat(item.MediaM) / 100).toFixed(0);
+          let calcBullet = (parseFloat(item.MediaM) / 100).toFixed(1);
           let ver = { calcBullet: calcBullet };
           return { ...item, ...ver };
         });
