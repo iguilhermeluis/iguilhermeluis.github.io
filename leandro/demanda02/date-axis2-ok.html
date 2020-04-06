@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Date axis v1</title>
+    <title>Date axis 2</title>
 
     <style>
       #chartdiv {
@@ -105,7 +105,8 @@
 
         // Add value axis
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        valueAxis.title.text = "Quantidade";
+        //valueAxis.title.text = "Quantidade";
+        valueAxis.fontSize = 12;
 
         // Add series
         var series = chart.series.push(new am4charts.ColumnSeries());
@@ -130,10 +131,11 @@
         /*SOMATORIO*/
 
         var somatorioAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        somatorioAxis.renderer.grid.template.disabled = false;
+        somatorioAxis.renderer.grid.template.disabled = true;
         somatorioAxis.renderer.labels.template.disabled = false;
         somatorioAxis.renderer.opposite = true;
-        somatorioAxis.title.text = "Somatorio";
+        //somatorioAxis.title.text = "Somatorio";
+        somatorioAxis.fontSize = 12;
 
         var somatorioSeries = chart.series.push(new am4charts.LineSeries());
         somatorioSeries.id = "g4";
@@ -170,10 +172,11 @@
 
         /*MEDIA M */
         var mediaMAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        mediaMAxis.renderer.grid.template.disabled = false;
+        mediaMAxis.renderer.grid.template.disabled = true;
         mediaMAxis.renderer.labels.template.disabled = false;
         mediaMAxis.renderer.opposite = true;
-        mediaMAxis.title.text = "MédiaM";
+        mediaMAxis.fontSize = 12;
+        //  mediaMAxis.title.text = "MédiaM";
 
         var mediaMSeries = chart.series.push(new am4charts.LineSeries());
         mediaMSeries.id = "g2";
