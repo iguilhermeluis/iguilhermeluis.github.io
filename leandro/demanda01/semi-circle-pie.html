@@ -29,7 +29,7 @@
 
     <!-- Chart code -->
     <script>
-      am4core.ready(function() {
+      am4core.ready(function () {
         // Themes begin
         am4core.useTheme(am4themes_animated);
         // Themes end
@@ -57,7 +57,7 @@
 
         series.slices.template.events.on(
           "hit",
-          function(ev) {
+          function (ev) {
             //object json
             console.log(ev.target.dataItem.dataContext);
             console.warn(
@@ -106,7 +106,7 @@
         legend.valign = "bottom";
         legend.marginTop = "200px";
 
-        series.events.on("ready", function(ev) {
+        series.events.on("ready", function (ev) {
           var legenddata = [];
           var teste = [];
           var sequenceNumber = [];
@@ -121,7 +121,7 @@
             }
           }
 
-          series.slices.each(function(slice, i) {
+          series.slices.each(function (slice, i) {
             let value = parseFloat(
               slice.dataItem.label.readerTitle.split(" | ")[1].replace("%", "")
             );
@@ -129,7 +129,7 @@
             if (!teste[slice.fill]) teste[slice.fill] = [];
             teste[slice.fill] = {
               name: slice.dataItem.categoryX,
-              fill: slice.fill
+              fill: slice.fill,
             };
 
             if (!sequenceNumber[slice.fill]) sequenceNumber[slice.fill] = [];
@@ -140,11 +140,11 @@
 
             legenddata.push({
               name: slice.dataItem.categoryX,
-              fill: slice.fill
+              fill: slice.fill,
             });
           });
 
-          teste2 = Object.keys(teste).map(el => {
+          teste2 = Object.keys(teste).map((el) => {
             let valueSlice = sumValue[el].reduce((a, b) => a + b, 0).toFixed(2);
             teste[el].name = teste[el].name + " | " + valueSlice + "%";
             let dataSequence = { sequence: sequenceNumber[el] };
@@ -153,9 +153,9 @@
 
           legend.data = teste2;
 
-          legend.itemContainers.template.events.on("hit", function(ev) {
+          legend.itemContainers.template.events.on("hit", function (ev) {
             let sequenceItem = ev.target.dataItem._dataContext.sequence;
-            sequenceItem.map(el => {
+            sequenceItem.map((el) => {
               //hidden
               toggleSlice(el);
             });
@@ -163,14 +163,14 @@
         });
 
         chart.responsive.rules.push({
-          relevant: function(target) {
+          relevant: function (target) {
             if (target.pixelWidth <= 600) {
               console.log("menor", target.pixelWidth);
               return true;
             }
             return false;
           },
-          state: function(target, stateId) {
+          state: function (target, stateId) {
             if (target instanceof am4charts.PieChart) {
               var state = target.states.create(stateId);
 
@@ -194,7 +194,7 @@
               return state;
             }
             return null;
-          }
+          },
         });
       }); // end am4core.ready()
 
@@ -205,10 +205,10 @@
 
         let newGraph = [];
 
-        Object.keys(legenda).map(el => {
+        Object.keys(legenda).map((el) => {
           let switches = legenda[el].querySelectorAll("g[role=switch]");
 
-          Object.keys(switches).map(st => {
+          Object.keys(switches).map((st) => {
             let stroke = switches[st]
               .querySelectorAll("g[stroke-opacity]")[1]
               .getAttribute("fill");
@@ -227,7 +227,7 @@
         const reducer = (accumulator, currentValue) =>
           accumulator + currentValue;
 
-        Object.keys(newGraph).map(el => {
+        Object.keys(newGraph).map((el) => {
           newGraph[el] = newGraph[el].reduce(reducer);
         });
       }
