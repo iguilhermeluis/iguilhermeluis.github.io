@@ -75,9 +75,10 @@ label.y = -20;
   label.textAlign = "middle";
   label.horizontalCenter = "middle";
   label.verticalCenter = "middle";
+
   label.adapter.add("text", function (text, target) {
     return (
-      "[font-size:14px]Total[/] [bold font-size:16px]" +
+      "[font-size:14px]total[/]:\n[bold font-size:14px]" +
       series.dataItem.values.value.sum +
       "[/]"
     );
@@ -160,7 +161,7 @@ label.y = -20;
       if (target instanceof am4charts.PieChart) {
         var state = target.states.create(stateId);
         console.warn("Entrei aqui");
-        state.properties.y = -80;
+        state.properties.y = -70;
 
         return state;
       } else if (target instanceof am4charts.Legend) {
