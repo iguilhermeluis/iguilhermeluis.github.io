@@ -59,18 +59,8 @@ series.labels.template.fill = am4core.color("black");
 
   series.labels.template.text =
     "{NomeCluster} | {value.percent.formatNumber('#.0')}%";
-  /*
-let label = series.createChild(am4core.Label);
-label.horizontalCenter = "middle";
-label.verticalCenter = "middle";
-label.fontSize = 36;
-label.fontFamily = "sansSerif";
-label.fill = "#595959";
-label.fontWeight = "bold";
-label.text = "Total {values.value.sum}";
-label.align = "center";
-label.y = -20;
-*/
+
+  //https://www.amcharts.com/demos/variable-radius-nested-donut-chart/
   var label = chart.seriesContainer.createChild(am4core.Label);
   label.textAlign = "middle";
   label.horizontalCenter = "middle";
@@ -78,7 +68,7 @@ label.y = -20;
 
   label.adapter.add("text", function (text, target) {
     return (
-      "[font-size:14px]total[/]:\n[bold font-size:14px]" +
+      "[font-size:18px]total[/]:\n[bold font-size:22px]" +
       series.dataItem.values.value.sum +
       "[/]"
     );
