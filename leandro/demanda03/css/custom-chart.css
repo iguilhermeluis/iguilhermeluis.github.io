@@ -88,7 +88,9 @@
     margin-top: -200px;
   }
 }
-
+.box-fix .row {
+  justify-content: space-between !important;
+}
 @media only screen and (min-width: 992px) and (max-width: 1300px) {
   .box-fix .row .font-weight-bold {
     font-size: 13px;
