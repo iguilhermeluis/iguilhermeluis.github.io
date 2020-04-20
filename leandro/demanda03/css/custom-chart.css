@@ -88,3 +88,15 @@
     margin-top: -200px;
   }
 }
+
+@media only screen and (min-width: 992px) and (max-width: 1300px) {
+  .box-fix .row .font-weight-bold {
+    font-size: 13px;
+  }
+  .box-fix .row .p-2 {
+    padding: 0.25rem !important;
+  }
+  .box-fix .row .justify-content-end {
+    justify-content: flex-start !important;
+  }
+}
