@@ -62,7 +62,11 @@
         series.dataFields.valueX = "QtdClientes";
         series.dataFields.categoryY = "NomeCluster";
 
-        series.tooltipText = "{valueX.value}";
+
+        series.columns.template.tooltipText =
+                "[bold]Cluster {NomeCluster} - {Interpretacao}[\]\nTicket Médio: R$ {MediaM.formatNumber('#,###.00')}";
+        
+
         series.sequencedInterpolation = true;
         series.fillOpacity = 1;
         series.strokeOpacity = 0;
