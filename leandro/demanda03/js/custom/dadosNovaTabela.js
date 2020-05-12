@@ -57,6 +57,7 @@ var DATAEXCEL = [
     caracteristicasPositivo: "",
     caracteristicasNegativo: "",
     Interpretacao: "Promissor",
+    color: "#f1c40f",
   },
   {
     Cluster: 24,
@@ -96,6 +97,7 @@ var DATAEXCEL = [
     caracteristicasPositivo: "",
     caracteristicasNegativo: "",
     Interpretacao: "Perdido",
+    color: "#7f8c8d",
   },
   {
     Cluster: 401,
@@ -115,6 +117,7 @@ var DATAEXCEL = [
     caracteristicasPositivo: "",
     caracteristicasNegativo: "",
     Interpretacao: "Perdido",
+    color: "#7f8c8d",
   },
   {
     Cluster: 14,
@@ -214,6 +217,7 @@ var DATAEXCEL = [
     caracteristicasPositivo: "",
     caracteristicasNegativo: "",
     Interpretacao: "Perdido",
+    color: "#7f8c8d",
   },
   {
     Cluster: 11,
@@ -273,6 +277,7 @@ var DATAEXCEL = [
     caracteristicasPositivo: "",
     caracteristicasNegativo: "",
     Interpretacao: "Promissor",
+    color: "#f1c40f",
   },
   {
     Cluster: 90916,
@@ -292,6 +297,7 @@ var DATAEXCEL = [
     caracteristicasPositivo: "",
     caracteristicasNegativo: "",
     Interpretacao: "Promissor",
+    color: "#f1c40f",
   },
   {
     Cluster: 1402,
@@ -511,6 +517,7 @@ var DATAEXCEL = [
     caracteristicasPositivo: "",
     caracteristicasNegativo: "",
     Interpretacao: "VIP",
+    color: "#2d3436",
   },
   {
     Cluster: 90907,
