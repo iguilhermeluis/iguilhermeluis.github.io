@@ -73,9 +73,7 @@
           close = open + Math.round(Math.random() * 10) + 3;
           data.push({ category: names[i], open: open, close: close });
         }
-
         chart.data = DATAEXCEL;
-
         var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.renderer.ticks.template.disabled = true;
