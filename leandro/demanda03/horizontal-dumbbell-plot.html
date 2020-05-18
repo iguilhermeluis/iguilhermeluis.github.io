@@ -17,6 +17,7 @@
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="https://www.amcharts.com/lib/4/lang/pt_BR.js"></script>
 
     <!-- EXPORT EXCEL -->
     <script src="js/custom/dadosNovaTabela.js"></script>
@@ -29,51 +30,13 @@
         // Themes end
 
         var chart = am4core.create("chartdiv", am4charts.XYChart);
+        chart.language.locale = am4lang_pt_BR;
+        chart.data = DATAEXCEL;
 
         var data = [];
         var open = 100;
         var close = 120;
 
-        var names = [
-          "Raina",
-          "Demarcus",
-          "Carlo",
-          "Jacinda",
-          "Richie",
-          "Antony",
-          "Amada",
-          "Idalia",
-          "Janella",
-          "Marla",
-          "Curtis",
-          "Shellie",
-          "Meggan",
-          "Nathanael",
-          "Jannette",
-          "Tyrell",
-          "Sheena",
-          "Maranda",
-          "Briana",
-          "Rosa",
-          "Rosanne",
-          "Herman",
-          "Wayne",
-          "Shamika",
-          "Suk",
-          "Clair",
-          "Olivia",
-          "Hans",
-          "Glennie",
-        ];
-
-        for (var i = 0; i < names.length; i++) {
-          open += Math.round(
-            (Math.random() < 0.5 ? 1 : -1) * Math.random() * 5
-          );
-          close = open + Math.round(Math.random() * 10) + 3;
-          data.push({ category: names[i], open: open, close: close });
-        }
-        chart.data = DATAEXCEL;
         var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.renderer.ticks.template.disabled = true;
@@ -94,8 +57,10 @@
         series.dataFields.categoryY = "Cluster";
         series.dataFields.openValueX = "analiseMonetariaTicketMin";
         series.dataFields.valueX = "analiseMonetariaTicketMax";
+
         series.tooltipText =
           "Análise Monetária Tícket Médio min: R$ {openValueX.value.formatNumber('#,###.00')} Análise Monetária Tícket Médio max: R$ {valueX.value.formatNumber('#,###.00')}";
+
         series.tooltip.pointerOrientation = "vertical";
 
         series.sequencedInterpolation = true;

@@ -1,7 +1,7 @@
 am4core.ready(function () {
   // Themes begin
   am4core.useTheme(am4themes_animated);
-  
+
   // Themes end
   var chart = am4core.create("semiCircleChartdiv", am4charts.PieChart);
   chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
@@ -13,12 +13,10 @@ am4core.ready(function () {
 
   chart.data = DATAEXCEL;
 
-
   chart.radius = am4core.percent(70);
   chart.innerRadius = am4core.percent(40);
   chart.startAngle = 180;
   chart.endAngle = 360;
-
 
   var series = chart.series.push(new am4charts.PieSeries());
   series.maxLevels = 1;
@@ -26,10 +24,10 @@ am4core.ready(function () {
   series.dataFields.category = "NomeCluster";
   series.dataFields.categoryX = "Interpretacao";
   series.slices.template.propertyFields.fill = "color";
-  
+
   series.slices.template.tooltipText =
-      "[bold]Cluster {NomeCluster} - {Interpretacao}[\]\nGastos: R$ {SomatorioM.formatNumber('#,###.00')}\nTicket Médio: R$ {MediaM.formatNumber('#,###.00')}\n{QtdClientes} clientes\n{value.percent.formatNumber('#.0')}% dos Gastos";
- 
+    "[bold]Cluster {NomeCluster} - {Interpretacao}[]\nGastos: R$ {SomatorioM.formatNumber('#,###.00')}\nTicket Médio: R$ {MediaM.formatNumber('#,###.00')}\n{QtdClientes} clientes\n{value.percent.formatNumber('#.0')}% dos Gastos";
+
   series.slices.template.cornerRadius = 10;
   series.slices.template.innerCornerRadius = 7;
   series.slices.template.draggable = false;
@@ -39,18 +37,17 @@ am4core.ready(function () {
   series.hiddenState.properties.startAngle = 90;
   series.hiddenState.properties.endAngle = 90;
 
-
   series.labels.template.paddingTop = 0;
   series.labels.template.paddingBottom = 0;
   series.labels.template.fontSize = 14;
 
   series.labels.template.text =
-  "{NomeCluster} | {value.formatNumber('#,###.00')}%";
+    "{NomeCluster} | {value.formatNumber('#,###.00')}%";
 
   //Remove a descriçaõ dos Labels da série do gráfico
   series.labels.template.disabled = true;
 
-/*  series.ticks.template.adapter.add("hidden", hideSmall);
+  /*  series.ticks.template.adapter.add("hidden", hideSmall);
   series.labels.template.adapter.add("hidden", hideSmall);
   function hideSmall(hidden, target) {
       return target.dataItem.values.value.percent < 100 ? true : false;
@@ -63,10 +60,14 @@ am4core.ready(function () {
   label.y = -10; // -70  // font-size: 30px
   label.adapter.add("text", function (text, target) {
     return (
-      "Total[/]:\n[bold font-size:24px]" + new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(series.dataItem.values.value.sum) + "[/]"
-      );
+      "Total[/]:\n[bold font-size:24px]" +
+      new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(series.dataItem.values.value.sum) +
+      "[/]"
+    );
   });
-
 
   var legend = new am4charts.Legend();
   legend.parent = chart.chartContainer;
@@ -124,7 +125,7 @@ am4core.ready(function () {
       //teste[el].name = teste[el].name + " | " + valueSlice + "%";
       let dataSequence = { sequence: sequenceNumber[el] };
       return { ...teste[el], ...dataSequence };
-  });
+    });
 
     legend.data = teste2;
 
@@ -139,48 +140,44 @@ am4core.ready(function () {
 
   chart.responsive.rules.push({
     relevant: function (target) {
-        if (target.pixelWidth <= 600) {
-            return true;
-        }
-        return false;
+      if (target.pixelWidth <= 600) {
+        return true;
+      }
+      return false;
     },
     state: function (target, stateId) {
-        if (target instanceof am4charts.PieChart) {
-            var state = target.states.create(stateId);
+      if (target instanceof am4charts.PieChart) {
+        var state = target.states.create(stateId);
 
-            state.properties.y = -110;
+        state.properties.y = -110;
 
+        return state;
+      } else if (target instanceof am4charts.Legend) {
+        var state = target.states.create(stateId);
+        state.sprite.fontSize = 8;
+        state.sprite.dy = -20;
+        return state;
+      }
+
+      if (target.text) {
+        if (target.text.indexOf("Total") != -1) {
+          var state = target.states.create(stateId);
+
+          if (myapp_config.isMobile) {
+            state.sprite.y = 15;
             return state;
-        } else if (target instanceof am4charts.Legend) {
-            var state = target.states.create(stateId);
-            state.sprite.fontSize = 8;
-            state.sprite.dy = -20;
-            return state;
-        }
-
-        if (target.text) {
-          if(target.text.indexOf("Total") != -1){
-            var state = target.states.create(stateId);
-
-            if(myapp_config.isMobile){
-              state.sprite.y = 15;
-              return state;
-            } else {
-              state.sprite.y = -10;
-            }
-            
+          } else {
+            state.sprite.y = -10;
           }
-            
         }
-        return null;
+      }
+      return null;
     },
   });
-
-
 }); // end am4core.ready()
 
 function detectMob() {
-  return ( ( window.innerWidth <= 800 ) && ( window.innerHeight <= 600 ) );
+  return window.innerWidth <= 800 && window.innerHeight <= 600;
 }
 
 function legenda() {
