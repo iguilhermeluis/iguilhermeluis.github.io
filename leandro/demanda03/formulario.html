@@ -1917,6 +1917,22 @@
                             </div>
                           </div>
 
+
+                          <div class="form-row">
+                            <!-- Valor Final -->
+                            <div class="col-md-2 mt-2">
+                              <label class="form-label" for="price">Preço
+                                <span class="text-danger">*</span>
+                              </label>
+                            </div>
+                            <div class="col-md-5 mt-2">
+                              <input type="text" class="form-control" id="price" placeholder="Digite o preço" required />
+                              <div class="invalid-feedback">
+                                Obrigatório.
+                              </div>
+                            </div>
+                          </div>
+
                           <div class="form-row">
                             <!-- data -->
                             <div class="col-md-2 mt-2">
@@ -1972,7 +1988,7 @@
                               </label>
                             </div>
                             <div class="col-md-2 mt-2">
-                              <input type="text" class="form-control" pattern="[0-9]{3}" maxlength="3" id="ddd" name="ddd" placeholder="DDD" required />
+                              <input type="tel" class="form-control" pattern="[0-9]{2}" maxlength="2" id="ddd" name="ddd" placeholder="DDD" required />
                               <div class="invalid-feedback">
                                 Obrigatório.
                               </div>
@@ -2016,51 +2032,7 @@
                             
                           </div>
                       </form>
-                      <script>
-                        // Example starter JavaScript for disabling form submissions if there are invalid fields
-                        (function() {
-                          "use strict";
-                          window.addEventListener(
-                            "load",
-                            function() {
-                              document.getElementById(
-                                "initialValue"
-                              ).onblur = function() {
-                                document.getElementById("finalValue").min =
-                                  parseFloat(
-                                    document.getElementById("initialValue")
-                                    .value
-                                  ) + 1;
-
-                                console.warn("ooooooooooooooooo");
-                              };
-
-                              // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                              var forms = document.getElementsByClassName(
-                                "needs-validation"
-                              );
-                              // Loop over them and prevent submission
-                              var validation = Array.prototype.filter.call(
-                                forms,
-                                function(form) {
-                                  form.addEventListener(
-                                    "submit",
-                                    function(event) {
-                                      if (form.checkValidity() === false) {
-                                        event.preventDefault();
-                                        event.stopPropagation();
-                                      }
-                                      form.classList.add("was-validated");
-                                    },
-                                    false
-                                  );
-                                }
-                              );
-                            },
-                            false
-                          );
-                        })();
-                      </script>
+                      
                     </div>
                   </div>
                 </div>
@@ -2846,6 +2818,105 @@
       </div>
     </div>
   </div>
+
+
+
+  <script>
+    // VALIDAÇÃO
+    (function() {
+      "use strict";
+      window.addEventListener(
+        "load",
+        function() {
+          document.getElementById(
+            "initialValue"
+          ).onblur = function() {
+            document.getElementById("finalValue").min =
+              parseFloat(
+                document.getElementById("initialValue")
+                .value
+              ) + 1;
+          };
+
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName(
+            "needs-validation"
+          );
+
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(
+            forms,
+            function(form) {
+              form.addEventListener(
+                "submit",
+                function(event) {
+                  if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                  } else {
+                    alert('está valido, verifique o console.');
+
+                 
+                    let company = document.getElementById('company').value;
+                    let project = document.getElementById('project').value;
+                    let name = document.getElementById('name').value;
+                    let numberCluster = document.getElementById('numberCluster').value;
+                    let description = document.getElementById('description').value;
+                    let action = document.getElementById('action').value;
+                    let active = document.getElementById('active').value;
+                    let risk = document.getElementById('risk').value;
+                    let iconFile = document.getElementById('iconFile').value;
+                    let color = document.getElementById('color').value;
+                    let initialValue = document.getElementById('initialValue').value;
+                    let finalValue = document.getElementById('finalValue').value;
+                    let price = document.getElementById('price').value;
+                    let dateAnalysis = document.getElementById('dateAnalysis').value;
+                    let cpfcnpj = document.getElementById('cpfcnpj').value;
+                    let email = document.getElementById('email').value;
+                    let ddd = document.getElementById('ddd').value;
+                    let phone = document.getElementById('phone').value;
+                    let rangeValue = document.getElementById('demo_5').value;
+
+                    let data = {
+                      company,
+                      project,
+                      name,
+                      numberCluster,
+                      description,
+                      action,
+                      risk,
+                      iconFile,
+                      color,
+                      dateAnalysis,
+                      cpfcnpj,
+                      email,
+                      ddd,
+                      phone,
+                      rangeValue
+                    }
+
+                    console.table(data);
+
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                  }
+                  form.classList.add("was-validated");
+                },
+                false
+              );
+            }
+          );
+        },
+        false
+      );
+    })();
+  </script>
+
+
+
+
   <!-- END Page Settings -->
   <!-- base vendor bundle: 
        DOC: if you remove pace.js from core please note on Internet Explorer some CSS animations may execute before a page is fully loaded, resulting 'jump' animations 
@@ -2897,6 +2968,8 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
   <script>
+ 
+
     jQuery("#phone")
       .mask("9999-9999")
       .focusout(function(event) {
@@ -2938,6 +3011,13 @@
       $('#cpfcnpj').mask(maskCpjCnpj, ccOptions);
 
     });
+
+    (function( $ ) {
+      $(function() {
+      
+        $('#price').mask('#.##0,00', {reverse: true});
+      });
+    })(jQuery);
   </script>
 </body>
 
