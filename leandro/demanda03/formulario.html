@@ -1988,7 +1988,7 @@
                               </label>
                             </div>
                             <div class="col-md-2 mt-2">
-                              <input type="number" class="form-control" pattern="[0-9]{2}" maxlength="2" id="ddd" name="ddd" placeholder="DDD" required />
+                              <input type="tel" class="form-control" pattern="[0-9]{2}" maxlength="2" id="ddd" name="ddd" placeholder="DDD" required />
                               <div class="invalid-feedback">
                                 Obrigatório.
                               </div>
@@ -3016,6 +3016,7 @@
       $(function() {
       
         $('#price').mask('#.##0,00', {reverse: true});
+        $('#ddd').mask('99', {reverse: true});
       });
     })(jQuery);
   </script>
