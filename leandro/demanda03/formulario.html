@@ -1811,7 +1811,7 @@
                             <!-- Descrição -->
                             <div class="col-md-2 mt-2">
                               <label class="form-label" for="description">Descrição
-                                <span class="text-danger">*</span>
+                              
                               </label>
                             </div>
                             <div class="col-md-5 mt-2">
@@ -1824,7 +1824,7 @@
                             <!-- ação -->
                             <div class="col-md-2 mt-2">
                               <label class="form-label" for="action">Ação
-                                <span class="text-danger">*</span>
+                               
                               </label>
                             </div>
                             <div class="col-md-5 mt-2">
@@ -1894,9 +1894,9 @@
                             </div>
 
                             <div class="col-md-5 mt-2">
-                              <input type="number" class="form-control" id="initialValue" placeholder="Digite o valor inicial" required />
+                              <input type="text" class="form-control" id="initialValue" placeholder="Digite o valor inicial" required />
                               <div class="invalid-feedback">
-                                Obrigatório
+                                Obrigatório, menor que valor final.
                               </div>
                             </div>
                           </div>
@@ -1909,7 +1909,7 @@
                               </label>
                             </div>
                             <div class="col-md-5 mt-2">
-                              <input type="number" class="form-control" id="finalValue" placeholder="Digite o valor final" required />
+                              <input type="text" class="form-control" id="finalValue" placeholder="Digite o valor final" required />
                               <div class="invalid-feedback">
                                 Obrigatório, o valor não pode ser menor que o
                                 valor inicial.
@@ -2017,20 +2017,26 @@
                               </div>
                             </div>
                           </div>
-                          <div class="form-row">
 
+                          <div class="col-md-12">
+                            <hr />
                           </div>
-                          <div class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row justify-content-start align-items-center">
-                            <hgroup>
-                              <button class="btn bg-new-danger-500 ml-auto" type="reset">
-                                Cancelar
-                              </button>
-                              <button class="btn btn-primary ml-auto" type="submit">
-                                Salvar
-                              </button>
-                            </hgroup>
-                            
+
+                          <div class="form-row">
+                            <div class="col-md-5 offset-md-2 mt-2">
+                              <span style="display: flex; justify-content: center;
+                              margin: 0 auto; width: 200px; ">
+                                <button class="btn bg-new-danger-500 ml-auto" type="reset">
+                                  Cancelar
+                                </button>
+                                <button class="btn btn-primary ml-auto" type="submit">
+                                  Salvar
+                                </button>
+                              </span>
+                              
+                            </div>
                           </div>
+                         
                       </form>
                       
                     </div>
@@ -2822,6 +2828,19 @@
 
 
   <script>
+     function currencyFloat(value){
+      
+      if(value === ""){
+        value =  0;
+      }else{
+        value = value.replace(".","");
+         value = value.replace(",",".");
+         value = parseFloat(value);
+      }
+      return value;
+
+   }
+
     // VALIDAÇÃO
     (function() {
       "use strict";
@@ -2831,13 +2850,39 @@
           document.getElementById(
             "initialValue"
           ).onblur = function() {
-            document.getElementById("finalValue").min =
-              parseFloat(
-                document.getElementById("initialValue")
-                .value
-              ) + 1;
+            let finalValue = document.getElementById("finalValue").value;
+            let initialValue = document.getElementById("initialValue").value;
+            if(currencyFloat(finalValue) != ""){
+              if(currencyFloat(initialValue) < currencyFloat(finalValue)){
+                $("#initialValue").removeClass('is-invalid');
+                $("#initialValue").addClass('is-valid');
+              } else {
+                $("#initialValue").removeClass('is-valid');
+                $("#initialValue").addClass('is-invalid');
+              }
+            } else{
+              $("#initialValue").removeClass('is-invalid');
+              $("#initialValue").addClass('is-valid');
+            }
+
           };
 
+          document.getElementById(
+            "finalValue"
+          ).onblur = function() {
+            let finalValue = document.getElementById("finalValue").value;
+            let initialValue = document.getElementById("initialValue").value;
+            
+            if(currencyFloat(initialValue) != ""){
+              if(currencyFloat(initialValue) < currencyFloat(finalValue)){
+                $("#finalValue").removeClass('is-invalid');
+                $("#finalValue").addClass('is-valid');
+              } else {
+                $("#finalValue").removeClass('is-valid');
+                $("#finalValue").addClass('is-invalid');
+              }
+            }
+          };
           // Fetch all the forms we want to apply custom Bootstrap validation styles to
           var forms = document.getElementsByClassName(
             "needs-validation"
@@ -2854,9 +2899,7 @@
                     event.preventDefault();
                     event.stopPropagation();
                   } else {
-                    alert('está valido, verifique o console.');
-
-                 
+     
                     let company = document.getElementById('company').value;
                     let project = document.getElementById('project').value;
                     let name = document.getElementById('name').value;
@@ -2894,6 +2937,10 @@
                       phone,
                       rangeValue
                     }
+
+                    alert(`valido: ${JSON.stringify(data)}`);
+
+                 
 
                     console.table(data);
 
@@ -2968,24 +3015,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
   <script>
- 
-
-    jQuery("#phone")
-      .mask("9999-9999")
-      .focusout(function(event) {
-        var target, phone, element;
-        target = (event.currentTarget) ? event.currentTarget : event.srcElement;
-        phone = target.value.replace(/\D/g, '');
-        element = $(target);
-        element.unmask();
-        if (phone.length > 8) {
-          element.mask("99999-9999");
-        } else {
-          element.mask("9999-9999");
-        }
-      });
-
-
     $("#cpfcnpj").keydown(function() {
       var maskCpjCnpj = function(val) {
 
@@ -3014,8 +3043,19 @@
 
     (function( $ ) {
       $(function() {
-      
+        
+        $('#phone').mask('0000-00009');
+        $('#phone').blur(function(event) {
+          if($(this).val().length == 10){ // Celular com 9 dígitos + 2 dígitos DDD e 4 da máscara
+            $('#phone').mask('00000-0009');
+          } else {
+            $('#phone').mask('0000-00009');
+          }
+        });
+
         $('#price').mask('#.##0,00', {reverse: true});
+        $('#initialValue').mask('#.##0,00', {reverse: true});
+        $('#finalValue').mask('#.##0,00', {reverse: true});
         $('#ddd').mask('99', {reverse: true});
       });
     })(jQuery);
