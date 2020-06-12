@@ -2847,42 +2847,37 @@
       window.addEventListener(
         "load",
         function() {
-          document.getElementById(
-            "initialValue"
-          ).onblur = function() {
+
+          let validationFunction = function() {
             let finalValue = document.getElementById("finalValue").value;
             let initialValue = document.getElementById("initialValue").value;
             if(currencyFloat(finalValue) != ""){
               if(currencyFloat(initialValue) < currencyFloat(finalValue)){
                 $("#initialValue").removeClass('is-invalid');
                 $("#initialValue").addClass('is-valid');
+
+                $("#finalValue").removeClass('is-invalid');
+                $("#finalValue").addClass('is-valid');
               } else {
                 $("#initialValue").removeClass('is-valid');
                 $("#initialValue").addClass('is-invalid');
               }
-            } else{
-              $("#initialValue").removeClass('is-invalid');
-              $("#initialValue").addClass('is-valid');
             }
-
           };
+
+
+
+          document.getElementById(
+            "initialValue"
+          ).onblur = validationFunction;
 
           document.getElementById(
             "finalValue"
-          ).onblur = function() {
-            let finalValue = document.getElementById("finalValue").value;
-            let initialValue = document.getElementById("initialValue").value;
-            
-            if(currencyFloat(initialValue) != ""){
-              if(currencyFloat(initialValue) < currencyFloat(finalValue)){
-                $("#finalValue").removeClass('is-invalid');
-                $("#finalValue").addClass('is-valid');
-              } else {
-                $("#finalValue").removeClass('is-valid');
-                $("#finalValue").addClass('is-invalid');
-              }
-            }
-          };
+          ).onblur = validationFunction;
+
+
+
+
           // Fetch all the forms we want to apply custom Bootstrap validation styles to
           var forms = document.getElementsByClassName(
             "needs-validation"
@@ -2938,7 +2933,7 @@
                       rangeValue
                     }
 
-                    alert(`valido: ${JSON.stringify(data)}`);
+                    alert(`dados ok: ${JSON.stringify(data)}`);
 
                  
 
