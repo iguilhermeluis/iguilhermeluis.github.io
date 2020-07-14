@@ -277,7 +277,7 @@
                     let value = parseFloat(column.dataItem.column.dataItem.valueY);
                     let nameCategory =
                     column.dataItem.column.dataItem.dataContext.InterpretacaoFM;
-                    let fill = column.dataItem.column.dataItem.dataContext.InterpretacaoFM;
+                    let fill = column.dataItem.column.dataItem.dataContext.CorFundoFM;
 
                     if (!teste[fill]) teste[fill] = [];
                     teste[fill] = {
@@ -305,7 +305,7 @@
                     .toFixed(0);
                     teste[el].name = teste[el].name;
                     
-                    teste[el].fill = "#3498db"; // COLOR FIXED
+                    //teste[el].fill = "#3498db"; // COLOR FIXED
 
                     let dataSequence = { sequence: sequenceNumber[el] };
                     return { ...teste[el], ...dataSequence };
