@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      data-require="jquery@*"
+      data-semver="2.1.1"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"
+    ></script>
+    <link
+      data-require="jqueryui@*"
+      data-semver="1.10.0"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css"
+    />
+    <link
+      data-require="bootstrap@*"
+      data-semver="3.2.0"
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css"
+    />
+    <script
+      data-require="bootstrap@*"
+      data-semver="3.2.0"
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.js"
+    ></script>
+    <script
+      data-require="jqueryui@*"
+      data-semver="1.10.0"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="slider.js"></script>
+    <script src="script.js"></script>
+  </head>
+
+  <body>
+    <h1>Slider demo</h1>
+    <div class="col-xs-12">
+      <div class="col-xs-12">
+        <div class="slider sleep" id="slider"></div>
+      </div>
+      <div class="col-xs-12">
+        <div class="slider-controller">
+          <form role="form" class="form form-inline">
+            <select class="form-control">
+              <option value="wake">Wake Up</option>
+              <option value="leave">Leave</option>
+              <option value="return">Return</option>
+              <option value="sleep">Sleep</option>
+            </select>
+            <button class="btn btn-success add">Add Range</button>
+            <button class="btn btn-warning remove">Remove Range</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

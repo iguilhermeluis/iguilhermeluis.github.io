@@ -1,0 +1,133 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  overflow: hidden;
+  margin: 40px;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+
+.range-slider {
+  position: relative;
+  height: 80px;
+}
+
+.extra-controls {
+  position: relative;
+  border-top: 3px solid #000;
+  padding: 10px 0 0;
+}
+
+.mark {
+  display: block;
+  position: absolute;
+  top: 30px;
+  background: #f00;
+  transform: rotate(-45deg);
+  padding: 1px 3px;
+  border-radius: 3px;
+  color: #fff;
+  margin-left: -10px;
+}
+/* EOS */
+
+.range-slider {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  width: 100%;
+}
+
+.range-slider .js-range-sliderR {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.range-slider .js-range-sliderR::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+.range-slider:hover .js-range-sliderR {
+  visibility: visible;
+}
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+/**/
+
+.irs-line-left {
+  background: #66b032;
+  width: 60%;
+}
+
+.irs-line-mid {
+  background: #ffbf00;
+}
+
+.irs-line-mid:before {
+  content: "";
+  background-color: #ff0000;
+  position: absolute;
+  left: 54%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.budget-page .irs-line-right {
+  background: #ff0000;
+  width: 40%;
+}
+
+.budget-page .irs-line-mid {
+  width: 0 !important;
+}
+
+.irs-bar {
+  background: #ffbf00;
+}

@@ -1,0 +1,129 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title></title>
+
+    <!--Plugin CSS file with desired skin-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"
+    />
+
+    <!--jQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!--Plugin JavaScript file-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- EXPORT EXCEL -->
+    <script src="dados.js"></script>
+  </head>
+  <body>
+    <div class="range-slider">
+      R (Recente - em dias):
+      <input type="text" class="js-range-sliderR" value="" />
+    </div>
+    <br />
+    <div class="range-slider">
+      F (Frequente - número de pedidos / fidelidade):
+      <input type="text" class="js-range-sliderF" value="" />
+    </div>
+    <br />
+    <div class="range-slider">
+      M (Monetário - Tícket Médio do Cliente):
+      <input type="text" class="js-range-sliderM" value="" />
+    </div>
+    <script type="text/javascript">
+      //<![CDATA[
+
+      function CreateSlider(id, min, max, marcacao) {
+        var $range = $(id);
+        var min = min;
+        var max = max;
+        var marks = marcacao;
+        var iri_line_left = $(".irs-line-left");
+        var iri_line_right = $(".irs-line-right");
+
+        $range.ionRangeSlider({
+          skin: "big",
+          //skin: "flat",
+          type: "double",
+          min: min,
+          max: max,
+          from: min + 50,
+          grid: true,
+          from_fixed: true,
+          to_fixed: true,
+          grid_num: 10,
+          onStart: function (data) {
+            console.warn("slider=>", data.slider);
+            addMarks(data.slider, min, max, marks);
+          },
+          onChange: function (data) {
+            var leftWidth = Math.ceil(data.from_percent);
+
+            var rightWidth = 100 - leftWidth;
+
+            // set left side width
+            iri_line_left.css({ width: leftWidth + "%" });
+
+            // set right side width
+            iri_line_right.css({ width: rightWidth + "%" });
+
+            console.warn("left width", iri_line_left);
+          },
+        });
+      }
+
+      function convertToPercent(num, min, max) {
+        var percent = ((num - min) / (max - min)) * 100;
+
+        return percent;
+      }
+
+      function addMarks($slider, min, max, marks) {
+        var html = "";
+        var left = 0;
+        var i;
+
+        for (key in marks) {
+          left = convertToPercent(marks[key], min, max);
+
+          html += `
+            <span class="mark tooltip" style="left: ${left}%" tooltip="${key}">
+                ${marks[key]}
+                <span class="tooltiptext">${key}</span>
+            </span> 
+            `;
+        }
+
+        $slider.append(html);
+      }
+
+      for (var key in Data) {
+        var item = {};
+        var min;
+        var max;
+
+        if (key == "R" || key == "F") {
+          min = Data[key].Min;
+          max = Data[key].Max;
+          item["Média"] = Data[key].Media;
+          item["Mediana"] = Data[key].Mediana;
+        } else if (key == "M") {
+          item["Média Clientes"] = Data[key].Clientes.Media;
+          item["Mediana Clientes"] = Data[key].Clientes.Mediana;
+          item["Média Pedidos"] = Data[key].Pedidos.Media;
+          item["Mediana Pedidos"] = Data[key].Pedidos.Mediana;
+          min = Data[key].Clientes.Min;
+          max = Data[key].Clientes.Max;
+        }
+
+        CreateSlider(".js-range-slider" + key, min, max, item);
+      }
+      //]]>
+    </script>
+  </body>
+</html>

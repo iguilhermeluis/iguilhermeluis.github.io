@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title></title>
+
+    <!--Plugin CSS file with desired skin-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"
+    />
+
+    <!--jQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!--Plugin JavaScript file-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- EXPORT EXCEL -->
+    <script src="dados.js"></script>
+  </head>
+  <body>
+    <input type="text" class="js-range-slider" name="my_range" value="" />
+
+    <script>
+      $(".js-range-slider").ionRangeSlider({
+        skin: "big",
+        //skin: "flat",
+        type: "double",
+        min: 50,
+        max: 500,
+        from: 50,
+        grid: true,
+        from_fixed: false,
+        to_fixed: false,
+        grid_num: 10,
+      });
+    </script>
+  </body>
+</html>
