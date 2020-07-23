@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SLIDE</title>
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.0/nouislider.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        padding: 3rem;
+      }
+      .c-1-color {
+        background: #e74c3c;
+      }
+      .c-2-color {
+        background: #2c3e50;
+      }
+      .c-3-color {
+        background: #27ae60;
+      }
+      .c-4-color {
+        background: #3498db;
+      }
+      .c-5-color {
+        background: #8e44ad;
+      }
+
+      /* Tooltip container */
+      .tooltip {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        /* border-bottom: 1px dotted black; */ /* If you want dots under the hoverable text */
+      }
+
+      /* Tooltip text */
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+
+        /* Position the tooltip text - see examples below! */
+        position: absolute;
+        z-index: 1;
+        top: -4rem;
+      }
+
+      /* Show the tooltip text when you mouse over the tooltip container */
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+      }
+
+      .boxToolTip {
+        padding: 1rem;
+        top: 30px;
+        background: #f00;
+
+        padding: 1px 3px;
+        border-radius: 3px;
+        color: #fff;
+        margin-left: -10px;
+        position: absolute;
+        top: -4rem;
+      }
+      .slider-fix {
+        margin-bottom: 4rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="boxSliders"></div>
+
+    <!--jQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- EXPORT nouislider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.0/nouislider.min.js"></script>
+    <!-- EXPORT EXCEL -->
+    <script src="../dados.js"></script>
+
+    <script>
+      function createSlider(key, min, max, marks, item) {
+        let id = "slider-color" + key;
+        let newDiv = document.createElement("div");
+
+        newDiv.setAttribute("id", id);
+        newDiv.setAttribute("class", "slider-fix");
+
+        // adiciona o novo elemento criado e seu conteúdo ao DOM
+        let divAtual = document.getElementById("boxSliders");
+        document.body.insertBefore(newDiv, divAtual);
+
+        //<div id="slider-colorR"></div>
+        addMarks(min, max, marks, id);
+        let slider = document.getElementById(id);
+
+        noUiSlider.create(slider, {
+          start: marks,
+          connect: true,
+          tooltips: true,
+          range: {
+            min: [min],
+            max: [max],
+          },
+          pips: {
+            mode: "values",
+            values: [100, 200, 300, 400, 500],
+            density: 4,
+          },
+        });
+
+        let connect = slider.querySelectorAll(".noUi-connect");
+        let classes = [
+          "c-1-color",
+          "c-2-color",
+          "c-3-color",
+          "c-4-color",
+          "c-5-color",
+        ];
+
+        for (let i = 0; i < connect.length; i++) {
+          connect[i].classList.add(classes[i]);
+        }
+      }
+
+      function convertToPercent(num, min, max) {
+        let percent = ((num - min) / (max - min)) * 100;
+
+        return percent;
+      }
+
+      function addMarks(min, max, marks, id) {
+        var html = "";
+        var left = 0;
+        var i;
+
+        for (key in marks) {
+          //remove +50
+          left = convertToPercent(parseFloat(marks[key]) + 50, min, max);
+
+          html += `
+            <span class="mark tooltip" style="left: ${left}%" tooltip="${key}">
+              <span class="boxToolTip">${marks[key] + 50}</span> 
+                <span class="tooltiptext">${marks[key] + 50}</span>
+            </span> 
+            `;
+        }
+
+        $("#" + id).after(html);
+      }
+
+      for (var key in Data) {
+        var item = {};
+        var min;
+        var max;
+
+        if (key == "R" || key == "F") {
+          min = Data[key].Min;
+          max = Data[key].Max;
+          item["Média"] = Data[key].Media;
+          item["Mediana"] = Data[key].Mediana;
+        } else if (key == "M") {
+          item["Média Clientes"] = Data[key].Clientes.Media;
+          item["Mediana Clientes"] = Data[key].Clientes.Mediana;
+          item["Média Pedidos"] = Data[key].Pedidos.Media;
+          item["Mediana Pedidos"] = Data[key].Pedidos.Mediana;
+          min = Data[key].Clientes.Min;
+          max = Data[key].Clientes.Max;
+        }
+
+        createSlider(key, 100, 500, [100, 200, 300], item);
+      }
+    </script>
+  </body>
+</html>
