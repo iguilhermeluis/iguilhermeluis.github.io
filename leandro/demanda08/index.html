@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Radial Bar Chart,</title>
+
+    <!-- Styles -->
+    <style>
+      #chartdiv {
+        width: 100%;
+        height: 650px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HTML -->
+    <div id="chartdiv"></div>
+
+    <!-- Resources -->
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="https://www.amcharts.com/lib/4/lang/pt_BR.js"></script>
+
+    <!-- EXPORT EXCEL -->
+    <script src="./04-dadosclusters.js"></script>
+
+    <!-- UTILITÁRIOS -->
+    <script src="./util/groupclusterRFM.js"></script>
+
+    <!-- GRAFICOS -->
+    <script src="./graficos/radarchart.js"></script>
+
+    <!-- Chart code -->
+    <script>
+      am4core.ready(function () {
+        var toolTip =
+          "[bold]{InterpretacaoFM} - {InterpretacaoR}[/]\n----\n[bold]Qtd. Clientes[/]: {QtdClientes.formatNumber('#.')}\n[bold]Qtd. de Pedidos:[/] {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}\n[bold]----\n[bold]Frequência Média:[/] {AvgF.formatNumber('#,###.00')} pedido(s)\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#,###.00')}\n----\n[bold]Qtd. Clusters[/]: {QTDClusters.formatNumber('#.')}";
+        gerarRadarChart(
+          "chartdiv",
+          dadosclusters,
+          "Gráfico Radar Chart",
+          "InterpretacaoFM",
+          "InterpretacaoR",
+          "QtdClientes",
+          toolTip,
+          "CorFundoR",
+          "CorFundoFM",
+          "QtdClientes"
+        );
+      }); // end am4core.ready()
+    </script>
+  </body>
+</html>
