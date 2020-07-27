@@ -33,9 +33,7 @@ function gerarRadarChart(
   chart.colors.step = 4;
 
   var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-
-  categoryAxis.dataFields.category = "InterpretacaoFM";
-
+  categoryAxis.dataFields.category = "InterpretacaoR";
   categoryAxis.renderer.labels.template.location = 0.5;
   categoryAxis.renderer.labels.template.horizontalCenter = "right";
   categoryAxis.renderer.grid.template.location = 0;
@@ -49,7 +47,7 @@ function gerarRadarChart(
   valueAxis.tooltip.disabled = true;
   valueAxis.renderer.labels.template.horizontalCenter = "left";
   /* valueAxis.min = 0;
-        valueAxis.max = 1000;*/
+              valueAxis.max = 1000;*/
 
   valueAxis.strictMinMax = true;
   valueAxis.renderer.maxLabelPosition = 0.99;
@@ -63,40 +61,57 @@ function gerarRadarChart(
     let series = chart.series.push(new am4charts.RadarColumnSeries());
     series.columns.template.tooltipText = toolTip;
     series.name = name;
-    series.dataFields.categoryY = "InterpretacaoFM";
-    series.dataFields.valueX = "QtdClientes";
-    series.dataFields.color = "CorFundoR";
+    series.dataFields.categoryY = valorY;
+    series.dataFields.categoryX = valorX;
+    series.dataFields.valueX = name;
+    series.dataFields.value = valor;
+
     series.stacked = true;
+
     series.columns.template.fill = am4core.color(color);
     series.columns.template.fillOpacity = 0.7;
     series.columns.template.stroke = am4core.color("#000000");
     series.columns.template.strokeWidth = 1;
     series.columns.template.strokeOpacity = 1;
 
-    /*series.columns.template.adapter.add("fill", function (fill, target) {
-      return target.dataItem.color;
-    });*/
+    var bulletSeries = series.bullets.push(new am4charts.LabelBullet());
+    bulletSeries.label.text = "{" + textoLabel + "}"; //"{QtdClientes}";
+    //bullet2Risk.propertyFields.fill = "{CorFundoFM}";
+    bulletSeries.label.fill = am4core.color("#fff");
+    bulletSeries.zIndex = 1;
+    bulletSeries.fontSize = 11;
+    bulletSeries.interactionsEnabled = false;
 
     return series;
   }
 
-  dataInterpretacaoRObj = {
-    Recente: { color: "#64c832" },
-    Atenção: { color: "#fff900" },
-    "Em Risco": { color: "#ff8700" },
-    Perdido: { color: "#d10a00" },
-    Hibernando: { color: "#7b7b7b" },
-    Desativados: { color: "#000000" },
-  };
+  dataInterpretacaoR = [
+    "Recente",
+    "Atenção",
+    "Em Risco",
+    "Perdido",
+    "Hibernando",
+    "Desativados",
+  ];
+  dataCorFonteR = [
+    "#64c832",
+    "#fff900",
+    "#ff8700",
+    "#d10a00",
+    "#7b7b7b",
+    "#000000",
+  ];
 
-  Object.keys(dataInterpretacaoRObj).map((el, index) => {
-    createSeries(el, dataInterpretacaoRObj[el].color);
+  dataInterpretacaoR.map((el, index) => {
+    createSeries(el, dataCorFonteR[index]);
   });
+
+  console.warn(processDataStacker(data));
+
+  chart.data = processDataStacker(data);
 
   // Legend
   chart.legend = new am4charts.Legend();
-
-  chart.data = data;
 
   chart.seriesContainer.zIndex = -1;
 
