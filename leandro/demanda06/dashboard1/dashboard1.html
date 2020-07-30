@@ -3,21 +3,25 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>Nova Demanda - 2020-07-27 - Incluir Legenda Temporal + Tabela</title>
   </head>
   <body>
     <!-- Styles -->
     <style>
-      #chartdivBublle {
+      #chartdivBublle,
+      #chartdivBublle2 {
         width: 100%;
         height: 500px;
       }
-    </style>
-
-    <style>
-      #chartdivRisk {
+      #chartdivRisk,
+      #chartdivRisk2 {
         width: 100%;
         height: 500px;
+      }
+      .boxCheckbox {
+        margin: 0 auto;
+        width: 300px;
+        padding: 15px 0;
       }
     </style>
 
@@ -29,347 +33,94 @@
 
     <!-- EXPORT EXCEL -->
     <script src="js/data/04-dadosclusters.js"></script>
-    <script>
-      var DataBublle = DATAEXCEL;
-    </script>
 
-    <script src="js/data/05-dadosclustersagrupados.js"></script>
-    <script>
-      var DataRisk = DATAEXCEL;
-    </script>
+    <!-- graficos -->
+    <script src="js/charts/chartRisk.js"></script>
+    <script src="js/charts/chartBubble.js"></script>
+
+    <!-- utils -->
+    <script src="js/util/legenda.js"></script>
+    <script src="js/util/toggleCheck.js"></script>
 
     <!-- chartBubble code -->
     <script>
       am4core.ready(function () {
-        // Themes begin
-        am4core.useTheme(am4themes_animated);
-        // Themes end
-
-        var chartBubble = am4core.create("chartdivBublle", am4charts.XYChart);
-        chartBubble.maskBullets = false;
-
-        var tittleBubble = chartBubble.titles.create();
-        tittleBubble.text =
-          "Análise RFM - Última Compra x Quantidade de Pedidos x Ticket Médio";
-        tittleBubble.fontSize = 18;
-        tittleBubble.marginBottom = 20;
-
-        chartBubble.language.locale = am4lang_pt_BR;
-        chartBubble.dateFormatter.language = new am4core.Language();
-        chartBubble.dateFormatter.language.locale = am4lang_pt_BR;
-
-        var xAxisBubble = chartBubble.xAxes.push(new am4charts.ValueAxis());
-        var yAxisBubble = chartBubble.yAxes.push(new am4charts.ValueAxis());
-
-        xAxisBubble.title.text = "Data da Última Compra (em dias)";
-        yAxisBubble.title.text = "Quantidade de Pedidos (Fidelidade)";
-
-        xAxisBubble.title.fontWeight = 600;
-        yAxisBubble.title.fontWeight = 600;
-
-        xAxisBubble.renderer.minGridDistance = 50;
-
-        xAxisBubble.renderer.grid.template.disabled = false;
-        yAxisBubble.renderer.grid.template.disabled = false;
-        xAxisBubble.renderer.axisFills.template.disabled = true;
-        yAxisBubble.renderer.axisFills.template.disabled = true;
-        yAxisBubble.renderer.ticks.template.disabled = false;
-        xAxisBubble.renderer.ticks.template.disabled = false;
-
-        yAxisBubble.renderer.inversed = false;
-
-        var seriesBubble = chartBubble.series.push(
-          new am4charts.ColumnSeries()
-        );
-        seriesBubble.dataFields.valueY = "AvgF";
-        seriesBubble.dataFields.valueX = "AvgRD";
-        seriesBubble.dataFields.value = "AvgM";
-        seriesBubble.dataFields.category = "InterpretacaoFM";
-        seriesBubble.columns.template.disabled = true;
-        seriesBubble.sequencedInterpolation = true;
-
-        function createRanger(min, max, color, text) {
-          var range = xAxisBubble.axisRanges.create();
-          range.value = min;
-          range.endValue = max;
-          range.axisFill.fill = am4core.color(color);
-          range.axisFill.fillOpacity = 0.2;
-          range.grid.strokeOpacity = 0;
-          createEnvent(min, color, text);
-        }
-
-        function createEnvent(value, color, text) {
-          var event = xAxisBubble.axisRanges.create();
-          event.value = value;
-          event.bulletBubble = new am4core.Triangle();
-          event.bulletBubble.width = 15;
-          event.bulletBubble.height = 11;
-          event.bulletBubble.fill = am4core.color(color);
-          event.bulletBubble.horizontalCenter = "middle";
-          event.bulletBubble.tooltipText = text;
-        }
-
-        //Fazer um For do BD para parametrizar os valores por Interpretação R
-        createRanger(0, 10, "#64c832", "Recente");
-        createRanger(10, 20, "#fff900", "Atenção");
-        createRanger(20, 38, "#ff8700", "Em Risco");
-        createRanger(38, 64, "#d10a00", "Perdido");
-        createRanger(64, 91, "#7b7b7b", "Hibernando");
-
-        var bulletBubble = seriesBubble.bullets.push(new am4core.Circle());
-        bulletBubble.tooltipText =
-          "[bold]Cluster:[/] {ClusterId}\n{InterpretacaoFM} - {InterpretacaoR}\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#.###,00')}\n----\n[bold]Recência Média:[/] {AvgRD} em dia(s)\n[bold]Frequência Média:[/] {AvgF} pedido(s)\n----\n[bold]Qtd. Clientes[/]: {QtdClientes}\n[bold]Total de Pedidos[/]: {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}";
-        bulletBubble.strokeWidth = 3;
-        bulletBubble.stroke = am4core.color("#ffffff");
-        bulletBubble.strokeOpacity = 0;
-        bulletBubble.propertyFields.fill = "CorFundoFM";
-
-        chartBubble.data = DataBublle;
-
-        bulletBubble.adapter.add("tooltipY", function (tooltipY, target) {
-          return -target.radius + 1;
-        });
-
-        seriesBubble.heatRules.push({
-          property: "radius",
-          target: bulletBubble,
-          min: 2,
-          max: 40,
-        });
-
-        bulletBubble.hiddenState.properties.scale = 0.01;
-        bulletBubble.hiddenState.properties.opacity = 1;
-
-        var hoverStateBublle = bulletBubble.states.create("hover");
-        hoverStateBublle.properties.strokeOpacity = 1;
-
-        // chartRisk code
-
-        // Themes begin
-        am4core.useTheme(am4themes_animated);
-        // Themes end
-
-        var chartRisk = am4core.create("chartdivRisk", am4charts.XYChart);
-        chartRisk.hiddenState.properties.opacity = 0; // this creates initial fade-in
-
-        chartRisk.maskBullets = false;
-
-        var titleRisk = chartRisk.titles.create();
-        titleRisk.text = "Mapa de Risco - Onde estão os clientes?";
-        titleRisk.fontSize = 18;
-        titleRisk.marginBottom = 20;
-
-        chartRisk.language.locale = am4lang_pt_BR;
-        chartRisk.dateFormatter.language = new am4core.Language();
-        chartRisk.dateFormatter.language.locale = am4lang_pt_BR;
-
-        var xAxisRisk = chartRisk.xAxes.push(new am4charts.CategoryAxis());
-        var yAxisRisk = chartRisk.yAxes.push(new am4charts.CategoryAxis());
-
-        xAxisRisk.dataFields.category = "InterpretacaoR";
-        yAxisRisk.dataFields.category = "InterpretacaoFM";
-
-        xAxisRisk.renderer.grid.template.disabled = true;
-        xAxisRisk.renderer.minGridDistance = 40;
-
-        yAxisRisk.renderer.grid.template.disabled = true;
-        yAxisRisk.renderer.inversed = true;
-        yAxisRisk.renderer.minGridDistance = 30;
-
-        var seriesRisk = chartRisk.series.push(new am4charts.ColumnSeries());
-        seriesRisk.dataFields.categoryX = "InterpretacaoR";
-        seriesRisk.dataFields.categoryY = "InterpretacaoFM";
-        seriesRisk.dataFields.value = "QtdClientes";
-        seriesRisk.sequencedInterpolation = true;
-        seriesRisk.defaultState.transitionDuration = 3000;
-
-        // Set up column appearance
-        var columnRisk = seriesRisk.columns.template;
-        columnRisk.strokeWidth = 2;
-        columnRisk.strokeOpacity = 1;
-        columnRisk.stroke = am4core.color("#ffffff");
-        columnRisk.tooltipText =
+        let tooltip =
           "[bold]{InterpretacaoFM} - {InterpretacaoR}[/]\n----\n[bold]Qtd. Clientes[/]: {value.formatNumber('#.')}\n[bold]Qtd. de Pedidos:[/] {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}\n[bold]----\n[bold]Frequência Média:[/] {AvgF.formatNumber('#,###.00')} pedido(s)\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#,###.00')}\n----\n[bold]Qtd. Clusters[/]: {QTDClusters.formatNumber('#.')}";
-        columnRisk.width = am4core.percent(100);
-        columnRisk.height = am4core.percent(100);
-        columnRisk.column.cornerRadius(6, 6, 6, 6);
-        columnRisk.propertyFields.fill = "CorFundoR";
-
-        // Set up bullet appearance
-        var bullet1Risk = seriesRisk.bullets.push(new am4charts.CircleBullet());
-        //bullet1Risk.circle.propertyFields.radius = "value";
-        bullet1Risk.circle.fill = "{CorFundoFM}"; //am4core.color("#000");
-        bullet1Risk.circle.strokeWidth = 0;
-        bullet1Risk.circle.fillOpacity = 0.7;
-        bullet1Risk.interactionsEnabled = false;
-
-        var bullet2Risk = seriesRisk.bullets.push(new am4charts.LabelBullet());
-        bullet2Risk.label.text = "{QtdClientes}";
-        bullet2Risk.label.fill = am4core.color("#fff");
-        bullet2Risk.zIndex = 1;
-        bullet2Risk.fontSize = 11;
-        bullet2Risk.interactionsEnabled = false;
-
-        // define colors
-        var colors = {
-          //"critical": "#ca0101",
-          //"bad": "#e17a2d",
-          //"medium": "#e1d92d",
-          //"good": "#5dbe24",
-          //"verygood": "#0b7d03"
-        };
-
-        chartRisk.data = DataRisk;
-        //chartRisk.data = processData(DATAEXCEL);
-
-        var baseWidthRisk = Math.min(
-          chartRisk.plotContainer.maxWidth,
-          chartRisk.plotContainer.maxHeight
+        // contem um return com [chart, series]
+        let risk = gerarChartRisk(
+          "chartdivRisk",
+          DATAEXCEL,
+          "Mapa de Risco - Onde estão os clientes? (Principal)",
+          "InterpretacaoR",
+          "InterpretacaoFM",
+          "QtdClientes",
+          tooltip
         );
-        var maxRadiusRisk =
-          baseWidthRisk / Math.sqrt(chartRisk.data.length) / 2 - 2; // 2 is jast a margin
-        seriesRisk.heatRules.push({
-          min: 10,
-          max: maxRadiusRisk,
-          property: "radius",
-          target: bullet1Risk.circle,
-        });
+        let risk2 = gerarChartRisk(
+          "chartdivRisk2",
+          DATAEXCEL,
+          "Mapa de Risco - Onde estão os clientes? (2)",
+          "InterpretacaoR",
+          "InterpretacaoFM",
+          "QtdClientes",
+          tooltip
+        );
+        let bubble = gerarChartBubble(
+          "chartdivBublle",
+          DATAEXCEL,
+          "Análise RFM - Última Compra x Quantidade de Pedidos x Ticket Médio (1)",
+          "AvgRD",
+          "AvgF",
+          "AvgM",
+          "InterpretacaoFM",
+          tooltip
+        );
+        let bubble2 = gerarChartBubble(
+          "chartdivBublle2",
+          DATAEXCEL,
+          "Análise RFM - Última Compra x Quantidade de Pedidos x Ticket Médio (1)",
+          "AvgRD",
+          "AvgF",
+          "AvgM",
+          "InterpretacaoFM",
+          tooltip
+        );
 
-        chartRisk.plotContainer.events.on("maxsizechanged", function () {
-          var side = Math.min(
-            chartRisk.plotContainer.maxWidth,
-            chartRisk.plotContainer.maxHeight
-          );
-          bullet1Risk.circle.clones.each(function (clone) {
-            clone.scale = side / baseWidthRisk;
-            //clone.fill = am4core.color("blue");
-          });
-        });
+        let arraySeries = [bubble[1], bubble2[1], risk2[1]];
 
-        var legend = new am4charts.Legend();
-        legend.parent = chartRisk.chartContainer;
-        legend.align = "bottom";
-        legend.valign = "bottom";
-        legend.marginTop = "5px";
-        legend.fontSize = 10;
+        toggleCheck([...arraySeries, risk[1]]);
 
-        seriesRisk.events.on("ready", function (ev) {
-          var legenddata = [];
-          var teste = [];
-          var sequenceNumber = [];
-          var sumValue = [];
-
-          function toggleSlice(item, lastItem) {
-            var column = seriesRisk.dataItems.getIndex(item);
-
-            if (item == lastItem) {
-              seriesBubble.dataItems.values.map((value) => {
-                if (
-                  column.dataContext.InterpretacaoFM ==
-                  value.dataContext.InterpretacaoFM
-                ) {
-                  // match
-                  if (value.visible) {
-                    value.hide();
-                  } else {
-                    value.show();
-                  }
-                }
-              });
-            }
-
-            if (column.visible) {
-              column.hide();
-            } else {
-              column.show();
-            }
-          }
-
-          seriesRisk.columns.each(function (column, i) {
-            console.warn(
-              column.dataItem.column.dataItem.dataContext.InterpretacaoFM
-            );
-            let value = parseFloat(column.dataItem.column.dataItem.valueY);
-            let nameCategory =
-              column.dataItem.column.dataItem.dataContext.InterpretacaoFM;
-            let fill = column.dataItem.column.dataItem.dataContext.CorFundoFM;
-
-            if (!teste[fill]) teste[fill] = [];
-            teste[fill] = {
-              name: nameCategory,
-              fill: fill,
-            };
-
-            if (!sequenceNumber[fill]) sequenceNumber[fill] = [];
-            sequenceNumber[fill].push(i);
-
-            if (!sumValue[fill]) sumValue[fill] = [];
-            sumValue[fill].push(value);
-
-            legenddata.push({
-              name: nameCategory,
-              fill: fill,
-            });
-          });
-
-          console.warn("legenddata", teste);
-
-          teste2 = Object.keys(teste).map((el) => {
-            let valueColumn = sumValue[el]
-              .reduce((a, b) => a + b, 0)
-              .toFixed(0);
-            teste[el].name = teste[el].name;
-
-            //teste[el].fill = "#3498db"; // COLOR FIXED
-
-            let dataSequence = { sequence: sequenceNumber[el] };
-            return { ...teste[el], ...dataSequence };
-          });
-
-          console.warn("teste2", teste2);
-
-          legend.data = teste2;
-
-          legend.itemContainers.template.events.on("hit", function (ev) {
-            let sequenceItem = ev.target.dataItem._dataContext.sequence;
-            sequenceItem.map((el) => {
-              //hidden
-              toggleSlice(el, sequenceItem[sequenceItem.length - 1]);
-            });
-          });
-        });
-
-        document.getElementById("checkAll").addEventListener("click", (e) => {
-          seriesBubble.dataItems.values.map((value) => {
-            value.show();
-          });
-          seriesRisk.dataItems.values.map((value) => {
-            value.show();
-          });
-          document.getElementById("deselectAll").checked = false;
-        });
-
-        document
-          .getElementById("deselectAll")
-          .addEventListener("click", (e) => {
-            seriesBubble.dataItems.values.map((value) => {
-              value.hide();
-            });
-            seriesRisk.dataItems.values.map((value) => {
-              value.hide();
-            });
-            document.getElementById("checkAll").checked = false;
-          });
+        legenda(
+          risk[0],
+          risk[1],
+          [],
+          arraySeries,
+          "InterpretacaoFM",
+          "CorFundoFM"
+        );
+        legenda(
+          risk[0],
+          risk[1],
+          [],
+          arraySeries,
+          "InterpretacaoR",
+          "CorFundoR"
+        );
       }); // end am4core.ready()
     </script>
 
-    <!-- HTML -->
     <div id="chartdivBublle"></div>
     <br />
-    <!-- HTML -->
+    <div id="chartdivBublle2"></div>
+    <br />
+    <div id="chartdivRisk2"></div>
+    <br />
+    <!-- o ultimo grafico tem que ser o primario, 
+      porque é ele que vai dar a legenda para todos -->
     <div id="chartdivRisk"></div>
 
-    <div style="margin: 0 auto; width: 300px; padding: 15px 0;">
+    <div class="boxCheckbox">
       <label> <input type="checkbox" id="checkAll" /> Marcar todos </label>
       <label>
         <input type="checkbox" id="deselectAll" /> Desmarcar todos
