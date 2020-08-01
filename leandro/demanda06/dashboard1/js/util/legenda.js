@@ -6,7 +6,6 @@ function legenda(
   valueSearch,
   color
 ) {
-  console.warn(primaryChart, primarySeries, arrayChart, seriesChart);
   //legenda
   var legend = new am4charts.Legend();
   legend.parent = primaryChart.chartContainer;
@@ -29,13 +28,18 @@ function legenda(
 
         seriesChart.map((el) => {
           el.dataItems.values.map((value) => {
+            console.log('@@@=>', )
             if (
               column.dataContext[valueSearch] == value.dataContext[valueSearch]
             ) {
               // match
               if (value.visible) {
                 value.hide();
+                document.querySelectorAll(`g[role="switch"]  g[fillBackup="${value.dataContext['CorFundoR']}"]`).forEach(el=> el.setAttribute('fill', el.getAttribute('fillBackup') ))
+       
               } else {
+                document.querySelectorAll(`g[role="switch"]  g[fillBackup="${value.dataContext['CorFundoR']}"]`).forEach(el=> el.setAttribute('fill', el.getAttribute('fillBackup') ))
+       
                 value.show();
               }
             }
@@ -51,7 +55,6 @@ function legenda(
     }
 
     primarySeries.columns.each(function (column, i) {
-      console.warn(column.dataItem.column.dataItem.dataContext[valueSearch]);
       let value = parseFloat(column.dataItem.column.dataItem.valueY);
       let nameCategory =
         column.dataItem.column.dataItem.dataContext[valueSearch];
@@ -75,7 +78,6 @@ function legenda(
       });
     });
 
-    console.warn("legenddata", teste);
 
     teste2 = Object.keys(teste).map((el) => {
       let valueColumn = sumValue[el].reduce((a, b) => a + b, 0).toFixed(0);
@@ -87,14 +89,13 @@ function legenda(
       return { ...teste[el], ...dataSequence };
     });
 
-    console.warn("teste2", teste2);
-
     legend.data = teste2;
 
     legend.itemContainers.template.events.on("hit", function (ev) {
       let sequenceItem = ev.target.dataItem._dataContext.sequence;
       sequenceItem.map((el) => {
         //hidden
+        console.log("elemento ", el)
         toggleSlice(el, sequenceItem[sequenceItem.length - 1]);
       });
     });
