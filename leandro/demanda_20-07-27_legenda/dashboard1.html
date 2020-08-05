@@ -3,7 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Nova Demanda - 2020-07-27 - Incluir Legenda Temporal </title>
+    <title>Nova Demanda - 2020-07-27 - Incluir Legenda Temporal</title>
   </head>
   <body>
     <!-- Styles -->
@@ -89,13 +89,37 @@
 
         let arraySeries = [bubble[1], bubble2[1], risk2[1]];
 
-        toggleCheck([...arraySeries, risk[1]], true, null, null, 'checkAll', 'deselectAll', null );
-        
+        toggleCheck(
+          [...arraySeries, risk[1]],
+          true,
+          null,
+          null,
+          "checkAll",
+          "deselectAll",
+          null
+        );
+
         /*
             seriesChart, isGlobal, filter, valueSearch, checkId, uncheckId, colorSearch
         */
-        toggleCheck([...arraySeries, risk[1]], false, 'InterpretacaoR', 'Recente', 'checkAllRecente', 'deselectAllRecente', 'CorFundoFM' );
-        toggleCheck([...arraySeries, risk[1]], false, 'InterpretacaoFM', 'VIP', 'checkAllVip', 'deselectAllVip', 'CorFundoR' );
+        toggleCheck(
+          [...arraySeries, risk[1]],
+          false,
+          "InterpretacaoR",
+          "Recente",
+          "checkAllInterpretacaoR",
+          "deselectAllInterpretacaoR",
+          "CorFundoR"
+        );
+        toggleCheck(
+          [...arraySeries, risk[1]],
+          false,
+          "InterpretacaoFM",
+          "VIP",
+          "checkAllInterpretacaoFM",
+          "deselectAllInterpretacaoFM",
+          "CorFundoFM"
+        );
 
         legenda(
           risk[0],
@@ -126,19 +150,76 @@
       porque é ele que vai dar a legenda para todos -->
     <div id="chartdivRisk"></div>
 
-    <div class="boxCheckbox">
-      <label> <input type="checkbox" id="checkAll" /> Marcar todos </label>
-      <label>
-        <input type="checkbox" id="deselectAll" /> Desmarcar todos
-      </label>
+    <div class="frame-wrap demo">
+      <div class="demo d-flex" style="display: flex;">
+        <div class="custom-control custom-switch">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="checkAllInterpretacaoR"
+          />
+          <label class="custom-control-label" for="checkAllInterpretacaoR">
+            Marcar todos R</label
+          >
+        </div>
+        <div class="custom-control custom-switch">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="deselectAllInterpretacaoR"
+          />
+          <label class="custom-control-label" for="deselectAllInterpretacaoR"
+            >Desmarcar todos R</label
+          >
+        </div>
+      </div>
     </div>
-    <div class="boxCheckbox">
-      <label><input type="checkbox" id="checkAllRecente" /> Marcar todos Recente</label>
-      <label><input type="checkbox" id="deselectAllRecente" /> Desmarcar todos Recente</label>
+
+    <div class="frame-wrap demo">
+      <div class="demo d-flex" style="display: flex;">
+        <div class="custom-control custom-switch">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="checkAllInterpretacaoFM"
+          />
+          <label class="custom-control-label" for="checkAllInterpretacaoFM">
+            Marcar todos FM</label
+          >
+        </div>
+
+        <div class="custom-control custom-switch">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="deselectAllInterpretacaoFM"
+          />
+          <label class="custom-control-label" for="deselectAllInterpretacaoFM"
+            >Desmarcar todos FM</label
+          >
+        </div>
+      </div>
     </div>
-    <div class="boxCheckbox">
-      <label><input type="checkbox" id="checkAllVip" /> Marcar todos Vip</label>
-      <label><input type="checkbox" id="deselectAllVip" /> Desmarcar todos Vip</label>
+
+    <div class="frame-wrap demo">
+      <div class="demo d-flex" style="display: flex;">
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="checkAll" />
+          <label class="custom-control-label" for="checkAll">
+            Marcar todos</label
+          >
+        </div>
+        <div class="custom-control custom-switch">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="deselectAll"
+          />
+          <label class="custom-control-label" for="deselectAll"
+            >Desmarcar todos</label
+          >
+        </div>
+      </div>
     </div>
   </body>
 </html>
