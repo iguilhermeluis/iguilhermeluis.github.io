@@ -201,6 +201,8 @@ function filterTable(data, category, valueSearch, isHidden) {
     .getElementById(`legend${category}`)
     .querySelectorAll("li[data-active='true']");
 
+    console.log("items ativos", itemsActives)
+
   tableFilter = [];
   data.map((item) => {
     itemsActives.forEach((elm) => {
