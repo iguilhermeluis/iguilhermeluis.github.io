@@ -4,7 +4,8 @@ function legenda(
   arrayChart,
   seriesChart,
   valueSearch,
-  color
+  color,
+  seriesChartAll
 ) {
   //legenda
   var legend = new am4charts.Legend();
@@ -15,20 +16,12 @@ function legenda(
   legend.fontSize = 10;
 
   primarySeries.events.on("ready", function (ev) {
-
-   
-
-
     var legenddata = [];
     var teste = [];
     var sequenceNumber = [];
     var sumValue = [];
 
     function toggleSlice(item, lastItem) {
-
-     
-
-
       var column = primarySeries.dataItems.getIndex(item);
 
       if (item == lastItem) {
@@ -39,21 +32,27 @@ function legenda(
             if (
               column.dataContext[valueSearch] == value.dataContext[valueSearch]
             ) {
-              console.log('@@@=>', column.dataContext)
               // match
               if (value.visible) {
-               
-                document.querySelectorAll(`g[role="switch"]  g[fill="${value.dataContext[color]}"]`).forEach(el=>
-                  {
-                    el.setAttribute('fillBackup', el.getAttribute('fill'));
-                    el.setAttribute('fill', '#999999');
-                  }
-                )
+                document
+                  .querySelectorAll(
+                    `g[role="switch"]  g[fill="${value.dataContext[color]}"]`
+                  )
+                  .forEach((el) => {
+                    el.setAttribute("fillBackup", el.getAttribute("fill"));
+                    el.setAttribute("fill", "#999999");
+                  });
 
                 value.hide();
               } else {
-                document.querySelectorAll(`g[role="switch"]  g[fillBackup="${value.dataContext[color]}"]`).forEach(el=> el.setAttribute('fill', el.getAttribute('fillBackup') ))
-          
+                document
+                  .querySelectorAll(
+                    `g[role="switch"]  g[fillBackup="${value.dataContext[color]}"]`
+                  )
+                  .forEach((el) =>
+                    el.setAttribute("fill", el.getAttribute("fillBackup"))
+                  );
+
                 value.show();
               }
             }
@@ -92,7 +91,6 @@ function legenda(
       });
     });
 
-
     teste2 = Object.keys(teste).map((el) => {
       let valueColumn = sumValue[el].reduce((a, b) => a + b, 0).toFixed(0);
       teste[el].name = teste[el].name;
@@ -103,21 +101,94 @@ function legenda(
       return { ...teste[el], ...dataSequence };
     });
 
-    legend.data = teste2;
+    createElementLegend(teste2, valueSearch, seriesChartAll, color);
 
+    //  legend.data = teste2;
+    /*
     legend.itemContainers.template.events.on("hit", function (ev) {
       let sequenceItem = ev.target.dataItem._dataContext.sequence;
       sequenceItem.map((el) => {
         //hidden
         toggleSlice(el, sequenceItem[sequenceItem.length - 1]);
       });
-    });
+    });*/
+  });
+}
 
-    document.querySelectorAll(`g[role="switch"]  g[fill="#999999"]`).forEach(el=>
-      {
-        el.setAttribute('fillBackup', el.getAttribute('fill'));
+function createElementLegend(items, valueSearch, seriesChartAll, color) {
+  let legendContainer = document.getElementById(`legend${valueSearch}`);
+  let html = "";
+  items.map((item) => {
+    html += `<li data-value="${item.name}" data-category="${valueSearch}" data-color="${item.fill}">
+              <div style="background-color: ${item.fill}"></div>
+              <p>${item.name}</p>
+            </li>`;
+  });
+
+  let checkboxHtml = `
+    <div class="frame-wrap demo">
+    <div class="demo d-flex" style="display: flex;">
+      <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="checkAll${valueSearch}"/>
+        <label class="custom-control-label" for="checkAll${valueSearch}">Marcar todos</label>
+      </div>
+      <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="deselectAll${valueSearch}" />
+        <label class="custom-control-label" for="deselectAll${valueSearch}">Desmarcar todos</label>
+      </div>
+    </div>
+  </div>`;
+
+  legendContainer.innerHTML = `<ul> ${html} </ul> ${checkboxHtml}`;
+  addEventListenerLegend(legendContainer, seriesChartAll);
+  toggleCheck(
+    seriesChartAll,
+    false,
+    valueSearch,
+    "VIP",
+    `checkAll${valueSearch}`,
+    `deselectAll${valueSearch}`,
+    color
+  );
+}
+
+function toggleItem(seriesChart, filter, valueSearch, isHidden) {
+  seriesChart.map((el) => {
+    el.dataItems.values.map((value) => {
+      if (value.dataContext[filter] == valueSearch) {
+        if (isHidden) {
+          value.hide();
+        } else {
+          value.show();
+        }
       }
-    )
+    });
+  });
+}
 
+function addEventListenerLegend(element, seriesChart) {
+  var elements = element.querySelectorAll("li");
+
+  var changeColor = function () {
+    var value = this.getAttribute("data-value");
+    var color = this.getAttribute("data-color");
+    var category = this.getAttribute("data-category");
+    var boxColor = this.getElementsByTagName("div")[0];
+    var textColor = this.getElementsByTagName("p")[0];
+
+    if (boxColor.style.background == "rgb(153, 153, 153)") {
+      boxColor.style.background = color;
+      textColor.style.color = "#000000";
+      toggleItem(seriesChart, category, value, false);
+    } else {
+      boxColor.style.background = "#999999";
+      textColor.style.color = "#999999";
+
+      toggleItem(seriesChart, category, value, true);
+    }
+  };
+
+  Array.from(elements).forEach(function (element) {
+    element.addEventListener("click", changeColor);
   });
 }

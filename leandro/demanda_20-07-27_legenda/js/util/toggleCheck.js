@@ -10,33 +10,21 @@ function toggleCheck(
   document.getElementById(checkId).addEventListener("click", (e) => {
     seriesChart.map((el) => {
       el.dataItems.values.map((value) => {
-        if (isGlobal) {
-          value.show();
-          document
-            .querySelectorAll(
-              `g[role="switch"]  g[fillBackup="${value.dataContext["CorFundoR"]}"]`
-            )
-            .forEach((el) =>
-              el.setAttribute("fill", el.getAttribute("fillBackup"))
-            );
-          document
-            .querySelectorAll(
-              `g[role="switch"]  g[fillBackup="${value.dataContext["CorFundoFM"]}"]`
-            )
-            .forEach((el) =>
-              el.setAttribute("fill", el.getAttribute("fillBackup"))
-            );
-          return true;
-        }
+        let elements = document.querySelectorAll(`.legend-chart li`);
+        if (!isGlobal)
+          elements = document.querySelectorAll(`#legend${filter} li`);
+
+        if (value.dataContext[filter] == valueSearch) value.show();
+
+        elements.forEach((el) => {
+          var color = el.getAttribute("data-color");
+          let boxColor = el.getElementsByTagName("div")[0];
+          let textColor = el.getElementsByTagName("p")[0];
+          boxColor.style.background = color;
+          textColor.style.color = "#000000";
+        });
 
         value.show();
-        document
-          .querySelectorAll(
-            `g[role="switch"]  g[fillBackup="${value.dataContext[colorSearch]}"]`
-          )
-          .forEach((el) =>
-            el.setAttribute("fill", el.getAttribute("fillBackup"))
-          );
       });
     });
     document.getElementById(uncheckId).checked = false;
@@ -45,39 +33,21 @@ function toggleCheck(
   document.getElementById(uncheckId).addEventListener("click", (e) => {
     seriesChart.map((el) => {
       el.dataItems.values.map((value) => {
-        if (isGlobal) {
-          value.hide();
+        let elements = document.querySelectorAll(`.legend-chart li`);
 
-          document
-            .querySelectorAll(
-              `g[role="switch"]  g[fill="${value.dataContext["CorFundoR"]}"]`
-            )
-            .forEach((el) => {
-              el.setAttribute("fillBackup", el.getAttribute("fill"));
-              el.setAttribute("fill", "#999999");
-            });
+        if (!isGlobal)
+          elements = document.querySelectorAll(`#legend${filter} li`);
 
-          document
-            .querySelectorAll(
-              `g[role="switch"]  g[fill="${value.dataContext["CorFundoFM"]}"]`
-            )
-            .forEach((el) => {
-              el.setAttribute("fillBackup", el.getAttribute("fill"));
-              el.setAttribute("fill", "#999999");
-            });
-
-          return true;
-        }
+        if (value.dataContext[filter] == valueSearch) value.hide();
+        elements.forEach((el) => {
+          var color = el.getAttribute("data-color");
+          let boxColor = el.getElementsByTagName("div")[0];
+          let textColor = el.getElementsByTagName("p")[0];
+          boxColor.style.background = "#999999";
+          textColor.style.color = "#999999";
+        });
 
         value.hide();
-        document
-          .querySelectorAll(
-            `g[role="switch"]  g[fill="${value.dataContext[colorSearch]}"]`
-          )
-          .forEach((el) => {
-            el.setAttribute("fillBackup", el.getAttribute("fill"));
-            el.setAttribute("fill", "#999999");
-          });
       });
     });
     document.getElementById(checkId).checked = false;

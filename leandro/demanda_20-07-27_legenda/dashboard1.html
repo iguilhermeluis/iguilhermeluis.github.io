@@ -102,7 +102,7 @@
         /*
             seriesChart, isGlobal, filter, valueSearch, checkId, uncheckId, colorSearch
         */
-        toggleCheck(
+        /* toggleCheck(
           [...arraySeries, risk[1]],
           false,
           "InterpretacaoR",
@@ -110,16 +110,7 @@
           "checkAllInterpretacaoR",
           "deselectAllInterpretacaoR",
           "CorFundoR"
-        );
-        toggleCheck(
-          [...arraySeries, risk[1]],
-          false,
-          "InterpretacaoFM",
-          "VIP",
-          "checkAllInterpretacaoFM",
-          "deselectAllInterpretacaoFM",
-          "CorFundoFM"
-        );
+        );*/
 
         legenda(
           risk[0],
@@ -127,7 +118,8 @@
           [],
           arraySeries,
           "InterpretacaoFM",
-          "CorFundoFM"
+          "CorFundoFM",
+          [...arraySeries, risk[1]]
         );
         legenda(
           risk[0],
@@ -135,7 +127,8 @@
           [],
           arraySeries,
           "InterpretacaoR",
-          "CorFundoR"
+          "CorFundoR",
+          [...arraySeries, risk[1]]
         );
       }); // end am4core.ready()
     </script>
@@ -150,56 +143,42 @@
       porque é ele que vai dar a legenda para todos -->
     <div id="chartdivRisk"></div>
 
-    <div class="frame-wrap demo">
-      <div class="demo d-flex" style="display: flex;">
-        <div class="custom-control custom-switch">
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            id="checkAllInterpretacaoR"
-          />
-          <label class="custom-control-label" for="checkAllInterpretacaoR">
-            Marcar todos R</label
-          >
-        </div>
-        <div class="custom-control custom-switch">
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            id="deselectAllInterpretacaoR"
-          />
-          <label class="custom-control-label" for="deselectAllInterpretacaoR"
-            >Desmarcar todos R</label
-          >
-        </div>
-      </div>
-    </div>
+    <style>
+      .legend-chart {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .legend-chart ul {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+      }
+      .legend-chart ul li {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        margin-right: 30px;
+      }
+      .legend-chart ul li p {
+        font-size: 10px;
+        margin-left: 5px;
+      }
+      .legend-chart ul li div {
+        cursor: pointer;
+        width: 23px;
+        height: 23px;
+        min-width: 23px;
+        min-height: 23px;
+        border-radius: 3px;
+        transition: 0.5s;
+      }
+    </style>
 
-    <div class="frame-wrap demo">
-      <div class="demo d-flex" style="display: flex;">
-        <div class="custom-control custom-switch">
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            id="checkAllInterpretacaoFM"
-          />
-          <label class="custom-control-label" for="checkAllInterpretacaoFM">
-            Marcar todos FM</label
-          >
-        </div>
+    <div class="legend-chart" id="legendInterpretacaoFM"></div>
 
-        <div class="custom-control custom-switch">
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            id="deselectAllInterpretacaoFM"
-          />
-          <label class="custom-control-label" for="deselectAllInterpretacaoFM"
-            >Desmarcar todos FM</label
-          >
-        </div>
-      </div>
-    </div>
+    <div class="legend-chart" id="legendInterpretacaoR"></div>
 
     <div class="frame-wrap demo">
       <div class="demo d-flex" style="display: flex;">
