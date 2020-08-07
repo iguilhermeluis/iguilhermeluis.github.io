@@ -180,6 +180,16 @@ function addEventListenerLegend(element, seriesChart) {
       boxColor.style.background = color;
       textColor.style.color = "#000000";
       toggleItem(seriesChart, category, value, false);
+
+      let tableData;
+
+      if (category == "InterpretacaoR") {
+        tableData = DADOS_TABELA.filter((el) => el.Ação == value);
+      }
+
+      if (category == "InterpretacaoFM") {
+        tableData = DADOS_TABELA.filter((el) => el.Ação == value);
+      }
     } else {
       boxColor.style.background = "#999999";
       textColor.style.color = "#999999";

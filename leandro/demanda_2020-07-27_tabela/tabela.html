@@ -1,100 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>
-    TABELA
-  </title>
-  <meta name="description" content="Marketing Dashboard" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui" />
-  <!-- Call App Mode on ios devices -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <!-- Remove Tap Highlight on Windows Phone IE -->
-  <meta name="msapplication-tap-highlight" content="no" />
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      TABELA
+    </title>
+    <meta name="description" content="Marketing Dashboard" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui"
+    />
+    <!-- Call App Mode on ios devices -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- Remove Tap Highlight on Windows Phone IE -->
+    <meta name="msapplication-tap-highlight" content="no" />
 
-  <!-- base css -->
-  <link rel="stylesheet" media="screen, print" href="css/vendors.bundle.css" />
-  <link rel="stylesheet" media="screen, print" href="css/app.bundle.css" />
-  <!-- Place favicon.ico in the root directory -->
-  <link id="mytheme" rel="stylesheet" href="css/themes/cust-theme-3.css" />
+    <!-- base css -->
+    <link
+      rel="stylesheet"
+      media="screen, print"
+      href="css/vendors.bundle.css"
+    />
+    <link rel="stylesheet" media="screen, print" href="css/app.bundle.css" />
+    <!-- Place favicon.ico in the root directory -->
+    <link id="mytheme" rel="stylesheet" href="css/themes/cust-theme-3.css" />
 
-  <!-- CSS TABELA -->
-  <link rel="stylesheet" media="screen, print" href="css/datagrid/datatables/datatables.bundle.css" />
+    <!-- CSS TABELA -->
+    <link
+      rel="stylesheet"
+      media="screen, print"
+      href="css/datagrid/datatables/datatables.bundle.css"
+    />
 
-  <!-- EXPORT EXCEL -->
-  <script src="dados_tabela.js"></script>
+    <!-- EXPORT EXCEL -->
+    <script src="dados_tabela.js"></script>
 
-  <style>
-    @media screen and (min-width: 720px) {
-      table {
-        margin: 0 auto;
-        border-collapse: collapse;
-        table-layout: fixed;
+    <style>
+      @media screen and (min-width: 720px) {
+        table {
+          margin: 0 auto;
+          border-collapse: collapse;
+          table-layout: fixed;
+        }
+
+        .align {
+          vertical-align: middle;
+          text-align: center;
+        }
+        .tr-align {
+          text-align: center;
+        }
       }
+    </style>
+  </head>
 
-      .align {
-        vertical-align: middle;
-        text-align: center;
-      }
-      .tr-align{
-        text-align: center;
-      }
-    }
-  </style>
-</head>
+  <body class="mod-bg-1 mod-nav-link header-function-fixed nav-function-minify">
+    <div class="page-wrapper">
+      <div class="page-inner">
+        <div class="page-content-wrapper">
+          <main id="js-page-content" role="main" class="page-content">
+            <div class="row">
+              <div class="col-lg-12">
+                <div id="panel-4" class="panel" style="min-height: 700px;">
+                  <div class="panel-hdr">
+                    <h2>
+                      Clusters:
+                      <span class="fw-300"
+                        ><i
+                          >Detalhamento - Características - Atributos:</i
+                        ></span
+                      >
+                    </h2>
+                  </div>
+                  <div class="panel-container show">
+                    <div
+                      class="panel-content"
+                      style="height: 1200px; overflow-y: scroll;"
+                    >
+                      <table
+                        id="dt-basic-example"
+                        class="table table-bordered table-hover table-striped w-100"
+                      >
+                        <thead class="bg-warning-200">
+                          <tr>
+                            <th width="40px">Cluster</th>
+                            <th width="40px">Clientes</th>
+                            <th width="50px">Pedidos</th>
+                            <th width="90px">Última Compra</th>
+                            <th width="60px">Fidelidade</th>
+                            <th width="80px">Tícket Médio</th>
+                            <th width="120px">Volume das Vendas</th>
+                            <th width="60px" class="tr-align">CLTV</th>
+                            <th width="100px">Tipo de Cliente</th>
+                            <th width="40px" class="tr-align">Ação</th>
+                            <th width="40px" class="tr-align">
+                              Visualizar
+                            </th>
+                          </tr>
+                        </thead>
 
-<body class="mod-bg-1 mod-nav-link header-function-fixed nav-function-minify">
-  <div class="page-wrapper">
-    <div class="page-inner">
-      <div class="page-content-wrapper">
-        <main id="js-page-content" role="main" class="page-content">
-          <div class="row">
-            <div class="col-lg-12">
-              <div id="panel-4" class="panel" style="min-height: 700px;">
-                <div class="panel-hdr">
-                  <h2>
-                    Clusters:
-                    <span class="fw-300"><i>Detalhamento - Características - Atributos:</i></span>
-                  </h2>
-                </div>
-                <div class="panel-container show">
-                  <div class="panel-content" style="height: 1200px; overflow-y: scroll;">
-                    <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
-                      <thead class="bg-warning-200">
-                        <tr>
-                          <th  width="40px">Cluster</th>
-                          <th width="40px">Clientes</th>
-                          <th width="50px">Pedidos</th>
-                          <th width="90px">Última Compra</th>
-                          <th width="60px">Fidelidade</th>
-                          <th width="80px">Tícket Médio</th>
-                          <th width="120px">Volume das Vendas</th>
-                          <th width="60px" class="tr-align">CLTV</th>
-                          <th width="100px">Tipo de Cliente</th>
-                          <th width="40px" class="tr-align">Ação</th>
-                          <th width="40px" class="tr-align">
-                            Visualizar
-                          </th>
-                        </tr>
-                      </thead>
-
-                      <tbody id="tbody"></tbody>
-                      <tfoot id="tfoot"></tfoot>
-                    </table>
-                    <!-- datatable end -->
+                        <tbody id="tbody"></tbody>
+                        <tfoot id="tfoot"></tfoot>
+                      </table>
+                      <!-- datatable end -->
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- END Page Settings -->
-  <!-- base vendor bundle: 
+    <!-- END Page Settings -->
+    <!-- base vendor bundle: 
        DOC: if you remove pace.js from core please note on Internet Explorer some CSS animations may execute before a page is fully loaded, resulting 'jump' animations 
             + pace.js (recommended)
             + jquery.js (core)
@@ -107,20 +128,19 @@
             + waves.js (extension)
             + smartpanels.js (extension)
             + src/../jquery-snippets.js (core) -->
-  <script src="js/vendors.bundle.js"></script>
-  <script src="js/app.bundle.js"></script>
-  <script type="text/javascript">
-    /* Activate smart panels */
-    $("#js-page-content").smartPanel();
-  </script>
- 
-  <script src="js/datagrid/datatables/datatables.bundle.js"></script>
-  <script src="tabela.js"></script>
-  <script>
-    $(document).ready(function() {
-      gerarTabela("#dt-basic-example", "#tbody", DADOS_TABELA);
-    });
-  </script>
-</body>
+    <script src="js/vendors.bundle.js"></script>
+    <script src="js/app.bundle.js"></script>
+    <script type="text/javascript">
+      /* Activate smart panels */
+      $("#js-page-content").smartPanel();
+    </script>
 
+    <script src="js/datagrid/datatables/datatables.bundle.js"></script>
+    <script src="tabela.js"></script>
+    <script>
+      $(document).ready(function () {
+        gerarTabela("#dt-basic-example", "#tbody", DADOS_TABELA);
+      });
+    </script>
+  </body>
 </html>

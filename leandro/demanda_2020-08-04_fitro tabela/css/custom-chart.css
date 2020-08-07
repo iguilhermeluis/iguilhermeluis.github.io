@@ -1,0 +1,104 @@
+#dateAxisChartdiv,
+#stackedBarChart,
+#partitionedbar,
+#horizontalDumbbellTemporal,
+#horizontalDumbbellFidelidade,
+#horizontalDumbbellMonetario,
+#zoomablebubble {
+  width: 100%;
+  height: 400px;
+}
+
+@media only screen and (max-width: 641px) {
+  #dateAxisChartdiv,
+  #stackedBarChart,
+  #partitionedbar,
+  #horizontalDumbbellTemporal,
+  #horizontalDumbbellFidelidade,
+  #horizontalDumbbellMonetario,
+  #zoomablebubble {
+    width: 100%;
+    height: 700px;
+  }
+}
+
+.amcharts-g2 {
+  stroke-dasharray: 3px 3px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  -webkit-animation: am-moving-dashes 1s linear infinite;
+  animation: am-moving-dashes 1s linear infinite;
+}
+
+@-webkit-keyframes am-moving-dashes {
+  100% {
+    stroke-dashoffset: -31px;
+  }
+}
+@keyframes am-moving-dashes {
+  100% {
+    stroke-dashoffset: -31px;
+  }
+}
+
+.amcharts-graph-column-front {
+  -webkit-transition: all 0.3s 0.3s ease-out;
+  transition: all 0.3s 0.3s ease-out;
+}
+.amcharts-graph-column-front:hover {
+  fill: #496375;
+  stroke: #496375;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+
+.amcharts-g3 {
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 500%;
+  -webkit-animation: am-draw 40s;
+  animation: am-draw 40s;
+}
+@-webkit-keyframes am-draw {
+  0% {
+    stroke-dashoffset: 500%;
+  }
+  100% {
+    stroke-dashoffset: 0%;
+  }
+}
+@keyframes am-draw {
+  0% {
+    stroke-dashoffset: 500%;
+  }
+  100% {
+    stroke-dashoffset: 0%;
+  }
+}
+
+#semiCircleChartdiv {
+  width: 100%;
+  height: 450px;
+}
+
+@media only screen and (max-width: 641px) {
+  #semiCircleChartdiv {
+    width: 100%;
+    height: 800px;
+    margin-top: -200px;
+  }
+}
+.box-fix .row {
+  justify-content: space-between !important;
+}
+@media only screen and (min-width: 992px) and (max-width: 1300px) {
+  .box-fix .row .font-weight-bold {
+    font-size: 13px;
+  }
+  .box-fix .row .p-2 {
+    padding: 0.25rem !important;
+  }
+  .box-fix .row .justify-content-end {
+    justify-content: flex-start !important;
+  }
+}
