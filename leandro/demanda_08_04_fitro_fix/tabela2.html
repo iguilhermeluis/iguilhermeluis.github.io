@@ -245,73 +245,111 @@
                     <!-- o ultimo grafico tem que ser o primario, 
                       porque é ele que vai dar a legenda para todos -->
                     <div id="chartdivRisk"></div>
-
-                    <style>
-                      /* CSS legenda */
-                      .legend-chart {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                      }
-
-                      .legend-chart ul {
-                        display: flex;
-                        flex-wrap: wrap;
-                        list-style: none;
-                      }
-
-                      .legend-chart ul li {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        cursor: pointer;
-                        margin-right: 20px;
-                        margin-bottom: 10px;
-                      }
-
-                      .legend-chart ul li p {
-                        font-size: 10px;
-                        margin-left: 5px;
-                        height: 0px;
-                      }
-
-                      .legend-chart ul li div {
-                        cursor: pointer;
-                        width: 23px;
-                        height: 23px;
-                        min-width: 23px;
-                        min-height: 23px;
-                        border-radius: 3px;
-                        transition: 0.5s;
-                      }
-
-                      .demo .custom-control-label {
-                        font-size: 0.8rem;
-                      }
-                    </style>
-
-                    <div class="legend-chart" id="legendInterpretacaoFM"></div>
-
-                    <div class="legend-chart" id="legendInterpretacaoR"></div>
-
-                    <div class="frame-wrap demo">
-                      <div class="demo d-flex justify-content-center">
-                        <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="checkAll" />
-                          <label class="custom-control-label" for="checkAll">
-                            Marcar todos</label>
-                        </div>
-                        <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="deselectAll" />
-                          <label class="custom-control-label" for="deselectAll">Desmarcar todos</label>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+
+
+
+        </main>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="page-wrapper">
+    <div class="page-inner">
+      <div class="page-content-wrapper">
+        <main id="js-page-content" role="main" class="page-content">
+          <div class="row">
+            <div class="col-lg-12">
+              <div id="panel-4" class="panel" style="min-height: 200px;">
+                <div class="panel-hdr">
+                  <h2>
+                    Filtros:
+                    <span class="fw-300"><i></i></span>
+                  </h2>
+                </div>
+                <div class="panel-container show">
+                  <div class="panel-content">
+
+                        <style>
+                          /* CSS legenda */
+                          .legend-chart {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                          }
+
+                          .legend-chart ul {
+                            display: flex;
+                            flex-wrap: wrap;
+                            list-style: none;
+                          }
+
+                          .legend-chart ul li {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            cursor: pointer;
+                            margin-right: 20px;
+                            margin-bottom: 10px;
+                          }
+
+                          .legend-chart ul li p {
+                            font-size: 10px;
+                            margin-left: 5px;
+                            height: 0px;
+                          }
+
+                          .legend-chart ul li div {
+                            cursor: pointer;
+                            width: 23px;
+                            height: 23px;
+                            min-width: 23px;
+                            min-height: 23px;
+                            border-radius: 3px;
+                            transition: 0.5s;
+                          }
+
+                          .demo .custom-control-label {
+                            font-size: 0.8rem;
+                          }
+                          .space-label{
+                            margin-right: 45px;
+                            font-size: 0.8rem;
+                            position: relative;
+                            margin-bottom: 0;
+                            vertical-align: top
+                          }
+                        </style>
+
+                        <div class="legend-chart" id="legendInterpretacaoFM"></div>
+                        <div class="legend-chart" id="legendInterpretacaoR"></div>
+
+                        <div class="frame-wrap demo">
+                          <div class="demo d-flex justify-content-center">
+                            <div class="custom-control custom-switch">
+                              <label class="space-label" for="checkAll">Marcar todos</label>
+                              <input type="checkbox" class="custom-control-input" id="checkAll" />
+                              <label class="custom-control-label" for="checkAll">
+                                Desmarcar todos</label>
+                            </div>
+                          </div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
         </main>
       </div>
     </div>
