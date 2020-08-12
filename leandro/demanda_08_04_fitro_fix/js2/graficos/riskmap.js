@@ -81,4 +81,6 @@ function GerarGraficoRiskHeatMap(chartDivId, data, titulo, valorX, valorY, valor
             //clone.fill = am4core.color("blue");
         })
     })
+
+    return [chartRisk, seriesRisk];
 }

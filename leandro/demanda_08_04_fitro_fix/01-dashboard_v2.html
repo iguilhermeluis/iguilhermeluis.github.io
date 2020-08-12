@@ -61,8 +61,33 @@
       transition: 0.5s;
     }
 
+    .demo {
+      background-color: transparent !important;
+    }
+
     .demo .custom-control-label {
       font-size: 0.8rem;
+    }
+
+    .box-filter .custom-control-input:checked~.custom-control-label::before {
+      color: #6e4e9e;
+      border-color: #6e4e9e;
+      background-color: #fff;
+    }
+    .box-filter .custom-switch .custom-control-label::before {
+      background-color: #fff;
+      border: #7a59ad solid 2px;
+      background-color: #7a59ad;
+    }
+    .box-filter .custom-control-label::before {
+      border: #6e4e9e solid 2px;
+      background-color: #7a59ad;
+    }
+    .box-filter .custom-switch .custom-control-input:checked~.custom-control-label::after {
+      background-color: #adb5bd;
+    }
+    .box-filter .custom-switch .custom-control-label::after {
+      background-color: #fff;
     }
 
     .space-label {
@@ -72,9 +97,7 @@
       margin-bottom: 0;
       vertical-align: top;
     }
-  </style>
 
-  <style>
     /*.chartdivMultiAxis {
             width: 100%;
             height: 500px;
@@ -179,6 +202,120 @@
   <script src="js2/util/groupclusterRFM.js"></script>
   <script src="js/util/legenda.js"></script>
   <script src="js/util/toggleCheck.js"></script>
+
+  <script>
+    am4core.ready(function() {
+      let toolTip =
+        "[bold]{InterpretacaoFM} - {InterpretacaoR}[/]\n----\n[bold]Qtd. Clientes[/]: {QtdClientes.formatNumber('#.')}\n[bold]Qtd. de Pedidos:[/] {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}\n[bold]----\n[bold]Frequência Média:[/] {AvgF.formatNumber('#,###.00')} pedido(s)\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#,###.00')}\n----\n[bold]Qtd. Clusters[/]: {QTDClusters.formatNumber('#.')}";
+
+
+      //Mapa de Risco - Onde estão os clientes?
+      let graficoRiskHeatMap = GerarGraficoRiskHeatMap(
+        "chartdivRiskClientes",
+        dadosclustersagrupados,
+        "",
+        "InterpretacaoR",
+        "InterpretacaoFM",
+        "QtdClientes",
+        toolTip,
+        "CorFundoR",
+        "CorFundoFM",
+        "QtdClientes"
+      );
+
+
+      //Mapa de Risco - Onde estão os Pedidos?
+      let graficoRiskHeatMap2 = GerarGraficoRiskHeatMap(
+        "chartdivRiskPedidos",
+        dadosclustersagrupados,
+        "",
+        "InterpretacaoR",
+        "InterpretacaoFM",
+        "SumF",
+        toolTip,
+        "CorFundoR",
+        "CorFundoFM",
+        "SumF"
+      );
+
+      //Mapa de Risco - Onde está o Dinheiro?
+      let graficoRiskHeatMap3 = GerarGraficoRiskHeatMap(
+        "chartdivRiskM",
+        dadosclustersagrupados,
+        "",
+        "InterpretacaoR",
+        "InterpretacaoFM",
+        "SumM",
+        toolTip,
+        "CorFundoR",
+        "CorFundoFM",
+        "SumM"
+      );
+
+      // Quantidade de Clientes x Número de Pedidos x Volume de Vendas
+      let graficoMultiAxisXY = GerarGraficoMultiAxisXY("chartdivMultiAxis", dadosclusters);
+
+      //Dias desde o último pedido (Temporal) x Quantidade de Pedidos (Fidelidade) x Ticket Médio (Monetário)
+      let toolTipBubble =
+        "[bold]Cluster:[/] {ClusterId}\n{InterpretacaoFM} - {InterpretacaoR}\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#.###,00')}\n----\n[bold]Recência Média:[/] {AvgRD} em dia(s)\n[bold]Frequência Média:[/] {AvgF} pedido(s)\n----\n[bold]Qtd. Clientes[/]: {QtdClientes}\n[bold]Total de Pedidos[/]: {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}";
+
+      var dataSort = Array.from(dadosclusters);
+
+      dataSort = dataSort.sort(sort("AvgM", "desc"));
+
+      var max = dataSort[0].AvgM;
+      var min = dataSort[dataSort.length - 1].AvgM;
+
+      //Data da Última Compra (em dias)
+      // GerarGraficoBubbleHeatMap("chartdivBublle", dataSort, "", "Dias desde o último pedido", "Quantidade de Pedidos (Fidelidade)", "AvgRD", "AvgF", "AvgM", toolTip, "CorFundoFM", dadosInterpretacao, min, max);
+
+      let bubble = gerarChartBubble(
+        "chartdivBublle",
+        dataSort,
+        "Dias desde o último pedido",
+        "AvgRD",
+        "AvgF",
+        "AvgM",
+        "InterpretacaoFM",
+        toolTipBubble
+      );
+
+      //LEGENDAS E TOGGLES
+      let arraySeries = [
+        bubble[1],
+        graficoRiskHeatMap[1],
+        graficoRiskHeatMap2[1],
+        graficoRiskHeatMap3[1],
+        graficoMultiAxisXY[1]
+      ];
+
+      legenda(dataSort, "InterpretacaoFM", "CorFundoFM", [
+        ...arraySeries,
+        bubble[1],
+      ]);
+
+      legenda(dataSort, "InterpretacaoR", "CorFundoR", [
+        ...arraySeries,
+        bubble[1],
+      ]);
+
+      toggleCheck([...arraySeries], true, null, null, "checkAll");
+
+      document.querySelector("#panelCheck").onclick = function(ev) {
+        // pega a series que return na bubble [chart, series]
+        bubble[1].dataItems.each(function(dataItem) {
+          let newValue = dataItem.dataContext[ev.target.value];
+          dataItem.value = newValue;
+        });
+
+        document.querySelectorAll("#panelCheck input").forEach((el) => {
+          if (el.value != ev.target.value) {
+            el.checked = false;
+          }
+        });
+      };
+    });
+  </script>
 </head>
 
 <body class="mod-bg-1 mod-nav-link header-function-fixed nav-function-top blur">
@@ -1455,74 +1592,6 @@
                   </div>
                   <div class="panel-container show">
                     <div class="panel-content bg-subtlelight-fade">
-                      <!-- chartBubble code -->
-                      <script>
-                       am4core.ready(function() {
-                            var toolTip =
-                                "[bold]Cluster:[/] {ClusterId}\n{InterpretacaoFM} - {InterpretacaoR}\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#.###,00')}\n----\n[bold]Recência Média:[/] {AvgRD} em dia(s)\n[bold]Frequência Média:[/] {AvgF} pedido(s)\n----\n[bold]Qtd. Clientes[/]: {QtdClientes}\n[bold]Total de Pedidos[/]: {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}";
-
-                            var dataSort = Array.from(dadosclusters);
-
-                            dataSort = dataSort.sort(sort("AvgM", "desc"));
-
-                            var max = dataSort[0].AvgM;
-                            var min = dataSort[dataSort.length - 1].AvgM;
-
-                            //Data da Última Compra (em dias)
-                            // GerarGraficoBubbleHeatMap("chartdivBublle", dataSort, "", "Dias desde o último pedido", "Quantidade de Pedidos (Fidelidade)", "AvgRD", "AvgF", "AvgM", toolTip, "CorFundoFM", dadosInterpretacao, min, max);
-
-                            let bubble = gerarChartBubble(
-                                "chartdivBublle",
-                                dataSort,
-                                "Dias desde o último pedido",
-                                "AvgRD",
-                                "AvgF",
-                                "AvgM",
-                                "InterpretacaoFM",
-                                toolTip
-                            );
-
-                            let arraySeries = [bubble[1]];
-
-                            legenda(dataSort, "InterpretacaoFM", "CorFundoFM", [
-                                ...arraySeries,
-                                bubble[1],
-                            ]);
-
-                            legenda(dataSort, "InterpretacaoR", "CorFundoR", [
-                                ...arraySeries,
-                                bubble[1],
-                            ]);
-
-
-                            toggleCheck(
-                                [...arraySeries],
-                                true,
-                                null,
-                                null,
-                                "checkAll",
-                            );
-
-                            document.querySelector(
-                                "#panelCheck"
-                            ).onclick = function(ev) {
-                                // pega a series que return na bubble [chart, series]
-                                bubble[1].dataItems.each(function(dataItem) {
-                                let newValue =
-                                    dataItem.dataContext[ev.target.value];
-                                dataItem.value = newValue;
-                                });
-
-                                document
-                                .querySelectorAll("#panelCheck input")
-                                .forEach((el) => {
-                                    if (el.value != ev.target.value) {
-                                    el.checked = false;
-                                    }
-                                });
-                            };
-                            });
-                      </script>
                       <!-- painel com os checks -->
                       <!-- O VALUE do input é igual a key do 04-dadoscluster.js -->
                       <div class="frame-wrap demo">
@@ -1566,12 +1635,7 @@
                     </h2>
                   </div>
                   <div class="panel-container show">
-                    <div class="panel-content bg-subtlelight-fade">
-                      <!-- legend code -->
-
-                      <script>
-                        am4core.ready(function() {});
-                      </script>
+                    <div class="panel-content bg-subtlelight-fade box-filter">
 
                       <div class="legend-chart" id="legendInterpretacaoFM"></div>
                       <div class="legend-chart" id="legendInterpretacaoR"></div>
@@ -1593,51 +1657,7 @@
             </div>
 
             <div class="row">
-              <script>
-                am4core.ready(function() {
-                  var toolTip =
-                    "[bold]{InterpretacaoFM} - {InterpretacaoR}[/]\n----\n[bold]Qtd. Clientes[/]: {QtdClientes.formatNumber('#.')}\n[bold]Qtd. de Pedidos:[/] {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}\n[bold]----\n[bold]Frequência Média:[/] {AvgF.formatNumber('#,###.00')} pedido(s)\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#,###.00')}\n----\n[bold]Qtd. Clusters[/]: {QTDClusters.formatNumber('#.')}";
 
-                  GerarGraficoRiskHeatMap(
-                    "chartdivRiskClientes",
-                    dadosclustersagrupados,
-                    "",
-                    "InterpretacaoR",
-                    "InterpretacaoFM",
-                    "QtdClientes",
-                    toolTip,
-                    "CorFundoR",
-                    "CorFundoFM",
-                    "QtdClientes"
-                  );
-
-                  GerarGraficoRiskHeatMap(
-                    "chartdivRiskPedidos",
-                    dadosclustersagrupados,
-                    "",
-                    "InterpretacaoR",
-                    "InterpretacaoFM",
-                    "SumF",
-                    toolTip,
-                    "CorFundoR",
-                    "CorFundoFM",
-                    "SumF"
-                  );
-
-                  GerarGraficoRiskHeatMap(
-                    "chartdivRiskM",
-                    dadosclustersagrupados,
-                    "",
-                    "InterpretacaoR",
-                    "InterpretacaoFM",
-                    "SumM",
-                    toolTip,
-                    "CorFundoR",
-                    "CorFundoFM",
-                    "SumM"
-                  );
-                });
-              </script>
               <div class="col-lg-4">
                 <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
                   <div class="panel-hdr" role="heading">
@@ -1692,14 +1712,7 @@
                   </div>
                   <div class="panel-container show">
                     <div class="panel-content bg-subtlelight-fade">
-                      <script>
-                        am4core.ready(function() {
-                          GerarGraficoMultiAxisXY(
-                            "chartdivMultiAxis",
-                            dadosclusters
-                          );
-                        });
-                      </script>
+
                       <div id="chartdivMultiAxis" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important;"></div>
                     </div>
                   </div>

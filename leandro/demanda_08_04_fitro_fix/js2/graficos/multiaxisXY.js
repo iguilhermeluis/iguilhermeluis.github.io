@@ -224,4 +224,6 @@ function GerarGraficoMultiAxisXY(chartDivId, data)//, titulo, legendaX, legendaY
     chartMultiAxis.cursor.lineX.fillOpacity = 0.1;
 
     chartMultiAxis.leftAxesContainer.layout = "vertical";
+
+    return [chartMultiAxis, series];
 }

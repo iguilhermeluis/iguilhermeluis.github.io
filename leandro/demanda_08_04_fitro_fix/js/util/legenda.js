@@ -1,21 +1,21 @@
 function legenda(data, valueSearch, color, seriesChartAll) {
   let formedData = processData(
-  data,
-  valueSearch == "InterpretacaoR" ? "R" : "FM"
+    data,
+    valueSearch == "InterpretacaoR" ? "R" : "FM"
   );
   createElementLegend(formedData, valueSearch, seriesChartAll, color);
-  }
-  
-  function createElementLegend(items, valueSearch, seriesChartAll, color) {
+}
+
+function createElementLegend(items, valueSearch, seriesChartAll, color) {
   let legendContainer = document.getElementById(`legend${valueSearch}`);
   let html = "";
   items.map((item) => {
-  html += `<li data-active="true" data-value="${item.name}" data-category="${valueSearch}" data-color="${item[color]}">
+    html += `<li data-active="true" data-value="${item.name}" data-category="${valueSearch}" data-color="${item[color]}">
     <div style="background-color: ${item[color]}"></div>
     <p>${item.name}</p>
   </li>`;
   });
-  
+
   let checkboxHtml = `
   <div class="frame-wrap demo">
     <div class="demo d-flex" style="display: flex;">
@@ -26,99 +26,123 @@ function legenda(data, valueSearch, color, seriesChartAll) {
       </div>
     </div>
   </div>`;
-  
+
   legendContainer.innerHTML = `<ul> ${html} </ul> ${checkboxHtml}`;
   addEventListenerLegend(legendContainer, seriesChartAll);
   toggleCheck(
-  seriesChartAll,
-  false,
-  valueSearch,
-  "VIP",
-  `checkAll${valueSearch}`,
-  `deselectAll${valueSearch}`,
-  color
+    seriesChartAll,
+    false,
+    valueSearch,
+    "VIP",
+    `checkAll${valueSearch}`,
+    `deselectAll${valueSearch}`,
+    color
   );
-  }
-  
-  function toggleItem(seriesChart, filter, valueSearch, isHidden) {
-    seriesChart.map((el) => {
-      el.dataItems.values.map((value) => {
-        if (value.dataContext[filter] == valueSearch) {
-          if (isHidden) {
-            value.hide();
-          } else {
-            value.show();
-          }
-        }
-      });
-    });
-  }
-  
-  function addEventListenerLegend(element, seriesChart) {
-    var elements = element.querySelectorAll("li");
-    
-    var changeColor = function () {
-      var value = this.getAttribute("data-value");
-      var color = this.getAttribute("data-color");
-      var category = this.getAttribute("data-category");
-      var boxColor = this.getElementsByTagName("div")[0];
-      var textColor = this.getElementsByTagName("p")[0];
-      
-      if (boxColor.style.background == "rgb(153, 153, 153)") {
-        boxColor.style.background = color;
-        textColor.style.color = "#000000";
-        this.setAttribute("data-active", "true");
-        toggleItem(seriesChart, category, value, false);
-      } else {
-        boxColor.style.background = "#999999";
-        textColor.style.color = "#999999";
-        this.setAttribute("data-active", "false");
-        toggleItem(seriesChart, category, value, true);
-      }
-      filterTable(DADOS_TABELA, category);
-    };
-  
-    Array.from(elements).forEach(function (element) {
-      element.addEventListener("click", changeColor);
-    });
-  }
-  
-  function filterTable(data, category) {
-    let itemsActives = document
-    .getElementById(`legend${category}`)
+}
+
+function toggleItem(seriesChart, filter, valueSearch, isHidden) {
+  let itemsActives = document
+    .getElementById(`legend${filter}`)
     .querySelectorAll("li[data-active='true']");
-    
-    let itemsActivesInterpretacaoFM = document
+
+  let itemsActivesInterpretacaoFM = document
     .getElementById(`legendInterpretacaoFM`)
     .querySelectorAll("li[data-active='true']");
-    
-    let itemsActivesInterpretacaoR = document
+
+  let itemsActivesInterpretacaoR = document
     .getElementById(`legendInterpretacaoR`)
     .querySelectorAll("li[data-active='true']");
-  
-    tableFilter = [];
-    data.map((item) => {
+
+  seriesChart.map((el) => {
+    el.dataItems.values.map((value) => {
+      value.hide();
+
       itemsActives.forEach((elm) => {
-        if (category == "InterpretacaoR") {
-          if (item["Ação"] == elm.innerText) {
+        if (filter == "InterpretacaoR") {
+          if (value.dataContext["InterpretacaoR"] == elm.innerText) {
             itemsActivesInterpretacaoFM.forEach((obj) => {
-              if (item["Tipo de Cliente"] == obj.innerText) {
-                tableFilter.push(item);
+              if (value.dataContext["InterpretacaoFM"] == obj.innerText) {
+                value.show();
+                console.warn("value.dataContext", value.dataContext);
               }
             });
           }
         }
-        if (category == "InterpretacaoFM") {
-          if (item["Tipo de Cliente"] == elm.innerText) {
+
+        if (filter == "InterpretacaoFM") {
+          if (value.dataContext["InterpretacaoFM"] == elm.innerText) {
             itemsActivesInterpretacaoR.forEach((obj) => {
-              if (item["Ação"] == obj.innerText) {
-                tableFilter.push(item);
+              if (value.dataContext["InterpretacaoR"] == obj.innerText) {
+                value.show();
               }
             });
           }
         }
       });
     });
-    TABELA_GLOBAL.fnDestroy();
-    gerarTabela("#dt-basic-example", "#tbody", tableFilter);
-  }
+  });
+}
+
+function addEventListenerLegend(element, seriesChart) {
+  let elements = element.querySelectorAll("li");
+
+  let changeColor = function() {
+    let value = this.getAttribute("data-value");
+    let color = this.getAttribute("data-color");
+    let category = this.getAttribute("data-category");
+    let boxColor = this.getElementsByTagName("div")[0];
+    let textColor = this.getElementsByTagName("p")[0];
+    let isDisabled = boxColor.style.background == "rgb(153, 153, 153)";
+
+    boxColor.style.background = isDisabled ? color : "#999999";
+    textColor.style.color = isDisabled ? "#000000" : "#999999";
+    this.setAttribute("data-active", isDisabled ? "true" : "false");
+    toggleItem(seriesChart, category, value, isDisabled ? false : true);
+
+    filterTable(DADOS_TABELA, category);
+  };
+
+  Array.from(elements).forEach(function(element) {
+    element.addEventListener("click", changeColor);
+  });
+}
+
+function filterTable(data, category) {
+  let itemsActives = document
+    .getElementById(`legend${category}`)
+    .querySelectorAll("li[data-active='true']");
+
+  let itemsActivesInterpretacaoFM = document
+    .getElementById(`legendInterpretacaoFM`)
+    .querySelectorAll("li[data-active='true']");
+
+  let itemsActivesInterpretacaoR = document
+    .getElementById(`legendInterpretacaoR`)
+    .querySelectorAll("li[data-active='true']");
+
+  tableFilter = [];
+  data.map((item) => {
+    itemsActives.forEach((elm) => {
+      if (category == "InterpretacaoR") {
+        if (item["Ação"] == elm.innerText) {
+          itemsActivesInterpretacaoFM.forEach((obj) => {
+            if (item["Tipo de Cliente"] == obj.innerText) {
+              tableFilter.push(item);
+            }
+          });
+        }
+      }
+      if (category == "InterpretacaoFM") {
+        if (item["Tipo de Cliente"] == elm.innerText) {
+          itemsActivesInterpretacaoR.forEach((obj) => {
+            if (item["Ação"] == obj.innerText) {
+              tableFilter.push(item);
+            }
+          });
+        }
+      }
+    });
+  });
+  TABELA_GLOBAL.fnDestroy();
+  gerarTabela("#dt-basic-example", "#tbody", tableFilter);
+}
