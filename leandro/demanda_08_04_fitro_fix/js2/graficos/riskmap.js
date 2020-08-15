@@ -63,7 +63,7 @@ function GerarGraficoRiskHeatMap(chartDivId, data, titulo, valorX, valorY, valor
     bullet1Risk.interactionsEnabled = false;
 
     var bullet2Risk = seriesRisk.bullets.push(new am4charts.LabelBullet());
-    bullet2Risk.label.text = "{" + textoLabel + "}"; //"{QtdClientes}";
+    bullet2Risk.label.text = "{value.formatNumber('#.')}"; // "{" + textoLabel + "}"; //"{QtdClientes}";
     //bullet2Risk.propertyFields.fill = "{CorFundoFM}";
     bullet2Risk.label.fill = am4core.color("#fff");
     bullet2Risk.zIndex = 1;

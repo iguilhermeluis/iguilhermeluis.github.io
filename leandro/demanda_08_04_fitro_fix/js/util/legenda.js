@@ -40,7 +40,7 @@ function createElementLegend(items, valueSearch, seriesChartAll, color) {
   );
 }
 
-function toggleItem(seriesChart, filter, valueSearch, isHidden) {
+function toggleItem(seriesChart, filter) {
   let itemsActives = document
     .getElementById(`legend${filter}`)
     .querySelectorAll("li[data-active='true']");
@@ -54,7 +54,15 @@ function toggleItem(seriesChart, filter, valueSearch, isHidden) {
     .querySelectorAll("li[data-active='true']");
 
   seriesChart.map((el) => {
+    if (el._className == "LineSeries") {
+      el.dataItems.each(function(dataItem) {
+        dataItem.value = 1;
+      });
+    }
+
     el.dataItems.values.map((value) => {
+   
+    
       value.hide();
 
       itemsActives.forEach((elm) => {
@@ -63,7 +71,6 @@ function toggleItem(seriesChart, filter, valueSearch, isHidden) {
             itemsActivesInterpretacaoFM.forEach((obj) => {
               if (value.dataContext["InterpretacaoFM"] == obj.innerText) {
                 value.show();
-                console.warn("value.dataContext", value.dataContext);
               }
             });
           }
@@ -86,7 +93,7 @@ function toggleItem(seriesChart, filter, valueSearch, isHidden) {
 function addEventListenerLegend(element, seriesChart) {
   let elements = element.querySelectorAll("li");
 
-  let changeColor = function() {
+  let changeColor = function () {
     let value = this.getAttribute("data-value");
     let color = this.getAttribute("data-color");
     let category = this.getAttribute("data-category");
@@ -102,7 +109,7 @@ function addEventListenerLegend(element, seriesChart) {
     filterTable(DADOS_TABELA, category);
   };
 
-  Array.from(elements).forEach(function(element) {
+  Array.from(elements).forEach(function (element) {
     element.addEventListener("click", changeColor);
   });
 }

@@ -61,6 +61,13 @@
       transition: 0.5s;
     }
 
+
+    .spacing-chart {
+      height: 36px;
+      overflow: hidden; 
+                     
+    }
+
     .demo {
       background-color: transparent !important;
     }
@@ -205,6 +212,9 @@
   <script src="js/util/legenda.js"></script>
   <script src="js/util/toggleCheck.js"></script>
 
+
+  
+
   <script>
     am4core.ready(function() {
       let toolTip =
@@ -288,8 +298,15 @@
         graficoRiskHeatMap[1],
         graficoRiskHeatMap2[1],
         graficoRiskHeatMap3[1],
-        graficoMultiAxisXY[1]
+        graficoMultiAxisXY[1],
+        graficoMultiAxisXY[2],
+        graficoMultiAxisXY[3],
       ];
+
+    
+
+
+      console.warn("grafico", graficoMultiAxisXY)
 
       legenda(dataSort, "InterpretacaoFM", "CorFundoFM", [
         ...arraySeries,
@@ -303,12 +320,31 @@
 
       toggleCheck([...arraySeries], true, null, null, "checkAll");
 
-      document.querySelector("#panelCheck").onclick = function(ev) {
+
+      
+      function changeValueChart(serie, ev){
+
         // pega a series que return na bubble [chart, series]
-        bubble[1].dataItems.each(function(dataItem) {
+        serie.dataItems.each(function(dataItem) {
           let newValue = dataItem.dataContext[ev.target.value];
           dataItem.value = newValue;
         });
+      }
+
+      document.querySelector("#panelCheckChartRiskM").onclick = function(ev) {
+        changeValueChart(graficoRiskHeatMap3[1], ev);
+
+        document.querySelectorAll("#panelCheckChartRiskM input").forEach((el) => {
+          if (el.value != ev.target.value) {
+            el.checked = false;
+          }
+        });
+      }
+
+      document.querySelector("#panelCheck").onclick = function(ev) {
+       
+        changeValueChart(bubble[1], ev);
+
 
         document.querySelectorAll("#panelCheck input").forEach((el) => {
           if (el.value != ev.target.value) {
@@ -1669,6 +1705,8 @@
                   </div>
                   <div class="panel-container show">
                     <div class="panel-content bg-subtlelight-fade">
+                      <div class="spacing-chart"></div>
+                     
                       <div id="chartdivRiskClientes" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important;"></div>
                     </div>
                   </div>
@@ -1683,6 +1721,7 @@
                   </div>
                   <div class="panel-container show">
                     <div class="panel-content bg-subtlelight-fade">
+                      <div class="spacing-chart"></div>
                       <div id="chartdivRiskPedidos" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important;"></div>
                     </div>
                   </div>
@@ -1697,6 +1736,27 @@
                   </div>
                   <div class="panel-container show">
                     <div class="panel-content bg-subtlelight-fade">
+
+                      <div class="frame-wrap demo spacing-chart">
+                        <div class="demo d-flex" style="display: flex;" id="panelCheckChartRiskM">
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="switchTkMedioRisk" value="AvgM" />
+                            <label class="custom-control-label" for="switchTkMedioRisk">Ticket Médio</label>
+                          </div>
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="switchValVendasRisk" value="SumM" checked=""  />
+                            <label class="custom-control-label" for="switchValVendasRisk">Valor das vendas</label>
+                          </div>
+                  
+                          <div class="custom-control custom-switch">
+                            <!-- como não encontrei o CLTV nos dados, eu coloquei esse campo no value -->
+                            <input type="checkbox" class="custom-control-input" id="switchCLTVRisk" value="SumF" />
+                            <label class="custom-control-label" for="switchCLTVRisk">CLTV</label>
+                          </div>
+                        </div>
+                      </div>
+
+
                       <div id="chartdivRiskM" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important;"></div>
                     </div>
                   </div>
