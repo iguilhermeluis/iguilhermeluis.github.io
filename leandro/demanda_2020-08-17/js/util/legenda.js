@@ -1,9 +1,24 @@
 function legenda(data, valueSearch, color, seriesChartAll) {
+ 
   let formedData = processData(
     data,
     valueSearch == "InterpretacaoR" ? "R" : "FM"
   );
-  createElementLegend(formedData, valueSearch, seriesChartAll, color);
+
+  let targetSort = valueSearch == "InterpretacaoR" ? 'ROrdem' : 'FMOrdem'
+
+  let dataSort = formedData.sort(function (a, b) {
+    if (a[targetSort] > b[targetSort]) {
+      return 1;
+    }
+    if (a[targetSort] < b[targetSort]) {
+      return -1;
+    }
+    // a must be equal to b
+    return 0;
+  });
+
+  createElementLegend(dataSort, valueSearch, seriesChartAll, color);
 }
 
 function createElementLegend(items, valueSearch, seriesChartAll, color) {
@@ -91,6 +106,7 @@ function toggleItem(seriesChart, filter) {
 }
 
 function addEventListenerLegend(element, seriesChart) {
+  
   let elements = element.querySelectorAll("li");
 
   let changeColor = function () {

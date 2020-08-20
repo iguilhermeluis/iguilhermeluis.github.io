@@ -198,10 +198,13 @@
   <script src="js2/graficos/util.js"></script>
   <script src="js2/graficos/bubbleheatmap.js"></script>
   <script src="js2/graficos/semicircle.js"></script>
-  <script src="js2/graficos/multiaxisXY.js"></script>
   <script src="js2/graficos/riskmap.js"></script>
   <script src="js2/graficos/dumbbell-plot.js"></script>
   <script src="js2/graficos/radarchart.js"></script>
+
+
+
+  <script src="multiAxisEdit.js"></script>
 
   <!-- graficos  chart bubble novo-->
   <script src="js/charts/chartBubble.js"></script>
@@ -211,9 +214,6 @@
   <script src="js2/util/groupclusterRFM.js"></script>
   <script src="js/util/legenda.js"></script>
   <script src="js/util/toggleCheck.js"></script>
-
-
-  
 
   <script>
     am4core.ready(function() {
@@ -299,8 +299,6 @@
         graficoRiskHeatMap2[1],
         graficoRiskHeatMap3[1],
         graficoMultiAxisXY[1],
-        graficoMultiAxisXY[2],
-        graficoMultiAxisXY[3],
       ];
 
     
@@ -322,17 +320,20 @@
 
 
       
-      function changeValueChart(serie, ev){
+      function changeValueChart(serie, ev, target){
 
         // pega a series que return na bubble [chart, series]
         serie.dataItems.each(function(dataItem) {
           let newValue = dataItem.dataContext[ev.target.value];
-          dataItem.value = newValue;
+         
+          if(newValue){
+            dataItem[target] = newValue;
+          }
         });
       }
 
       document.querySelector("#panelCheckChartRiskM").onclick = function(ev) {
-        changeValueChart(graficoRiskHeatMap3[1], ev);
+        changeValueChart(graficoRiskHeatMap3[1], ev, 'value');
 
         document.querySelectorAll("#panelCheckChartRiskM input").forEach((el) => {
           if (el.value != ev.target.value) {
@@ -341,9 +342,19 @@
         });
       }
 
+      document.querySelector("#panelCheckAxis").onclick = function(ev) {
+        changeValueChart(graficoMultiAxisXY[1], ev, 'valueY');
+
+        document.querySelectorAll("#panelCheckAxis input").forEach((el) => {
+          if (el.value != ev.target.value) {
+            el.checked = false;
+          }
+        });
+      }
+
       document.querySelector("#panelCheck").onclick = function(ev) {
        
-        changeValueChart(bubble[1], ev);
+        changeValueChart(bubble[1], ev, 'value');
 
 
         document.querySelectorAll("#panelCheck input").forEach((el) => {
@@ -1775,6 +1786,32 @@
                   <div class="panel-container show">
                     <div class="panel-content bg-subtlelight-fade">
 
+                      <div class="frame-wrap demo">
+                        <div class="demo d-flex" style="display: flex;" id="panelCheckAxis">
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="switchTkMedioAxis" value="AvgM" checked="" />
+                            <label class="custom-control-label" for="switchTkMedioAxis">Ticket Médio</label>
+                          </div>
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="switchValVendasAxis" value="SumM" />
+                            <label class="custom-control-label" for="switchValVendasAxis">Valor das vendas</label>
+                          </div>
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="switchQtdClientesAxis" value="QtdClientes" />
+                            <label class="custom-control-label" for="switchQtdClientesAxis">Qtd. Clientes</label>
+                          </div>
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="switchQtdPedidoAxis" value="SumF" />
+                            <label class="custom-control-label" for="switchQtdPedidoAxis">Qtd. Pedidos</label>
+                          </div>
+                          <div class="custom-control custom-switch">
+                            <!-- como não encontrei o CLTV nos dados, eu coloquei esse campo no value -->
+                            <input type="checkbox" class="custom-control-input" id="switchCLTVAxis" value="AvgRD" />
+                            <label class="custom-control-label" for="switchCLTVAxis">CLTV</label>
+                          </div>
+                        </div>
+                      </div>
+
                       <div id="chartdivMultiAxis" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important;"></div>
                     </div>
                   </div>
@@ -1793,6 +1830,7 @@
                   <div class="panel-container show">
                     <div class="panel-content" style="height: 800px; overflow-y: scroll;">
                       <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                        
                         <thead class="bg-warning-200">
                           <tr>
                             <th width="40px">Cluster</th>
@@ -1913,6 +1951,8 @@
       );
     });
   </script>
+
+
 </body>
 
 </html>

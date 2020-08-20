@@ -17,11 +17,15 @@ function defaultBR(number) {
 function gerarTabela(idTable, idTbody, dados) {
   atualizarTabela(idTable, idTbody, dados);
 
+
+
+
+
   var table = $(idTable).dataTable({
     responsive: true,
     destroy: true,
     dom:
-      "<'row mb-3'<'col-sm-12 col-md-6 d-flex align-items-center justify-content-start'f><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'B>>" +
+      "<'row mb-3' <'col-sm-12 col-md-6 d-flex align-items-center justify-content-start'f><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'lB> >" +
       "<'row'<'col-sm-12'tr>>" +
       "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
     buttons: [
@@ -50,6 +54,24 @@ function gerarTabela(idTable, idTbody, dados) {
         className: "btn-outline-default",
       },
     ],
+
+    fnDrawCallback: function( oSettings ) {
+      // Your function(s);
+
+        let htmlShowView = `<div class="dataTables_length" id="dt-basic-example_length">
+        <label>Show <select name="dt-basic-example_length" aria-controls="dt-basic-example" class="form-control custom-select">
+          <option value="10">10</option>
+          <option value="25">abaxa</option>
+          <option value="50">50</option>
+          <option value="-1">All</option>
+        </select> entries</label>
+      </div>`
+
+        let botoes = document.querySelector("#dt-basic-example_wrapper .dt-buttons")
+
+        //botoes.innerHTML = htmlShowView + botoes.innerHTML;
+        console.warn("botoes", botoes)
+  }
   });
 
   return table;
