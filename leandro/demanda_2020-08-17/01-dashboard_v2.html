@@ -19,166 +19,11 @@
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png" />
   <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#5bbad5" />
   <link rel="stylesheet" media="screen, print" href="css/datagrid/datatables/datatables.bundle.css" />
-
   <link id="mytheme" rel="stylesheet" href="css/themes/cust-theme-3.css" />
 
-  <style>
-    /* CSS legenda */
-    .legend-chart {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  <!-- NOVOS CSS DE AJUSTE -->
+  <link rel="stylesheet" href="css/style-panel-custom.css" />
 
-    .legend-chart ul {
-      display: flex;
-      flex-wrap: wrap;
-      list-style: none;
-    }
-
-    .legend-chart ul li {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      margin-right: 20px;
-      margin-bottom: 10px;
-    }
-
-    .legend-chart ul li p {
-      font-size: 10px;
-      margin-left: 5px;
-      height: 0px;
-    }
-
-    .legend-chart ul li div {
-      cursor: pointer;
-      width: 23px;
-      height: 23px;
-      min-width: 23px;
-      min-height: 23px;
-      border-radius: 3px;
-      transition: 0.5s;
-    }
-
-
-    .spacing-chart {
-      height: 36px;
-      overflow: hidden; 
-                     
-    }
-
-    .demo {
-      background-color: transparent !important;
-    }
-
-    .demo .custom-control-label {
-      font-size: 0.8rem;
-    }
-
-    .box-filter .custom-control-input:checked~.custom-control-label::before {
-      color: #6e4e9e;
-      border-color: #6e4e9e;
-      background-color: #fff;
-    }
-    .box-filter .custom-switch .custom-control-label::before {
-      background-color: #fff;
-      border: #7a59ad solid 2px;
-      background-color: #7a59ad;
-    }
-    .box-filter .custom-control-label::before {
-      border: #6e4e9e solid 2px;
-      background-color: #7a59ad;
-    }
-    .box-filter .custom-switch .custom-control-input:checked~.custom-control-label::after {
-      background-color: #adb5bd;
-    }
-    .box-filter .custom-switch .custom-control-label::after {
-      background-color: #fff;
-    }
-
-    .space-label {
-      margin-right: 45px;
-      font-size: 0.8rem;
-      position: relative;
-      margin-bottom: 0;
-      vertical-align: top;
-    }
-
-
-
-    /*.chartdivMultiAxis {
-            width: 100%;
-            height: 500px;
-        }*/
-
-    @media only screen and (max-width: 641px) {
-      #chartdivMultiAxis {
-        width: 100%;
-        height: 700px;
-      }
-    }
-
-    .amcharts-g2 {
-      stroke-dasharray: 3px 3px;
-      stroke-linejoin: round;
-      stroke-linecap: round;
-      -webkit-animation: am-moving-dashes 1s linear infinite;
-      animation: am-moving-dashes 1s linear infinite;
-    }
-
-    @-webkit-keyframes am-moving-dashes {
-      100% {
-        stroke-dashoffset: -31px;
-      }
-    }
-
-    @keyframes am-moving-dashes {
-      100% {
-        stroke-dashoffset: -31px;
-      }
-    }
-
-    .amcharts-graph-column-front {
-      -webkit-transition: all 0.3s 0.3s ease-out;
-      transition: all 0.3s 0.3s ease-out;
-    }
-
-    .amcharts-graph-column-front:hover {
-      fill: #496375;
-      stroke: #496375;
-      -webkit-transition: all 0.3s ease-out;
-      transition: all 0.3s ease-out;
-    }
-
-    .amcharts-g3 {
-      stroke-linejoin: round;
-      stroke-linecap: round;
-      stroke-dasharray: 500%;
-      -webkit-animation: am-draw 40s;
-      animation: am-draw 40s;
-    }
-
-    @-webkit-keyframes am-draw {
-      0% {
-        stroke-dashoffset: 500%;
-      }
-
-      100% {
-        stroke-dashoffset: 0%;
-      }
-    }
-
-    @keyframes am-draw {
-      0% {
-        stroke-dashoffset: 500%;
-      }
-
-      100% {
-        stroke-dashoffset: 0%;
-      }
-    }
-  </style>
 
   <!-- Resources -->
   <script src="https://www.amcharts.com/lib/4/core.js"></script>
@@ -192,7 +37,7 @@
   <script src="js2/data/05-dadosclustersagrupados.js"></script>
 
   <!-- EXPORT TABELA  -->
-  <script src="dados_tabela.js"></script>
+  <script src="js3/data/dados_tabela.js"></script>
 
   <!-- GRAFICOS -->
   <script src="js2/graficos/util.js"></script>
@@ -201,25 +46,31 @@
   <script src="js2/graficos/riskmap.js"></script>
   <script src="js2/graficos/dumbbell-plot.js"></script>
   <script src="js2/graficos/radarchart.js"></script>
-
-
-
-  <script src="multiAxisEdit.js"></script>
-
-  <!-- graficos  chart bubble novo-->
-  <script src="js/charts/chartBubble.js"></script>
+  <!-- graficos novos-->
+  <script src="js3/graficos/multiAxisEdit.js"></script>
+  <script src="js3/graficos/chartBubble.js"></script>
 
   <!-- UTILITÁRIOS -->
   <script src="js2/json/sort.js"></script>
   <script src="js2/util/groupclusterRFM.js"></script>
-  <script src="js/util/legenda.js"></script>
-  <script src="js/util/toggleCheck.js"></script>
+
+
+  <!-- UTILITÁRIOS novos-->
+  <script src="js3/util/legenda.js"></script>
+  <script src="js3/util/toggleCheck.js"></script>
 
   <script>
     am4core.ready(function() {
       let toolTip =
         "[bold]{InterpretacaoFM} - {InterpretacaoR}[/]\n----\n[bold]Qtd. Clientes[/]: {QtdClientes.formatNumber('#.')}\n[bold]Qtd. de Pedidos:[/] {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}\n[bold]----\n[bold]Frequência Média:[/] {AvgF.formatNumber('#,###.00')} pedido(s)\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#,###.00')}\n----\n[bold]Qtd. Clusters[/]: {QTDClusters.formatNumber('#.')}";
 
+
+      /*
+        Todos os gráficos que precisem usar o filtro global necessita retorna 
+        o gráfico e a série no final da função.
+
+        exemplo: return [chartBubble, seriesBubble];
+      */
 
       //Mapa de Risco - Onde estão os clientes?
       let graficoRiskHeatMap = GerarGraficoRiskHeatMap(
@@ -292,7 +143,9 @@
         toolTipBubble
       );
 
-      //LEGENDAS E TOGGLES
+      /*
+       O arraySeries é necessário para fazer o toggle dos elementos dos gráficos
+      */
       let arraySeries = [
         bubble[1],
         graficoRiskHeatMap[1],
@@ -301,32 +154,26 @@
         graficoMultiAxisXY[1],
       ];
 
-    
+
+      /* data, valueSearch,color, seriesChartAll */
+      legenda(dataSort, "InterpretacaoFM", "CorFundoFM", arraySeries);
+      legenda(dataSort, "InterpretacaoR", "CorFundoR", arraySeries);
 
 
-      console.warn("grafico", graficoMultiAxisXY)
-
-      legenda(dataSort, "InterpretacaoFM", "CorFundoFM", [
-        ...arraySeries,
-        bubble[1],
-      ]);
-
-      legenda(dataSort, "InterpretacaoR", "CorFundoR", [
-        ...arraySeries,
-        bubble[1],
-      ]);
-
-      toggleCheck([...arraySeries], true, null, null, "checkAll");
+      /*seriesChart, isGlobal, filter, valueSearch, checkId **/
+      toggleCheck(arraySeries, true, null, null, "checkAll");
 
 
-      
-      function changeValueChart(serie, ev, target){
-
+      /*
+        Função responsável por fazer a troca de dados dinamicos dos graficos,
+        ela captura o value do checkbox e usa como campo de pesquisa nos dados
+        dataItem.dataContext[ev.target.value];
+      */
+      function changeValueChart(serie, ev, target) {
         // pega a series que return na bubble [chart, series]
         serie.dataItems.each(function(dataItem) {
           let newValue = dataItem.dataContext[ev.target.value];
-         
-          if(newValue){
+          if (newValue) {
             dataItem[target] = newValue;
           }
         });
@@ -336,6 +183,8 @@
         changeValueChart(graficoRiskHeatMap3[1], ev, 'value');
 
         document.querySelectorAll("#panelCheckChartRiskM input").forEach((el) => {
+
+          // desmarcar todos os outros checkboxs
           if (el.value != ev.target.value) {
             el.checked = false;
           }
@@ -353,9 +202,8 @@
       }
 
       document.querySelector("#panelCheck").onclick = function(ev) {
-       
-        changeValueChart(bubble[1], ev, 'value');
 
+        changeValueChart(bubble[1], ev, 'value');
 
         document.querySelectorAll("#panelCheck input").forEach((el) => {
           if (el.value != ev.target.value) {
@@ -1717,7 +1565,7 @@
                   <div class="panel-container show">
                     <div class="panel-content bg-subtlelight-fade">
                       <div class="spacing-chart"></div>
-                     
+
                       <div id="chartdivRiskClientes" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important;"></div>
                     </div>
                   </div>
@@ -1755,10 +1603,10 @@
                             <label class="custom-control-label" for="switchTkMedioRisk">Ticket Médio</label>
                           </div>
                           <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="switchValVendasRisk" value="SumM" checked=""  />
+                            <input type="checkbox" class="custom-control-input" id="switchValVendasRisk" value="SumM" checked="" />
                             <label class="custom-control-label" for="switchValVendasRisk">Valor das vendas</label>
                           </div>
-                  
+
                           <div class="custom-control custom-switch">
                             <!-- como não encontrei o CLTV nos dados, eu coloquei esse campo no value -->
                             <input type="checkbox" class="custom-control-input" id="switchCLTVRisk" value="SumF" />
@@ -1830,7 +1678,7 @@
                   <div class="panel-container show">
                     <div class="panel-content" style="height: 800px; overflow-y: scroll;">
                       <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
-                        
+
                         <thead class="bg-warning-200">
                           <tr>
                             <th width="40px">Cluster</th>
@@ -1940,19 +1788,17 @@
   <script src="js/statistics/easypiechart/easypiechart.bundle.js"></script>
   <script src="js/datagrid/datatables/datatables.bundle.js"></script>
 
-  <script src="tabela.js"></script>
+
+  <script src="js3/util/createTable.js"></script>
   <script>
     var TABELA_GLOBAL;
     $(document).ready(function() {
-      TABELA_GLOBAL = gerarTabela(
+      TABELA_GLOBAL = createTable(
         "#dt-basic-example",
         "#tbody",
         DADOS_TABELA
       );
     });
   </script>
-
-
 </body>
-
 </html>
