@@ -1,5 +1,5 @@
-//let arraysInstagrams = [];
-
+let arraysInstagrams = [];
+/*
 let arraysInstagrams = [
   "casa.brou",
   "galpaogourmetgg",
@@ -16,7 +16,7 @@ let arraysInstagrams = [
   "vitaligelato",
   "senhorafatia",
   "pizzaria_quadratti",
-];
+];*/
 
 let analyzedUsers = [];
 
@@ -26,7 +26,7 @@ let orderBy = (array, target) => {
   });
 };
 
-let analyzeInstagram = async (user) => {
+let analyzeInstagram = async (user, is_last) => {
   axios
     .get(`https://www.instagram.com/${user}/?__a=1`)
     .then((response) => {
@@ -63,32 +63,38 @@ let analyzeInstagram = async (user) => {
 
       let last_element_array = arraysInstagrams[arraysInstagrams.length - 1];
 
-      if (user === last_element_array) {
-        let orderArrays = orderBy(analyzedUsers, avg_edge_liked_by);
+      if (is_last) {
+        setTimeout(() => {
+          let orderArrays = orderBy(analyzedUsers, avg_edge_liked_by);
 
-        console.warn("dados processados", orderArrays);
+          console.warn("dados processados", orderArrays);
 
-        let html = "";
+          let html = "";
 
-        orderArrays.map((el) => {
-          console.warn("el", el);
-          html += `<tr>
+          orderArrays.map((el) => {
+            console.warn("el", el);
+            html += `<tr>
               <td><img src="${el.profile_pic_url}" width='30' alt="${
-            el.user
-          }" /></td>
+              el.user
+            }" /></td>
               <td>${el.user}</td>
               <td>${el.avg_edge_liked_by.toFixed(2)}</td>
               <td>${el.avg_edge_media_to_comment.toFixed(2)}</td>
             </tr>`;
-        });
+          });
 
-        console.warn(html);
+          console.warn(html);
 
-        document.getElementById("completed-tasks").innerHTML = html;
+          document.getElementById("completed-tasks").innerHTML = html;
 
-        let btnAnalyze = document.getElementById("btnAnalyze");
-        btnAnalyze.innerText = "ANALIZAR INSTAGRAMS";
-        btnAnalyze.style.background = "#000";
+          let btnAnalyze = document.getElementById("btnAnalyze");
+          btnAnalyze.innerText = "ANALIZAR INSTAGRAMS";
+          btnAnalyze.style.background = "#000";
+
+          // document.getElementById("incomplete-tasks").innerHTML = "";
+          arraysInstagrams = [];
+          analyzedUsers = [];
+        }, 3000);
       }
 
       return data;
@@ -98,8 +104,7 @@ let analyzeInstagram = async (user) => {
 
 let startAnalysis = async () => {
   arraysInstagrams = [];
-  document.getElementById("completed-tasks").innerHTML = "";
-
+  analyzedUsers = [];
   document
     .querySelectorAll("#incomplete-tasks li label")
     .forEach((el) => arraysInstagrams.push(el.innerText));
@@ -114,7 +119,13 @@ let startAnalysis = async () => {
   btnAnalyze.innerText = "Analizando...";
   btnAnalyze.style.background = "#333";
 
-  arraysInstagrams.map((user) => analyzeInstagram(user));
+  let tbody = document.getElementById("completed-tasks");
+  tbody.innerHTML =
+    "<p style='font-size: 18px; font-weight: bold'>Realizando análise</p>";
+
+  arraysInstagrams.map((user, index) =>
+    analyzeInstagram(user, arraysInstagrams.length == index + 1)
+  );
 };
 
 //startAnalysis();
