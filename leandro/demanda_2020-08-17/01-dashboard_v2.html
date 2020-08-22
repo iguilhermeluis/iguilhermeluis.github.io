@@ -58,17 +58,20 @@
   <!-- UTILITÁRIOS novos-->
   <script src="js3/util/legenda.js"></script>
   <script src="js3/util/toggleCheck.js"></script>
+  <script src="js3/util/addCheckboxInChart.js"></script>
+
 
   <script>
     am4core.ready(function() {
+      /* O arraySeries é necessário para fazer o alternancia dos 
+      elementos dos gráficos */
+      let arraySeries = [];
       let toolTip =
         "[bold]{InterpretacaoFM} - {InterpretacaoR}[/]\n----\n[bold]Qtd. Clientes[/]: {QtdClientes.formatNumber('#.')}\n[bold]Qtd. de Pedidos:[/] {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}\n[bold]----\n[bold]Frequência Média:[/] {AvgF.formatNumber('#,###.00')} pedido(s)\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#,###.00')}\n----\n[bold]Qtd. Clusters[/]: {QTDClusters.formatNumber('#.')}";
-
 
       /*
         Todos os gráficos que precisem usar o filtro global necessita retorna 
         o gráfico e a série no final da função.
-
         exemplo: return [chartBubble, seriesBubble];
       */
 
@@ -85,7 +88,7 @@
         "CorFundoFM",
         "QtdClientes"
       );
-
+       arraySeries.push(graficoRiskHeatMap[1]);
 
       //Mapa de Risco - Onde estão os Pedidos?
       let graficoRiskHeatMap2 = GerarGraficoRiskHeatMap(
@@ -100,6 +103,7 @@
         "CorFundoFM",
         "SumF"
       );
+      arraySeries.push(graficoRiskHeatMap2[1]);
 
       //Mapa de Risco - Onde está o Dinheiro?
       let graficoRiskHeatMap3 = GerarGraficoRiskHeatMap(
@@ -114,20 +118,21 @@
         "CorFundoFM",
         "SumM"
       );
+      arraySeries.push(graficoRiskHeatMap3[1]);
 
       // Quantidade de Clientes x Número de Pedidos x Volume de Vendas
       let graficoMultiAxisXY = GerarGraficoMultiAxisXY("chartdivMultiAxis", dadosclusters);
+      arraySeries.push(graficoMultiAxisXY[1]);
 
       //Dias desde o último pedido (Temporal) x Quantidade de Pedidos (Fidelidade) x Ticket Médio (Monetário)
       let toolTipBubble =
         "[bold]Cluster:[/] {ClusterId}\n{InterpretacaoFM} - {InterpretacaoR}\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#.###,00')}\n----\n[bold]Recência Média:[/] {AvgRD} em dia(s)\n[bold]Frequência Média:[/] {AvgF} pedido(s)\n----\n[bold]Qtd. Clientes[/]: {QtdClientes}\n[bold]Total de Pedidos[/]: {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}";
 
-      var dataSort = Array.from(dadosclusters);
-
+      let dataSort = Array.from(dadosclusters);
       dataSort = dataSort.sort(sort("AvgM", "desc"));
 
-      var max = dataSort[0].AvgM;
-      var min = dataSort[dataSort.length - 1].AvgM;
+      let max = dataSort[0].AvgM;
+      let min = dataSort[dataSort.length - 1].AvgM;
 
       //Data da Última Compra (em dias)
       // GerarGraficoBubbleHeatMap("chartdivBublle", dataSort, "", "Dias desde o último pedido", "Quantidade de Pedidos (Fidelidade)", "AvgRD", "AvgF", "AvgM", toolTip, "CorFundoFM", dadosInterpretacao, min, max);
@@ -142,75 +147,22 @@
         "InterpretacaoFM",
         toolTipBubble
       );
-
-      /*
-       O arraySeries é necessário para fazer o toggle dos elementos dos gráficos
-      */
-      let arraySeries = [
-        bubble[1],
-        graficoRiskHeatMap[1],
-        graficoRiskHeatMap2[1],
-        graficoRiskHeatMap3[1],
-        graficoMultiAxisXY[1],
-      ];
+      arraySeries.push(bubble[1]);
+     
 
 
       /* data, valueSearch,color, seriesChartAll */
-      legenda(dataSort, "InterpretacaoFM", "CorFundoFM", arraySeries);
-      legenda(dataSort, "InterpretacaoR", "CorFundoR", arraySeries);
+      legenda(dataSort, "InterpretacaoFM", "CorFundoFM", arraySeries, 'legendInterpretacaoFM', 'FM', 'FMOrdem');
+      legenda(dataSort, "InterpretacaoR", "CorFundoR", arraySeries, 'legendInterpretacaoR', 'R', 'ROrdem');
 
 
-      /*seriesChart, isGlobal, filter, valueSearch, checkId **/
-      toggleCheck(arraySeries, true, null, null, "checkAll");
+      /*seriesChart, isGlobal, filter, checkId **/
+      checkAndUncheck(arraySeries, true, null, "checkAll");
 
+      addCheckboxInChart('panelCheckChartRiskM', graficoRiskHeatMap3[1], 'value')
+      addCheckboxInChart('panelCheckAxis', graficoMultiAxisXY[1], 'valueY')
+      addCheckboxInChart('panelCheck', bubble[1], 'value')
 
-      /*
-        Função responsável por fazer a troca de dados dinamicos dos graficos,
-        ela captura o value do checkbox e usa como campo de pesquisa nos dados
-        dataItem.dataContext[ev.target.value];
-      */
-      function changeValueChart(serie, ev, target) {
-        // pega a series que return na bubble [chart, series]
-        serie.dataItems.each(function(dataItem) {
-          let newValue = dataItem.dataContext[ev.target.value];
-          if (newValue) {
-            dataItem[target] = newValue;
-          }
-        });
-      }
-
-      document.querySelector("#panelCheckChartRiskM").onclick = function(ev) {
-        changeValueChart(graficoRiskHeatMap3[1], ev, 'value');
-
-        document.querySelectorAll("#panelCheckChartRiskM input").forEach((el) => {
-
-          // desmarcar todos os outros checkboxs
-          if (el.value != ev.target.value) {
-            el.checked = false;
-          }
-        });
-      }
-
-      document.querySelector("#panelCheckAxis").onclick = function(ev) {
-        changeValueChart(graficoMultiAxisXY[1], ev, 'valueY');
-
-        document.querySelectorAll("#panelCheckAxis input").forEach((el) => {
-          if (el.value != ev.target.value) {
-            el.checked = false;
-          }
-        });
-      }
-
-      document.querySelector("#panelCheck").onclick = function(ev) {
-
-        changeValueChart(bubble[1], ev, 'value');
-
-        document.querySelectorAll("#panelCheck input").forEach((el) => {
-          if (el.value != ev.target.value) {
-            el.checked = false;
-          }
-        });
-      };
     });
   </script>
 </head>
@@ -1597,6 +1549,8 @@
                     <div class="panel-content bg-subtlelight-fade">
 
                       <div class="frame-wrap demo spacing-chart">
+                        
+
                         <div class="demo d-flex" style="display: flex;" id="panelCheckChartRiskM">
                           <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" id="switchTkMedioRisk" value="AvgM" />
@@ -1614,6 +1568,7 @@
                           </div>
                         </div>
                       </div>
+
 
 
                       <div id="chartdivRiskM" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important;"></div>

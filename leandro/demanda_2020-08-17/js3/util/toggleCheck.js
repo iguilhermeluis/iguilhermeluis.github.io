@@ -1,4 +1,4 @@
-function toggleCheck(seriesChart, isGlobal, filter, valueSearch, checkId) {
+function checkAndUncheck(seriesChart, isGlobal, filter, checkId) {
   document.getElementById(checkId).addEventListener("click", (e) => {
   
     TABELA_GLOBAL.fnDestroy();

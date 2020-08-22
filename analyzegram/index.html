@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      id="viewport"
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover"
+    />
+    <title>AnalyzeGram - Statistics for your instagram</title>
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container-main">
+      <div class="container">
+        <p>
+          <label for="new-task">ADICIONE OS INSTAGRAM ABAIXO</label
+          ><input id="new-task" type="text" /><button>+ ADD</button>
+        </p>
+        <button onclick="startAnalysis()" id="btnAnalyze">
+          ANALIZAR INSTAGRAMS
+        </button>
+
+        <h3>USUÁRIOS</h3>
+        <div id="incomplete-tasks"></div>
+      </div>
+      <main>
+        <h3>Resultado médio</h3>
+
+        <table>
+          <thead>
+            <th>Perfil</th>
+            <th>Usuário</th>
+            <th>Curtidas</th>
+            <th>Comentários</th>
+          </thead>
+          <tbody id="completed-tasks"></tbody>
+        </table>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="script-core.js"></script>
+    <script src="script-ui.js"></script>
+  </body>
+</html>

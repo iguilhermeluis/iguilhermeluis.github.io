@@ -6,15 +6,12 @@ DEPENDÊNCIAS
     TABELA_GLOBAL / 01-dashboard_v2.html
 */
 
-function legenda(data, valueSearch, color, seriesChartAll) {
+function legenda(data, valueSearch, color, seriesChartAll, id, groupBy, targetSort) {
  
   let formedData = processData(
     data,
-    valueSearch == "InterpretacaoR" ? "R" : "FM"
+    groupBy
   );
-
-  let targetSort = valueSearch == "InterpretacaoR" ? 'ROrdem' : 'FMOrdem'
-
   let dataSort = formedData.sort(function (a, b) {
     if (a[targetSort] > b[targetSort]) {
       return 1;
@@ -26,11 +23,11 @@ function legenda(data, valueSearch, color, seriesChartAll) {
     return 0;
   });
 
-  createElementLegend(dataSort, valueSearch, seriesChartAll, color);
+  createElementLegend(dataSort, valueSearch, seriesChartAll, color, id);
 }
 
-function createElementLegend(items, valueSearch, seriesChartAll, color) {
-  let legendContainer = document.getElementById(`legend${valueSearch}`);
+function createElementLegend(items, valueSearch, seriesChartAll, color, idLegend) {
+  let legendContainer = document.getElementById(idLegend);
   let html = "";
   items.map((item) => {
     html += `<li data-active="true" data-value="${item.name}" data-category="${valueSearch}" data-color="${item[color]}">
@@ -52,14 +49,11 @@ function createElementLegend(items, valueSearch, seriesChartAll, color) {
 
   legendContainer.innerHTML = `<ul> ${html} </ul> ${checkboxHtml}`;
   addEventListenerLegend(legendContainer, seriesChartAll);
-  toggleCheck(
+  checkAndUncheck(
     seriesChartAll,
     false,
     valueSearch,
-    "VIP",
-    `checkAll${valueSearch}`,
-    `deselectAll${valueSearch}`,
-    color
+    `checkAll${valueSearch}`
   );
 }
 
