@@ -15,19 +15,23 @@
         padding: 3rem;
       }
       .c-1-color {
-        background: #e74c3c;
+        background: #64c832;
       }
       .c-2-color {
-        background: #2c3e50;
+        background: #fff900;
       }
       .c-3-color {
-        background: #27ae60;
+        background: #ff8700;
       }
       .c-4-color {
-        background: #3498db;
+        background: #d10a00;
       }
       .c-5-color {
-        background: #8e44ad;
+        background: #7b7b7b;
+      }
+
+      .noUi-tooltip {
+        font-size: 10px;
       }
 
       /* Tooltip container */
@@ -87,8 +91,7 @@
     <script src="../dados.js"></script>
 
     <script>
-      function createSlider(key, min, max, marks, item) {
-        let id = "slider-color" + key;
+      function createSlider(key, min, max, marks, item, labels, id) {
         let newDiv = document.createElement("div");
 
         newDiv.setAttribute("id", id);
@@ -99,7 +102,7 @@
         document.body.insertBefore(newDiv, divAtual);
 
         //<div id="slider-colorR"></div>
-        addMarks(min, max, marks, id);
+        addMarks(min, max, marks, id, labels);
         let slider = document.getElementById(id);
 
         noUiSlider.create(slider, {
@@ -137,22 +140,20 @@
         return percent;
       }
 
-      function addMarks(min, max, marks, id) {
+      function addMarks(min, max, marks, id, labels) {
         var html = "";
         var left = 0;
         var i;
 
-        for (key in marks) {
-          //remove +50
-          left = convertToPercent(parseFloat(marks[key]) + 50, min, max);
-
+        marks.forEach((mark, index) => {
+          left = convertToPercent(parseFloat(mark) + 50, min, max);
           html += `
-            <span class="mark tooltip" style="left: ${left}%" tooltip="${key}">
-              <span class="boxToolTip">${marks[key] + 50}</span> 
-                <span class="tooltiptext">${marks[key] + 50}</span>
-            </span> 
-            `;
-        }
+              <span class="mark tooltip" style="left: ${left}%" tooltip="${mark}">
+                <span class="boxToolTip">${mark + 50}</span> 
+                  <span class="tooltiptext">${mark + 50}</span>
+              </span> 
+              `;
+        });
 
         $("#" + id).after(html);
       }
@@ -176,7 +177,15 @@
           max = Data[key].Clientes.Max;
         }
 
-        createSlider(key, 100, 500, [100, 200, 300], item);
+        createSlider(
+          key,
+          100,
+          500,
+          [100, 200, 300, 400, 450],
+          item,
+          ["recente", "atenção", "em risco", "perdido", "hibernando"],
+          "slider-color" + key
+        );
       }
     </script>
   </body>

@@ -1,6 +1,6 @@
 let arraysInstagrams = [];
-/*
-let arraysInstagrams = [
+
+/*let arraysInstagrams = [
   "casa.brou",
   "galpaogourmetgg",
   "graopararj",
@@ -38,6 +38,7 @@ let analyzeInstagram = async (user, is_last) => {
 
       response.data.graphql.user.edge_owner_to_timeline_media.edges.map(
         (edge) => {
+
           let edge_media_to_comment = edge.node.edge_media_to_comment.count;
           let edge_liked_by = edge.node.edge_liked_by.count;
           let display_url = edge.node.display_url;
@@ -59,6 +60,7 @@ let analyzeInstagram = async (user, is_last) => {
         sum_edge_media_to_comment: is_private ? 0 : sum_edge_media_to_comment,
         sum_edge_liked_by: is_private ? 0 : sum_edge_media_to_comment,
       };
+
       analyzedUsers.push(data);
 
       let last_element_array = arraysInstagrams[arraysInstagrams.length - 1];
@@ -72,7 +74,6 @@ let analyzeInstagram = async (user, is_last) => {
           let html = "";
 
           orderArrays.map((el) => {
-            console.warn("el", el);
             html += `<tr>
               <td><img src="${el.profile_pic_url}" width='30' alt="${
               el.user
