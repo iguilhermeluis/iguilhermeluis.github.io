@@ -1812,7 +1812,6 @@
                                                         </div>
                                                         <div class="col-md-5">
                                                             <select class="custom-select mw-100" name="company" required id="company">
-                                                                <option value="" selected="">Escolha uma opção</option>
                                                                 <option value="1">Opção 1 </option>
                                                                 <option value="2">Opção 2 </option>
                                                                 <option value="3">Opção 3 </option>
@@ -1832,7 +1831,6 @@
                                                         </div>
                                                         <div class="col-md-5 mt-2">
                                                             <select class="custom-select" required name="project" id="project">
-                                                                <option value="" selected="">Escolha uma opção</option>
                                                                 <option value="1">Opção 1 </option>
                                                                 <option value="2">Opção 2 </option>
                                                                 <option value="3">Opção 3 </option>
@@ -2994,18 +2992,39 @@
 
               let validationForm = (id) => {
                   let form = document.getElementById(id);
+
+                  form.querySelectorAll('input').forEach((el) => {
+                    el.onblur = ()=>{
+                        if(el.checkValidity()){
+                            el.classList.add('is-valid');
+                            el.classList.remove('is-invalid');
+                        } else {
+                            el.classList.remove('is-valid');
+                            el.classList.add('is-invalid');
+                        } 
+
+                    }  
+                  })
+
+
+
                   //adiciona um ouvinte ao submeter o formulario
                   form.addEventListener(
                       "submit", (event) => {
+
                           /* 
                           form.checkValidity() 
                           Retorna verdadeiro se os inputs dentro do form contém dados válidos.
                           */
                           if (!form.checkValidity()) { // se os dados n tiverem validos, eu paro o evento
-                              form.querySelectorAll('input').forEach((el) => {
+                              
+                               form.querySelectorAll('input').forEach((el) => {
                                   if (!el.checkValidity()) {
+                                    el.classList.remove('is-valid');
+                                    el.classList.add('is-invalid');
+
                                       // LISTAGEM DOS DADOS INVÁLIDOS CASO QUEIRA USAR O FOCUS
-                                      //console.warn(`${el.getAttribute('name')} está inválido`)
+                                        //console.warn(`${el.getAttribute('name')} está inválido`)
                                       //el.focus();
                                   }
                               })
@@ -3027,6 +3046,8 @@
 
                               // OBJETOS COM OS CAMPOS
                               console.table(datas)
+
+                              alert('DADOS VÁLIDOS, verifique o console')
 
                               // evito que a tela de reload para mostrar os dados no console
                               event.preventDefault();
@@ -3080,8 +3101,10 @@
                     });
                 }
                 
-                validationCompareValues("initialValue", "finalValue")
+                
                 validationForm('formularioPadrao'); // Id do formulario
+                validationCompareValues("initialValue", "finalValue")
+                
                 maskCNPJCPF('cpfcnpj');
                 maskPhone('phone');
                 maskCurrencyBRL('price');

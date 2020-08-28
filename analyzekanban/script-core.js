@@ -22,6 +22,8 @@ const init = () => {
     let tasks = response.data.tasks;
 
     const tasksGrouped = groupBy(tasks, (task) => task.swimlane_id);
+    const tasksGroupedDate = groupBy(tasks, (task) => task.due_date);
+
     let sumTotalPoints = 0;
 
     tasks.map((task) => {
@@ -42,6 +44,7 @@ const init = () => {
 
     console.warn(`tasksGroupSwimlanes  ${idBoard}`, processData);
     console.warn(`idBoard ${idBoard} total: `, sumTotalPoints);
+    console.warn(`tasksGroupedDate`, tasksGroupedDate);
   };
 
   getBoardsInformations("512425", "M9NPVBWPFL7H");
