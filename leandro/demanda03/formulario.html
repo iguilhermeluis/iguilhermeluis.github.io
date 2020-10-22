@@ -1908,23 +1908,34 @@
                                                     </div>
 
 
-                                                    <div class="form-row">
-                                                        <!-- Ativo -->
-                                                        <div class="col-md-2 offset-md-2 mt-2">
-                                                            <div class="custom-control custom-switch">
-                                                                <input type="checkbox" class="custom-control-input  bg-info-500 " name="active" id="active" />
-                                                                <label class="custom-control-label" for="active">Ativo</label>
-                                                            </div>
+                                                    <style>
+                                                        .space-label {
+                                                            margin-right: 45px;
+                                                            font-size: 0.8rem;
+                                                            position: relative;
+                                                            margin-bottom: 0;
+                                                            vertical-align: top;
+                                                        }
+                                                    </style>
+                                                    <div class="form-row"  >
+                                                        <div class="col-md-2 mt-2">
+                                                            <label class="form-label" for="ativo">Ativo
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                         </div>
 
-                                                        <!-- RISCO -->
-                                                        <div class="col-md-2 mt-2">
-                                                            <div class="custom-control custom-checkbox custom-control-inline">
-                                                                <input type="checkbox" class="custom-control-input  bg-info-500 " name="risk" id="risk" checked="" />
-                                                                <label class="custom-control-label" for="risk">Risco</label>
+                                                        <div class="demo d-flex justify-content-center">
+                                                            <div class="custom-control custom-switch">
+                                                              <label class="space-label" for="ativo">Nao</label>
+                                                              <input type="checkbox" class="custom-control-input" id="ativo" />
+                                                              <label class="custom-control-label" for="ativo">
+                                                                Sim</label>
                                                             </div>
-                                                        </div>
+                                                          </div>
+                                                       
                                                     </div>
+                                                    
+                                                   
 
                                                     <div class="form-row">
                                                         <!-- UPLOUD ICONE -->
@@ -2084,6 +2095,59 @@
                                                         <div class="col-md-5 mt-2">
 
                                                             <div id="boxSliders"></div>
+
+
+                                                            <div class="invalid-feedback">
+                                                                Obrigatório.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <!-- SLIDER DATA  -->
+
+                                                    <div class="form-row">
+                                                        <!-- Empresa -->
+                                                        <div class="col-md-2">
+                                                            <label class="form-label" for="stepDate">Step por
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            
+                                                            <div class="invalid-feedback">
+                                                                Escolha Obrigatória.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                 
+
+                                                    <div class="form-row  mt-6">
+                                                        <!-- ranger -->
+                                                        <div class="col-md-2 mt-2">
+                                                            <label class="form-label" for="demo_5">Valor Range 
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                        </div>
+
+                                                        <div  class="col-md-1">
+                                                            <select class="custom-select mw-100" name="stepDate" required id="stepDate">
+                                                                <option value="day">Dia</option>
+                                                                <option value="week">Semana</option>
+                                                                <option value="month">Mês</option>
+                                                                <option value="twomonths">bimestre</option>
+                                                                <option value="trimester">trimestre</option>
+                                                                <option value="half">semestre</option>
+                                                                <option value="year">Ano</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-4 mt-2">
+                                                            
+                                                            <div id="boxSlidersDate"></div>
 
 
                                                             <div class="invalid-feedback">
@@ -3118,10 +3182,20 @@
         })(jQuery);
     </script>
 
+
+
+    <!-- SLIDERS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.2.0/wNumb.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.0/nouislider.min.js"></script>
     <script src="criarSlider.js"></script>
+    <script src="criarSliderDate.js"></script>
+
+  
+
+
     <script>
-        iniciarSlider()
+        iniciarSlider();
+        
     </script>
 </body>
 

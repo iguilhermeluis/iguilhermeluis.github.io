@@ -1,5 +1,5 @@
 /* SLIDER  */
-function criarSlider(min, max, marks, labels, id) {
+function criarSlider(min, max, marks, labels, id, idContainer, isDate = false) {
   marks.unshift(min);
   labels.unshift("");
 
@@ -9,14 +9,14 @@ function criarSlider(min, max, marks, labels, id) {
   newDiv.setAttribute("class", "slider-fix");
 
   // adiciona o novo elemento criado e seu conteúdo ao DOM
-  let divAtual = document.getElementById("boxSliders");
+  let divAtual = document.getElementById(idContainer);
 
   var divPai = divAtual.parentNode;
 
   //document.body.insertBefore(newDiv, divAtual);
   divPai.insertBefore(newDiv, divAtual);
 
-  addMarks(min, max, marks, id, labels);
+  //addMarks(min, max, marks, id, labels);
 
   let slider = document.getElementById(id);
 
@@ -100,6 +100,32 @@ function iniciarSlider() {
     500,
     [100, 200, 300, 400, 500],
     ["recente", "atenção", "em risco", "perdido", "hibernando"],
-    "slider-color-main"
+    "slider-color-main",
+    "boxSliders"
   );
+
+  criarSliderDate(
+    "1998-04-25 00:00:00",
+    "2020-03-21 00:00:00",
+    [
+      "2000-07-08 00:00:00",
+      "2005-08-25 00:00:00",
+      "2009-09-14 00:00:00",
+      "2020-08-25 00:00:00",
+      "2002-11-11 00:00:00",
+    ],
+    ["recente", "atenção", "em risco", "perdido", "hibernando"],
+    "sliderDate",
+    "boxSlidersDate"
+  );
+
+  /*criarSlider(
+    100,
+    500,
+    [100, 200, 300, 400, 500],
+    ["recente", "atenção", "em risco", "perdido", "hibernando"],
+    "slider-color-main2",
+    "boxSlidersDate",
+    true
+  );*/
 }
