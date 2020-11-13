@@ -39,7 +39,6 @@ function filtrarDadosLaterais(
 }
 
 function calcularDadosLaterais(data) {
-  console.warn("calcular dados", data);
   let TotalClientes = 0;
   let TotalPedidos = 0;
   let TotalVendas = 0;
