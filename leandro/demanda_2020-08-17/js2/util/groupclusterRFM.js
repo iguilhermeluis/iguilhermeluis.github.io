@@ -1,156 +1,156 @@
 function groupByInterpretacao(data) {
-    var data = data;
+  var data = data;
 
-    var groupedData = {};
+  var groupedData = {};
 
-    for (var i = 0; i < data.length; i++) {
-        var item = data[i];
-        if (!groupedData[item.InterpretacaoFM])
-            groupedData[item.InterpretacaoFM] = [];
-        groupedData[item.InterpretacaoFM].push(item);
-    }
-    return groupedData;
+  for (var i = 0; i < data.length; i++) {
+    var item = data[i];
+    if (!groupedData[item.InterpretacaoFM])
+      groupedData[item.InterpretacaoFM] = [];
+    groupedData[item.InterpretacaoFM].push(item);
+  }
+  return groupedData;
 }
 
 function groupByInterpretacao(data, tipo) {
-    var data = data;
+  var data = data;
 
-    var groupedData = {};
+  var groupedData = {};
 
-    for (var i = 0; i < data.length; i++) {
-        var item = data[i];
+  for (var i = 0; i < data.length; i++) {
+    var item = data[i];
 
-        var tipoItem;
+    var tipoItem;
 
-        if (tipo == "FM") { tipoItem = item.InterpretacaoFM; }
-        else if (tipo == "R") { tipoItem = item.InterpretacaoR; }
-
-        if (!groupedData[tipoItem])
-            groupedData[tipoItem] = [];
-        groupedData[tipoItem].push(item);
+    if (tipo == "FM") {
+      tipoItem = item.InterpretacaoFM;
+    } else if (tipo == "R") {
+      tipoItem = item.InterpretacaoR;
     }
-    return groupedData;
+
+    if (!groupedData[tipoItem]) groupedData[tipoItem] = [];
+    groupedData[tipoItem].push(item);
+  }
+  return groupedData;
 }
 
 function processDataStacker(data) {
-    let dataProcess = groupByInterpretacao(data);
-    let treeData = [];
+  let dataProcess = groupByInterpretacao(data);
+  let treeData = [];
 
-    Object.keys(dataProcess).map(item => {
-        var TotalClientes = 0;
-        var TotalPedidos = 0;
-        var TotalVendas = 0;
-        var TotalClusters = 0;
+  Object.keys(dataProcess).map((item) => {
+    var TotalClientes = 0;
+    var TotalPedidos = 0;
+    var TotalVendas = 0;
+    var TotalClusters = 0;
 
-        var clusterData = { children: [] };
+    var clusterData = { children: [] };
 
-        clusterData.InterpretacaoR = item;
+    clusterData.InterpretacaoR = item;
 
-        dataProcess[item].map(it => {
+    dataProcess[item].map((it) => {
+      //clusterData[it.InterpretacaoR] = parseInt(it.QtdClientes);
+      //clusterData.InterpretacaoFM = it.InterpretacaoFM;
+      var Valor;
 
-            //clusterData[it.InterpretacaoR] = parseInt(it.QtdClientes);
-            //clusterData.InterpretacaoFM = it.InterpretacaoFM;
-            var Valor;
+      if (tipo == "clientes") {
+        if (clusterData[it.InterpretacaoR] == null) {
+          TotalClientes = 0;
+        }
 
-            if (tipo == "clientes") {
+        let qtdClientes = parseInt(it.QtdClientes);
+        TotalClientes += qtdClientes;
 
-                if (clusterData[it.InterpretacaoR] == null) { TotalClientes = 0; }
+        Valor = TotalClientes;
+      } else if (tipo == "clusters") {
+        if (clusterData[it.InterpretacaoR] == null) {
+          TotalClusters = 0;
+        }
 
-                let qtdClientes = parseInt(it.QtdClientes);
-                TotalClientes += qtdClientes;
+        TotalClusters++;
+        Valor = TotalClusters;
+      }
 
-                Valor = TotalClientes;
+      //clusterData.QtdClientes = TotalClientes;
 
-            } else if (tipo == "clusters") {
+      clusterData[it.InterpretacaoR] = Valor;
 
-                if (clusterData[it.InterpretacaoR] == null) { TotalClusters = 0; }
+      //let qtdPedidos = parseInt(it.SumF);
+      //let qtdVendas = parseFloat(it.SumM);
 
-                TotalClusters++;
-                Valor = TotalClusters;
+      //TotalClientes += qtdClientes;
+      //TotalPedidos += qtdPedidos;
+      //TotalVendas += qtdVendas;
+      //TotalClusters++;
 
-            }
+      //clusterData.CorFundoFM = it.CorFundoFM;
+      //clusterData.CorFundoR = it.CorFundoR;
+      //clusterData.QtdClientes = TotalClientes;
+      //clusterData.QtdPedidos = TotalPedidos;
+      //clusterData.MonetarioSum = TotalVendas;
+      //clusterData.QTDClusters = TotalClusters;
 
-            //clusterData.QtdClientes = TotalClientes;
-
-            clusterData[it.InterpretacaoR] = Valor;
-
-            //let qtdPedidos = parseInt(it.SumF);
-            //let qtdVendas = parseFloat(it.SumM);
-
-            //TotalClientes += qtdClientes;
-            //TotalPedidos += qtdPedidos;
-            //TotalVendas += qtdVendas;
-            //TotalClusters++;
-
-            //clusterData.CorFundoFM = it.CorFundoFM;
-            //clusterData.CorFundoR = it.CorFundoR;
-            //clusterData.QtdClientes = TotalClientes;
-            //clusterData.QtdPedidos = TotalPedidos;
-            //clusterData.MonetarioSum = TotalVendas;
-            //clusterData.QTDClusters = TotalClusters;
-
-            //clusterData.children.push({
-            ////    ClusterId: it.ClusterId,
-            ////    QtdClientes: qtdClientes,
-            ////    obj: it,
-            ////    CorFundoFM: it.CorFundoFM,
-            ////    CorFundoR: it.CorFundoR
-            //});
-        });
-        //// only bigger cluster
-        //if (TotalClientes > 0) {
-            treeData.push(clusterData);
-        //}
+      //clusterData.children.push({
+      ////    ClusterId: it.ClusterId,
+      ////    QtdClientes: qtdClientes,
+      ////    obj: it,
+      ////    CorFundoFM: it.CorFundoFM,
+      ////    CorFundoR: it.CorFundoR
+      //});
     });
+    //// only bigger cluster
+    //if (TotalClientes > 0) {
+    treeData.push(clusterData);
+    //}
+  });
 
-    return treeData;
+  return treeData;
 }
 
 function processData(data, tipo) {
-    let dataProcess = groupByInterpretacao(data, tipo);
-    let treeData = [];
+  let dataProcess = groupByInterpretacao(data, tipo);
+  let treeData = [];
 
-    Object.keys(dataProcess).map(item => {
-        var TotalClientes = 0;
-        var TotalPedidos = 0;
-        var TotalVendas = 0;
-        var TotalClusters = 0;
+  Object.keys(dataProcess).map((item) => {
+    var TotalClientes = 0;
+    var TotalPedidos = 0;
+    var TotalVendas = 0;
+    var TotalClusters = 0;
 
-        var clusterData = { name: item, children: [] };
+    var clusterData = { name: item, children: [] };
 
-        dataProcess[item].map(it => {
+    dataProcess[item].map((it) => {
+      let qtdClientes = parseInt(it.QtdClientes);
+      let qtdPedidos = parseInt(it.SumF);
+      let qtdVendas = parseFloat(it.SumM);
 
-            let qtdClientes = parseInt(it.QtdClientes);
-            let qtdPedidos = parseInt(it.SumF);
-            let qtdVendas = parseFloat(it.SumM);
+      TotalClientes += qtdClientes;
+      TotalPedidos += qtdPedidos;
+      TotalVendas += qtdVendas;
+      TotalClusters++;
 
-            TotalClientes += qtdClientes;
-            TotalPedidos += qtdPedidos;
-            TotalVendas += qtdVendas;
-            TotalClusters++;
+      clusterData.CorFundoFM = it.CorFundoFM;
+      clusterData.CorFundoR = it.CorFundoR;
+      clusterData.QtdClientes = TotalClientes;
+      clusterData.QtdPedidos = TotalPedidos;
+      clusterData.MonetarioSum = TotalVendas;
+      clusterData.QTDClusters = TotalClusters;
+      clusterData.ROrdem = it.ROrdem;
+      clusterData.FMOrdem = it.FMOrdem;
 
-            clusterData.CorFundoFM = it.CorFundoFM;
-            clusterData.CorFundoR = it.CorFundoR;
-            clusterData.QtdClientes = TotalClientes;
-            clusterData.QtdPedidos = TotalPedidos;
-            clusterData.MonetarioSum = TotalVendas;
-            clusterData.QTDClusters = TotalClusters;
-            clusterData.ROrdem = it.ROrdem;
-            clusterData.FMOrdem = it.FMOrdem;
-
-            clusterData.children.push({
-                ClusterId: it.ClusterId,
-                QtdClientes: qtdClientes,
-                obj: it,
-                CorFundoFM: it.CorFundoFM,
-                CorFundoR: it.CorFundoR
-            });
-        });
-        // only bigger cluster
-        if (TotalClientes > 0) {
-            treeData.push(clusterData);
-        }
+      clusterData.children.push({
+        ClusterId: it.ClusterId,
+        QtdClientes: qtdClientes,
+        obj: it,
+        CorFundoFM: it.CorFundoFM,
+        CorFundoR: it.CorFundoR,
+      });
     });
+    // only bigger cluster
+    if (TotalClientes > 0) {
+      treeData.push(clusterData);
+    }
+  });
 
-    return treeData;
+  return treeData;
 }

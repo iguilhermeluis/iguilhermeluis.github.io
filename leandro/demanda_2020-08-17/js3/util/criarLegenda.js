@@ -8,7 +8,7 @@ function criarLegenda(
   targetSort
 ) {
   let formedData = processData(data, groupBy);
-  let dataSort = formedData.sort(function(a, b) {
+  let dataSort = formedData.sort(function (a, b) {
     if (a[targetSort] > b[targetSort]) {
       return 1;
     }
@@ -57,8 +57,8 @@ function createElementLegend(
     valueSearch,
     `checkAll${valueSearch}`,
     "legendaPrincipal",
-    'legendInterpretacaoFM',
-    'legendInterpretacaoR'
+    "legendInterpretacaoFM",
+    "legendInterpretacaoR"
   );
 }
 
@@ -67,7 +67,7 @@ function HabilitarDesabilitarItem(
   filter,
   parametroAlvo,
   parametroFM,
-  parametroR,
+  parametroR
 ) {
   let itemsActives = document
     .getElementById(parametroAlvo)
@@ -81,9 +81,17 @@ function HabilitarDesabilitarItem(
     .getElementById(parametroR)
     .querySelectorAll("li[data-active='true']");
 
+  filtrarDadosLaterais(
+    itemsActives,
+    itemsActivesInterpretacaoFM,
+    itemsActivesInterpretacaoR,
+    filter,
+    dadosClientes
+  );
+
   seriesChart.map((el) => {
     if (el._className == "LineSeries") {
-      el.dataItems.each(function(dataItem) {
+      el.dataItems.each(function (dataItem) {
         dataItem.value = 1;
       });
     }
@@ -119,7 +127,7 @@ function HabilitarDesabilitarItem(
 function addEventListenerLegend(element, seriesChart) {
   let elements = element.querySelectorAll("li");
 
-  let changeColor = function() {
+  let changeColor = function () {
     let value = this.getAttribute("data-value");
     let color = this.getAttribute("data-color");
     let category = this.getAttribute("data-category");
@@ -133,9 +141,9 @@ function addEventListenerLegend(element, seriesChart) {
     HabilitarDesabilitarItem(
       seriesChart,
       category,
-      category == "InterpretacaoFM" ?
-      "legendInterpretacaoFM" :
-      "legendInterpretacaoR",
+      category == "InterpretacaoFM"
+        ? "legendInterpretacaoFM"
+        : "legendInterpretacaoR",
       "legendInterpretacaoFM",
       "legendInterpretacaoR"
     );
@@ -143,7 +151,7 @@ function addEventListenerLegend(element, seriesChart) {
     filterTable(DADOS_TABELA, category);
   };
 
-  Array.from(elements).forEach(function(element) {
+  Array.from(elements).forEach(function (element) {
     element.addEventListener("click", changeColor);
   });
 }
