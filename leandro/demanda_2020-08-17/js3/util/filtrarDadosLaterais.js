@@ -52,7 +52,7 @@ function calcularDadosLaterais(data) {
     let qtdPedidos = parseFloat(it.Frequency);
     TotalPedidos += qtdPedidos;
 
-    let qtdVendas = parseFloat(it.MonetarySUM);
+    let qtdVendas = parseFloat(it.MonetaryAVG);
     TotalVendas += qtdVendas;
 
     //MonetaryAVG e dividir pela Quantidade de Clientes;
@@ -60,6 +60,8 @@ function calcularDadosLaterais(data) {
     TicketMedio += valTicketMedio;
 
     TotalClusters += 1;
+
+    //1.4) Para calcular o Tícket Médio dos Clientes, basta somar a coluna MonetaryAVG e dividir pela Quantidade de Clientes;
   });
 
   document.getElementById(
