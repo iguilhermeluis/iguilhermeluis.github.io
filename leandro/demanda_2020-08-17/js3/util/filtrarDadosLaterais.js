@@ -46,8 +46,8 @@ function calcularDadosLaterais(data) {
   let TicketMedio = 0;
 
   data.map((it) => {
-    let qtdClientes = parseInt(it.MScore);
-    TotalClientes += qtdClientes;
+    //let qtdClientes = parseInt(it.MScore);
+    TotalClientes += 1;
 
     let qtdPedidos = parseFloat(it.Frequency);
     TotalPedidos += qtdPedidos;
@@ -56,7 +56,7 @@ function calcularDadosLaterais(data) {
     TotalVendas += qtdVendas;
 
     //MonetaryAVG e dividir pela Quantidade de Clientes;
-    let valTicketMedio = qtdVendas / qtdClientes;
+    let valTicketMedio = qtdVendas / TotalClientes;
     TicketMedio += valTicketMedio;
 
     TotalClusters += 1;
