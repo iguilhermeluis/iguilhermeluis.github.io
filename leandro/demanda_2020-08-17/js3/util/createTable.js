@@ -1,5 +1,5 @@
 function numberToReal(number, symbol) {
-  var number = parseFloat(number)
+  var number = parseFloat(number);
   number = number.toFixed(2).split(".");
   number[0] = symbol + number[0].split(/(?=(?:...)*$)/).join(".");
   return number.join(",");
@@ -15,7 +15,7 @@ function defaultBR(number) {
 
 function createTable(idTable, idTbody, dados) {
   updateTable(idTable, idTbody, dados);
-  
+
   var table = $(idTable).dataTable({
     responsive: true,
     destroy: true,
@@ -49,12 +49,16 @@ function createTable(idTable, idTbody, dados) {
         className: "btn-outline-default",
       },
     ],
-
-    
   });
 
   return table;
 }
+
+const handlerClickDelete = (id, action) => {
+  //TODO ação do botão
+
+  alert(`O id do cluster é ${id} a ação é ${action}`);
+};
 
 function updateTable(idTable, idTbody, dados) {
   let totalClientes = 0;
@@ -66,6 +70,7 @@ function updateTable(idTable, idTbody, dados) {
   let totalVolumeDasVendas = 0;
 
   let arrayTemp = [];
+
   dados.map((data) => {
     totalClientes += parseFloat(data["Clientes"]);
     totalPedidos += parseFloat(data["Pedidos"]);
@@ -87,18 +92,22 @@ function updateTable(idTable, idTbody, dados) {
             <td>${numberToReal(data["CLTV"], "R$ ")}</td>
             <td class="align">
                 <span class='badge badge-pill' 
+                
                 style='background-color: ${data["ColorFM"]}'>${
         data["Tipo de Cliente"]
       }<span>
             </td>
             <td>
-                <span class='badge badge-pill' 
+                <span class='badge badge-pill'  onclick='handlerClickDelete(${
+                  data["Cluster"]
+                }, 5)'
                 style='background-color: ${data["ColorR"]}'>${
         data["Ação"]
       }</span>
             </td>
             <td>
-              <a href='javascript:void(0);' class='btn btn-sm btn-icon btn-outline-danger rounded-circle mr-1' title='Delete Record'>
+              <a onclick='handlerClickDelete(${data["Cluster"]}, 1)'
+               class='btn btn-sm btn-icon btn-outline-danger rounded-circle mr-1' title='Delete Record'>
                 <i class="fal fa-times"></i>
               </a>
               <div class='dropdown d-inline-block dropleft'>
@@ -106,8 +115,12 @@ function updateTable(idTable, idTbody, dados) {
                   <i class="fal fa-ellipsis-v"></i>
                 </a>
                 <div class='dropdown-menu'>
-                  <a class='dropdown-item' href='javascript:void(0);'>Change Status</a>
-                  <a class='dropdown-item' href='javascript:void(0);'>Generate Report</a>
+                  <a class='dropdown-item'  onclick='handlerClickDelete(${
+                    data["Cluster"]
+                  }, 2)'>Change Status</a>
+                  <a class='dropdown-item' onclick='handlerClickDelete(${
+                    data["Cluster"]
+                  }, 3)'>Generate Report</a>
                 </div>
               </div> 
             </td>

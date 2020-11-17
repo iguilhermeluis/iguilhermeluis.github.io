@@ -66,10 +66,10 @@ function calcularDadosLaterais(data) {
 
   document.getElementById(
     "QtdTicketMedioLateral"
-  ).innerHTML = `R$ ${TicketMedio.toFixed(2)}`;
+  ).innerHTML = `R$ ${TicketMedio.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}`;
   document.getElementById(
     "QtdVendasLateral"
-  ).innerHTML = `R$ ${TotalVendas.toFixed(2)}`;
+  ).innerHTML = `${TotalVendas.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}`;
   document.getElementById("QtdPedidosLateral").innerHTML = `${TotalPedidos}`;
   document.getElementById("QtdClientesLateral").innerHTML = `${TotalClientes}`;
 }
