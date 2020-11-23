@@ -72,11 +72,11 @@ function GerarGraficoMultiAxisXY(chartDivId, data) {
 
   /*DEMANDA TOOLTIP DINAMICO O panelCheckAxis está FIXO, agora terá que passar
    mais uma propriedade para o gráfico, no caso o id do painel de filtro dos gráficos
-
+ */
   series.tooltipHTML = toolTipBubble("tooltip-" + chartDivId, "panelCheckAxis", chartDivId);
   series.tooltip.label.interactionsEnabled = true;
   series.tooltip.keepTargetHover = true;
-  series.tooltip.pointerOrientation = "vertical"; */
+  series.tooltip.pointerOrientation = "vertical";
 
   
 

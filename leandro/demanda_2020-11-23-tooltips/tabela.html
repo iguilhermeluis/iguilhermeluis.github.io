@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>
+    TABELA
+  </title>
+  <meta name="description" content="Marketing Dashboard" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui" />
+  <!-- Call App Mode on ios devices -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <!-- Remove Tap Highlight on Windows Phone IE -->
+  <meta name="msapplication-tap-highlight" content="no" />
+
+  <!-- base css -->
+  <link rel="stylesheet" media="screen, print" href="css/vendors.bundle.css" />
+  <link rel="stylesheet" media="screen, print" href="css/app.bundle.css" />
+  <!-- Place favicon.ico in the root directory -->
+  <link id="mytheme" rel="stylesheet" href="css/themes/cust-theme-3.css" />
+
+  <!-- CSS TABELA -->
+  <link rel="stylesheet" media="screen, print" href="css/datagrid/datatables/datatables.bundle.css" />
+
+  <!-- Resources -->
+  <script src="https://www.amcharts.com/lib/4/core.js"></script>
+  <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+  <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+  <script src="https://www.amcharts.com/lib/4/lang/pt_BR.js"></script>
+
+  <!-- EXPORT EXCEL -->
+  <script src="dados_tabela.js"></script>
+
+  <script src="js/data/04-dadosclusters.js"></script>
+  <!-- graficos -->
+  <script src="js/charts/chartRisk.js"></script>
+  <script src="js/charts/chartBubble.js"></script>
+
+  <!-- utils -->
+  <script src="js/util/legenda.js"></script>
+  <script src="js/util/toggleCheck.js"></script>
+
+  <!-- chartBubble code -->
+  <script>
+    am4core.ready(function() {
+      let tooltip =
+        "[bold]{InterpretacaoFM} - {InterpretacaoR}[/]\n----\n[bold]Qtd. Clientes[/]: {value.formatNumber('#.')}\n[bold]Qtd. de Pedidos:[/] {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}\n[bold]----\n[bold]Frequência Média:[/] {AvgF.formatNumber('#,###.00')} pedido(s)\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#,###.00')}\n----\n[bold]Qtd. Clusters[/]: {QTDClusters.formatNumber('#.')}";
+      // contem um return com [chart, series]
+      let risk = gerarChartRisk(
+        "chartdivRisk",
+        DATAEXCEL,
+        "Mapa de Risco - Onde estão os clientes? (Principal)",
+        "InterpretacaoR",
+        "InterpretacaoFM",
+        "QtdClientes",
+        tooltip
+      );
+      let risk2 = gerarChartRisk(
+        "chartdivRisk2",
+        DATAEXCEL,
+        "Mapa de Risco - Onde estão os clientes? (2)",
+        "InterpretacaoR",
+        "InterpretacaoFM",
+        "QtdClientes",
+        tooltip
+      );
+      let bubble = gerarChartBubble(
+        "chartdivBublle",
+        DATAEXCEL,
+        "Análise RFM - Última Compra x Quantidade de Pedidos x Ticket Médio (1)",
+        "AvgRD",
+        "AvgF",
+        "AvgM",
+        "InterpretacaoFM",
+        tooltip
+      );
+      let bubble2 = gerarChartBubble(
+        "chartdivBublle2",
+        DATAEXCEL,
+        "Análise RFM - Última Compra x Quantidade de Pedidos x Ticket Médio (1)",
+        "AvgRD",
+        "AvgF",
+        "AvgM",
+        "InterpretacaoFM",
+        tooltip
+      );
+
+      let arraySeries = [bubble[1], bubble2[1], risk2[1]];
+
+      toggleCheck(
+        [...arraySeries, risk[1]],
+        true,
+        null,
+        null,
+        "checkAll",
+        "deselectAll",
+        null
+      );
+
+      /*
+          seriesChart, isGlobal, filter, valueSearch, checkId, uncheckId, colorSearch
+      */
+      /* toggleCheck(
+        [...arraySeries, risk[1]],
+        false,
+        "InterpretacaoR",
+        "Recente",
+        "checkAllInterpretacaoR",
+        "deselectAllInterpretacaoR",
+        "CorFundoR"
+      );*/
+
+      legenda(
+        risk[0],
+        risk[1],
+        [],
+        arraySeries,
+        "InterpretacaoFM",
+        "CorFundoFM",
+        [...arraySeries, risk[1]]
+      );
+      legenda(
+        risk[0],
+        risk[1],
+        [],
+        arraySeries,
+        "InterpretacaoR",
+        "CorFundoR",
+        [...arraySeries, risk[1]]
+      );
+    }); // end am4core.ready()
+  </script>
+
+  <style>
+    #chartdivBublle,
+    #chartdivBublle2 {
+      width: 100%;
+      height: 500px;
+    }
+
+    #chartdivRisk,
+    #chartdivRisk2 {
+      width: 100%;
+      height: 500px;
+    }
+
+    .boxCheckbox {
+      margin: 0 auto;
+      width: 300px;
+      padding: 15px 0;
+    }
+  </style>
+
+  <style>
+    @media screen and (min-width: 720px) {
+      table {
+        margin: 0 auto;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+
+      .align {
+        vertical-align: middle;
+        text-align: center;
+      }
+
+      .tr-align {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body class="mod-bg-1 mod-nav-link header-function-fixed nav-function-minify">
+  <div class="page-wrapper">
+    <div class="page-inner">
+      <div class="page-content-wrapper">
+        <main id="js-page-content" role="main" class="page-content">
+          <div class="row">
+            <div class="col-lg-12">
+              <div id="panel-4" class="panel" style="min-height: 700px;">
+                <div class="panel-hdr">
+                  <h2>
+                    Clusters:
+                    <span class="fw-300"><i>Detalhamento - Características - Atributos:</i></span>
+                  </h2>
+                </div>
+                <div class="panel-container show">
+                  <div class="panel-content" style="height: 800px; overflow-y: scroll;">
+                    <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                      <thead class="bg-warning-200">
+                        <tr>
+                          <th width="40px">Cluster</th>
+                          <th width="40px">Clientes</th>
+                          <th width="50px">Pedidos</th>
+                          <th width="90px">Última Compra</th>
+                          <th width="60px">Fidelidade</th>
+                          <th width="80px">Tícket Médio</th>
+                          <th width="120px">Volume das Vendas</th>
+                          <th width="60px" class="tr-align">CLTV</th>
+                          <th width="100px">Tipo de Cliente</th>
+                          <th width="40px" class="tr-align">Ação</th>
+                          <th width="40px" class="tr-align">
+                            Visualizar
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody id="tbody"></tbody>
+                      <tfoot id="tfoot"></tfoot>
+                    </table>
+                    <!-- datatable end -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-wrapper">
+    <div class="page-inner">
+      <div class="page-content-wrapper">
+        <main id="js-page-content" role="main" class="page-content">
+          <div class="row">
+            <div class="col-lg-12">
+              <div id="panel-4" class="panel" style="min-height: 700px;">
+                <div class="panel-hdr">
+                  <h2>
+                    GRÁFICOS:
+                    <span class="fw-300"><i>RISCOS</i></span>
+                  </h2>
+                </div>
+                <div class="panel-container show">
+                  <div class="panel-content">
+                    <div id="chartdivBublle"></div>
+                    <br />
+                    <div id="chartdivBublle2"></div>
+                    <br />
+                    <div id="chartdivRisk2"></div>
+                    <br />
+                    <!-- o ultimo grafico tem que ser o primario, 
+                      porque é ele que vai dar a legenda para todos -->
+                    <div id="chartdivRisk"></div>
+
+                    <style>
+                      /* CSS legenda */
+                      .legend-chart {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                      }
+
+                      .legend-chart ul {
+                        display: flex;
+                        flex-wrap: wrap;
+                        list-style: none;
+                      }
+
+                      .legend-chart ul li {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        margin-right: 20px;
+                        margin-bottom: 10px;
+                      }
+
+                      .legend-chart ul li p {
+                        font-size: 10px;
+                        margin-left: 5px;
+                        height: 0px;
+                      }
+
+                      .legend-chart ul li div {
+                        cursor: pointer;
+                        width: 23px;
+                        height: 23px;
+                        min-width: 23px;
+                        min-height: 23px;
+                        border-radius: 3px;
+                        transition: 0.5s;
+                      }
+
+                      .demo .custom-control-label {
+                        font-size: 0.8rem;
+                      }
+                    </style>
+
+                    <div class="legend-chart" id="legendInterpretacaoFM"></div>
+
+                    <div class="legend-chart" id="legendInterpretacaoR"></div>
+
+                    <div class="frame-wrap demo">
+                      <div class="demo d-flex justify-content-center">
+                        <div class="custom-control custom-switch">
+                          <input type="checkbox" class="custom-control-input" id="checkAll" />
+                          <label class="custom-control-label" for="checkAll">
+                            Marcar todos</label>
+                        </div>
+                        <div class="custom-control custom-switch">
+                          <input type="checkbox" class="custom-control-input" id="deselectAll" />
+                          <label class="custom-control-label" for="deselectAll">Desmarcar todos</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <!-- END Page Settings -->
+  <!-- base vendor bundle: 
+       DOC: if you remove pace.js from core please note on Internet Explorer some CSS animations may execute before a page is fully loaded, resulting 'jump' animations 
+            + pace.js (recommended)
+            + jquery.js (core)
+            + jquery-ui-cust.js (core)
+            + popper.js (core)
+            + bootstrap.js (core)
+            + slimscroll.js (extension)
+            + app.navigation.js (core)
+            + ba-throttle-debounce.js (core)
+            + waves.js (extension)
+            + smartpanels.js (extension)
+            + src/../jquery-snippets.js (core) -->
+  <script src="js/vendors.bundle.js"></script>
+  <script src="js/app.bundle.js"></script>
+  <script type="text/javascript">
+    /* Activate smart panels */
+    $("#js-page-content").smartPanel();
+  </script>
+
+  <script src="js/datagrid/datatables/datatables.bundle.js"></script>
+  <script src="tabela.js"></script>
+  <script>
+    var TABELA_GLOBAL;
+    $(document).ready(function() {
+      TABELA_GLOBAL = gerarTabela(
+        "#dt-basic-example",
+        "#tbody",
+        DADOS_TABELA
+      );
+    });
+  </script>
+</body>
+
+</html>
