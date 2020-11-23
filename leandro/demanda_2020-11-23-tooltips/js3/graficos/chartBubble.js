@@ -55,7 +55,6 @@ function gerarChartBubble(
   seriesBubble.columns.template.disabled = true;
   seriesBubble.sequencedInterpolation = true;
 
- 
   function createRanger(min, max, color, text) {
     var range = xAxisBubble.axisRanges.create();
     range.value = min;
@@ -75,9 +74,6 @@ function gerarChartBubble(
     event.bulletBubble.fill = am4core.color(color);
     event.bulletBubble.horizontalCenter = "middle";
     event.bulletBubble.tooltipText = text;
-
-
-     
   }
 
   //Fazer um For do BD para parametrizar os valores por Interpretação R
@@ -90,30 +86,29 @@ function gerarChartBubble(
   var bulletBubble = seriesBubble.bullets.push(new am4core.Circle());
 
 
+  /*DEMANDA TOOLTIP DINAMICO O panelCheckAxis está FIXO, agora terá que passar
+    mais uma propriedade para o gráfico, no caso o id do painel de filtro dos gráficos
+  */
+  let tooltipHtmlCustom =toolTipBubble("tooltip-" + chartDivId, "panelCheck", chartDivId);
+  bulletBubble.tooltipHTML = tooltipHtmlCustom;
+  /*
+    O CHART PRECISA DESSAS PROPRIEDADES PARA DEIXAR OS LINKS CLICAVEIS
+  */
+  seriesBubble.tooltip.label.interactionsEnabled = true;
+  seriesBubble.tooltip.keepTargetHover = true;
+  seriesBubble.tooltip.pointerOrientation = "horizontal";
 
-  
-    /*DEMANDA TOOLTIP DINAMICO O panelCheckAxis está FIXO, agora terá que passar
-      mais uma propriedade para o gráfico, no caso o id do painel de filtro dos gráficos
-    */
-    let tooltipHtmlCustom =toolTipBubble("tooltip-" + chartDivId, "panelCheck", chartDivId);
-    bulletBubble.tooltipHTML = tooltipHtmlCustom;
-    /*
-      O CHART PRECISA DESSAS PROPRIEDADES PARA DEIXAR OS LINKS CLICAVEIS
-    */
-    seriesBubble.tooltip.label.interactionsEnabled = true;
-    seriesBubble.tooltip.keepTargetHover = true;
-    seriesBubble.tooltip.pointerOrientation = "vertical";
+ /* bulletBubble.tooltipText = tooltip;*/
+  bulletBubble.strokeWidth = 3;
+  bulletBubble.stroke = am4core.color("#ffffff");
+  bulletBubble.strokeOpacity = 0;
+  bulletBubble.propertyFields.fill = "CorFundoFM";
 
+  chartBubble.data = data;
 
-
-
-
-    bulletBubble.strokeWidth = 3;
-    bulletBubble.stroke = am4core.color("#ffffff");
-    bulletBubble.strokeOpacity = 0;
-    bulletBubble.propertyFields.fill = "CorFundoFM";
-
-    chartBubble.data = data;
+  bulletBubble.adapter.add("tooltipY", function (tooltipY, target) {
+    return -target.radius + 1;
+  });
 
   seriesBubble.heatRules.push({
     property: "radius",
@@ -127,12 +122,6 @@ function gerarChartBubble(
 
   var hoverStateBublle = bulletBubble.states.create("hover");
   hoverStateBublle.properties.strokeOpacity = 1;
-
-
-
-
-
-
 
   return [chartBubble, seriesBubble];
 }
