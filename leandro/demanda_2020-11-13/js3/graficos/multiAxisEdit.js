@@ -69,6 +69,17 @@ function GerarGraficoMultiAxisXY(chartDivId, data) {
   series.columns.template.tooltipText =
     "[bold]Cluster:[/] {ClusterId}\n{InterpretacaoFM} - {InterpretacaoR}\n[bold]Qtd. Clientes[/]: {QtdClientes}";
 
+
+  /*DEMANDA TOOLTIP DINAMICO O panelCheckAxis está FIXO, agora terá que passar
+   mais uma propriedade para o gráfico, no caso o id do painel de filtro dos gráficos */
+
+
+  series.tooltipHTML = toolTipBubble("tooltip-" + chartDivId, "panelCheckAxis", chartDivId);
+  series.tooltip.label.interactionsEnabled = true;
+  series.tooltip.keepTargetHover = true;
+  series.tooltip.pointerOrientation = "vertical";
+  
+
   /*Qtd. Pedidos*/
   var QtdPedidosAxis = chartMultiAxis.yAxes.push(new am4charts.ValueAxis());
   QtdPedidosAxis.renderer.grid.template.disabled = true;

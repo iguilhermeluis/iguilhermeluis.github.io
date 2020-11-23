@@ -46,9 +46,17 @@
     <script src="js2/graficos/riskmap.js"></script>
     <script src="js2/graficos/dumbbell-plot.js"></script>
     <script src="js2/graficos/radarchart.js"></script>
+
+    <!-- TOOLTIPS -->
+    <script src="js3/tooltip/tooltip.js"></script>
+
+
     <!-- graficos novos-->
     <script src="js3/graficos/multiAxisEdit.js"></script>
     <script src="js3/graficos/chartBubble.js"></script>
+
+
+
 
     <!-- UTILITÁRIOS -->
     <script src="js2/json/sort.js"></script>
@@ -190,6 +198,36 @@
             addCheckboxInChart("panelCheck", bubble[1], "value");
 
             //carregar as informações laterais
+
+            dadosClientes = [{
+                    FScore: 3,
+                    Frequency: 1,
+                    IDClienteOrigem: "83901",
+                    MScore: 1,
+                    MonetaryAVG: 29.8,
+                    MonetarySUM: 29.8,
+                    RScore: 4,
+                    RecencyD: 12,
+                    RecencyM: 1,
+                    RecencyQ: 1,
+                    RecencyW: 3,
+                    RecencyY: 1,
+                },
+                {
+                    FScore: 3,
+                    Frequency: 1,
+                    IDClienteOrigem: "83911",
+                    MScore: 1,
+                    MonetaryAVG: 30,
+                    MonetarySUM: 30,
+                    RScore: 4,
+                    RecencyD: 12,
+                    RecencyM: 1,
+                    RecencyQ: 1,
+                    RecencyW: 3,
+                    RecencyY: 1,
+                }
+            ]
             calcularDadosLaterais(dadosClientes);
         });
     </script>

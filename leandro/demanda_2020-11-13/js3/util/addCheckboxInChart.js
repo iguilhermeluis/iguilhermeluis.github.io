@@ -22,7 +22,21 @@ function addCheckboxInChart(id, serie, value){
         // desmarcar todos os outros checkboxs
         if (el.value != ev.target.value) {
           el.checked = false;
+        } else {
+          document.querySelectorAll('#tooltip-multiaxis tr').forEach(el=> {
+            if (ev.target.value == el.dataset.value) {
+              let color = el.dataset.color;
+            //el.dataset.value
+              
+              el.bgColor = color;
+              console.warn(el)
+            }   
+        })
         }
+
+
+       
+
       });
     }
   }

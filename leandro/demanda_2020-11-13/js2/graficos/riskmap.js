@@ -19,10 +19,10 @@ function GerarGraficoRiskHeatMap(
   chartRisk.maskBullets = false;
 
   if (titulo != "") {
-      var titleRisk = chartRisk.titles.create();
-      titleRisk.text = titulo;
-      titleRisk.fontSize = 18;
-      titleRisk.marginBottom = 20;
+    var titleRisk = chartRisk.titles.create();
+    titleRisk.text = titulo;
+    titleRisk.fontSize = 18;
+    titleRisk.marginBottom = 20;
   }
 
   var xAxisRisk = chartRisk.xAxes.push(new am4charts.CategoryAxis());
@@ -47,11 +47,13 @@ function GerarGraficoRiskHeatMap(
   seriesRisk.defaultState.transitionDuration = 3000;
 
   seriesRisk.columns.template.events.on(
-      "hit",
-      function(ev) {
-          let dataItem = ev.target.dataItem.dataContext;
-          alert(`Gráfico ${chartDivId} | A qtdcliente é ${dataItem.QtdClientes}, InterpretacaoFM ${dataItem.InterpretacaoFM}, InterpretacaoR ${dataItem.InterpretacaoR}`);
-        /* 
+    "hit",
+    function (ev) {
+      let dataItem = ev.target.dataItem.dataContext;
+      alert(
+        `Gráfico ${chartDivId} | A qtdcliente é ${dataItem.QtdClientes}, InterpretacaoFM ${dataItem.InterpretacaoFM}, InterpretacaoR ${dataItem.InterpretacaoR}`
+      );
+      /* 
         o dataItem contem o objeto do item clicado
         vgF: 4
         AvgM: 492.2230769230769
@@ -67,8 +69,8 @@ function GerarGraficoRiskHeatMap(
         ROrdem: 3
         SumF: 63
         SumM: 6398.9 */
-       },
-      this
+    },
+    this
   );
 
   // Set up column appearance
@@ -104,51 +106,54 @@ function GerarGraficoRiskHeatMap(
   bullet2Risk.interactionsEnabled = false;
 
   var baseWidthRisk = Math.min(
-      chartRisk.plotContainer.maxWidth,
-      chartRisk.plotContainer.maxHeight
+    chartRisk.plotContainer.maxWidth,
+    chartRisk.plotContainer.maxHeight
   );
   var maxRadiusRisk = baseWidthRisk / Math.sqrt(chartRisk.data.length) / 2 - 2; // 2 is jast a margin
   seriesRisk.heatRules.push({
-      min: 10,
-      max: maxRadiusRisk,
-      property: "radius",
-      target: bullet1Risk.circle,
+    min: 10,
+    max: maxRadiusRisk,
+    property: "radius",
+    target: bullet1Risk.circle,
   });
 
-  chartRisk.plotContainer.events.on("maxsizechanged", function() {
-      var side = Math.min(
-          chartRisk.plotContainer.maxWidth,
-          chartRisk.plotContainer.maxHeight
-      );
-      bullet1Risk.circle.clones.each(function(clone) {
-          clone.scale = side / baseWidthRisk;
-          //clone.fill = am4core.color("blue");
-      });
+  chartRisk.plotContainer.events.on("maxsizechanged", function () {
+    var side = Math.min(
+      chartRisk.plotContainer.maxWidth,
+      chartRisk.plotContainer.maxHeight
+    );
+    bullet1Risk.circle.clones.each(function (clone) {
+      clone.scale = side / baseWidthRisk;
+      //clone.fill = am4core.color("blue");
+    });
   });
-
 
   /*
     SELECIONAR OS DADOS DO GRÁFICO
   */
-  let forEqX = {}
-  let forEqY = {}
-  data.map(el => {
-      forEqX[el[valorX]] = el[valorX]
-      forEqY[el[valorY]] = el[valorY]
-  })
+  let forEqX = {};
+  let forEqY = {};
+  data.map((el) => {
+    forEqX[el[valorX]] = el[valorX];
+    forEqY[el[valorY]] = el[valorY];
+  });
   const returnedTarget = Object.assign(forEqX, forEqY);
   setTimeout(() => {
-      document.getElementById(chartDivId).querySelectorAll("text tspan").forEach(el => {
-          Object.keys(returnedTarget).map(value => {
-              if (el.innerHTML == value) {
-                  el.addEventListener("click", () => {
-                      //Todo 
-                      alert(`O valor clicado foi ${value} no gráfico ${chartDivId}`)
-                  });
-              }
-          })
-      })
-  }, 5000)
+    document
+      .getElementById(chartDivId)
+      .querySelectorAll("text tspan")
+      .forEach((el) => {
+        Object.keys(returnedTarget).map((value) => {
+          if (el.innerHTML == value) {
+            el.style.cursor = "pointer";
+            el.addEventListener("click", () => {
+              //Todo
+              alert(`O valor clicado foi ${value} no gráfico ${chartDivId}`);
+            });
+          }
+        });
+      });
+  }, 5000);
 
   return [chartRisk, seriesRisk];
 }
