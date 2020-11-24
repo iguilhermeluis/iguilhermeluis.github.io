@@ -1234,7 +1234,7 @@
                                 let tooltipHtmlBubble = criarToolTip("tooltip-chartdivBublle", "panelCheck", "chartdivBublle");
                                 let toolTipTextTeste = "[bold]Cluster:[/] {ClusterId}\n{InterpretacaoFM} - {InterpretacaoR}\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#.###,00')}\n----\n[bold]Recência Média:[/] {AvgRD} em dia(s)\n[bold]Frequência Média:[/] {AvgF} pedido(s)\n----\n[bold]Qtd. Clientes[/]: {QtdClientes}\n[bold]Total de Pedidos[/]: {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}";
 
-                                let GraficoBubble = GerarGraficoBubble("chartdivBublle", dataSort, "", "Último pedido (O quão é Recente)", "Quantidade de Pedidos (Fidelidade)", "AvgRD", "AvgF", "AvgM", tooltipHtmlBubble, "CorFundoFM", dadosInterpretacao, min, max, "dashboarcluster.aspx", "ClusterId");
+                                let GraficoBubble = GerarGraficoBubble("chartdivBublle", dataSort, "", "Último pedido (O quão é Recente)", "Quantidade de Pedidos (Fidelidade)", "AvgRD", "AvgF", "AvgM", tooltipHtmlBubble, "CorFundoFM", dadosInterpretacao, min, max, "dashboarcluster.aspx", "ClusterId", "html");
                                 arraySeries.push(GraficoBubble[1]);
 
                                 // Risck
