@@ -1,10 +1,14 @@
-﻿<!DOCTYPE html>
+﻿
 
-<html xmlns="http://www.w3.org/1999/xhtml">
 
-<head runat="server">
-    <title></title>
-    <meta name="description" content="Marketing Dashboard" />
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>
+
+    </title>
+    <meta name="description" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui" />
     <!-- Call App Mode on ios devices -->
@@ -18,229 +22,29 @@
     <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png" />
     <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#5bbad5" />
-    <link rel="stylesheet" media="screen, print" href="css/datagrid/datatables/datatables.bundle.css" />
-    <link id="mytheme" rel="stylesheet" href="css/themes/cust-theme-3.css" />
+    <link id="ctl00_mytheme" rel="stylesheet" href="css/themes/cust-theme-3.css" />
+    <link rel="stylesheet" media="screen, print" href="css/fa-brands.css" />
+    <link rel="stylesheet" media="screen, print" href="css/notifications/sweetalert2/sweetalert2.bundle.css" />
+    <script src="js/notifications/sweetalert2/sweetalert2.bundle.js"></script>
+    <script src="js2/Funcoes.js"></script>
 
-    <!-- NOVOS CSS DE AJUSTE -->
-    <link rel="stylesheet" href="css/style-panel-custom.css" />
+    <script src="js/vendors.bundle.js"></script>
 
-    <!-- Resources -->
-    <script src="https://www.amcharts.com/lib/4/core.js"></script>
-    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
-    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-    <script src="https://www.amcharts.com/lib/4/lang/pt_BR.js"></script>
-
-    <!-- EXPORT EXCEL -->
-    <script src="js2/data/02-dadosclientes.js"></script>
-    <script src="js2/data/04-dadosclusters.js"></script>
-    <script src="js2/data/03-dadosinterpretacao.js"></script>
-    <script src="js2/data/05-dadosclustersagrupados.js"></script>
-
-    <!-- EXPORT TABELA  -->
-    <script src="js3/data/dados_tabela.js"></script>
-
-    <!-- GRAFICOS -->
-    <script src="js2/graficos/util.js"></script>
-    <script src="js2/graficos/bubbleheatmap.js"></script>
-    <script src="js2/graficos/semicircle.js"></script>
-    <script src="js2/graficos/riskmap.js"></script>
-    <script src="js2/graficos/dumbbell-plot.js"></script>
-    <script src="js2/graficos/radarchart.js"></script>
-
-    <!-- TOOLTIPS -->
-    <script src="js3/tooltip/tooltip.js"></script>
-
-
-    <!-- graficos novos-->
-    <script src="js3/graficos/multiAxisEdit.js"></script>
-    <script src="js3/graficos/chartBubble.js"></script>
-
-
-
-
-    <!-- UTILITÁRIOS -->
-    <script src="js2/json/sort.js"></script>
-    <script src="js2/util/groupclusterRFM.js"></script>
-
-    <!-- UTILITÁRIOS novos-->
-    <script src="js3/util/criarLegenda.js"></script>
-    <script src="js3/util/HabilitarDesabilitarCheck.js"></script>
-    <script src="js3/util/addCheckboxInChart.js"></script>
-    <script src="js3/util/filtrarDadosLaterais.js"></script>
-
-    <script>
-        am4core.ready(function() {
-            /* O arraySeries é necessário para fazer o alternancia dos 
-      elementos dos gráficos */
-            let arraySeries = [];
-            let toolTip =
-                "[bold]{InterpretacaoFM} - {InterpretacaoR}[/]\n----\n[bold]Qtd. Clientes[/]: {QtdClientes.formatNumber('#.')}\n[bold]Qtd. de Pedidos:[/] {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}\n[bold]----\n[bold]Frequência Média:[/] {AvgF.formatNumber('#,###.00')} pedido(s)\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#,###.00')}\n----\n[bold]Qtd. Clusters[/]: {QTDClusters.formatNumber('#.')}";
-
-            /*
-        Todos os gráficos que precisem usar o filtro global necessita retorna 
-        o gráfico e a série no final da função.
-        exemplo: return [chartBubble, seriesBubble];
-      */
-
-            //Mapa de Risco - Onde estão os clientes?
-            let graficoRiskHeatMap = GerarGraficoRiskHeatMap(
-                "chartdivRiskClientes",
-                dadosclustersagrupados,
-                "",
-                "InterpretacaoR",
-                "InterpretacaoFM",
-                "QtdClientes",
-                toolTip,
-                "CorFundoR",
-                "CorFundoFM",
-                "QtdClientes"
-            );
-            arraySeries.push(graficoRiskHeatMap[1]);
-
-            //Mapa de Risco - Onde estão os Pedidos?
-            let graficoRiskHeatMap2 = GerarGraficoRiskHeatMap(
-                "chartdivRiskPedidos",
-                dadosclustersagrupados,
-                "",
-                "InterpretacaoR",
-                "InterpretacaoFM",
-                "SumF",
-                toolTip,
-                "CorFundoR",
-                "CorFundoFM",
-                "SumF"
-            );
-            arraySeries.push(graficoRiskHeatMap2[1]);
-
-            //Mapa de Risco - Onde está o Dinheiro?
-            let graficoRiskHeatMap3 = GerarGraficoRiskHeatMap(
-                "chartdivRiskM",
-                dadosclustersagrupados,
-                "",
-                "InterpretacaoR",
-                "InterpretacaoFM",
-                "SumM",
-                toolTip,
-                "CorFundoR",
-                "CorFundoFM",
-                "SumM"
-            );
-            arraySeries.push(graficoRiskHeatMap3[1]);
-
-            // Quantidade de Clientes x Número de Pedidos x Volume de Vendas
-            let graficoMultiAxisXY = GerarGraficoMultiAxisXY(
-                "chartdivMultiAxis",
-                dadosclusters
-            );
-            arraySeries.push(graficoMultiAxisXY[1]);
-
-            //Dias desde o último pedido (Temporal) x Quantidade de Pedidos (Fidelidade) x Ticket Médio (Monetário)
-            let toolTipBubble =
-                "[bold]Cluster:[/] {ClusterId}\n{InterpretacaoFM} - {InterpretacaoR}\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#.###,00')}\n----\n[bold]Recência Média:[/] {AvgRD} em dia(s)\n[bold]Frequência Média:[/] {AvgF} pedido(s)\n----\n[bold]Qtd. Clientes[/]: {QtdClientes}\n[bold]Total de Pedidos[/]: {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}";
-
-            let dataSort = Array.from(dadosclusters);
-            dataSort = dataSort.sort(sort("AvgM", "desc"));
-
-            let max = dataSort[0].AvgM;
-            let min = dataSort[dataSort.length - 1].AvgM;
-
-            //Data da Última Compra (em dias)
-            // GerarGraficoBubbleHeatMap("chartdivBublle", dataSort, "", "Dias desde o último pedido", "Quantidade de Pedidos (Fidelidade)", "AvgRD", "AvgF", "AvgM", toolTip, "CorFundoFM", dadosInterpretacao, min, max);
-
-
-              
-            let tooltipHtmlBubble = toolTipBubble("tooltip-chartdivBublle", "panelCheck", "chartdivBublle");
-    
-
-
-            let bubble = gerarChartBubble(
-                "chartdivBublle",
-                dataSort,
-                "Dias desde o último pedido",
-                "AvgRD",
-                "AvgF",
-                "AvgM",
-                "InterpretacaoFM",
-                tooltipHtmlBubble
-            );
-            arraySeries.push(bubble[1]);
-
-            /* data, valueSearch,color, seriesChartAll */
-            criarLegenda(
-                dataSort,
-                "InterpretacaoFM",
-                "CorFundoFM",
-                arraySeries,
-                "legendInterpretacaoFM",
-                "FM",
-                "FMOrdem"
-            );
-            criarLegenda(
-                dataSort,
-                "InterpretacaoR",
-                "CorFundoR",
-                arraySeries,
-                "legendInterpretacaoR",
-                "R",
-                "ROrdem"
-            );
-
-            HabilitarDesabilitarCheck(
-                arraySeries,
-                true,
-                null,
-                "checkAll",
-                "legendaPrincipal",
-                "legendInterpretacaoFM",
-                "legendInterpretacaoR"
-            );
-
-            addCheckboxInChart(
-                "panelCheckChartRiskM",
-                graficoRiskHeatMap3[1],
-                "value"
-            );
-            addCheckboxInChart("panelCheckAxis", graficoMultiAxisXY[1], "valueY");
-            addCheckboxInChart("panelCheck", bubble[1], "value");
-
-            //carregar as informações laterais
-
-            dadosClientes = [{
-                    FScore: 3,
-                    Frequency: 1,
-                    IDClienteOrigem: "83901",
-                    MScore: 1,
-                    MonetaryAVG: 29.8,
-                    MonetarySUM: 29.8,
-                    RScore: 4,
-                    RecencyD: 12,
-                    RecencyM: 1,
-                    RecencyQ: 1,
-                    RecencyW: 3,
-                    RecencyY: 1,
-                },
-                {
-                    FScore: 3,
-                    Frequency: 1,
-                    IDClienteOrigem: "83911",
-                    MScore: 1,
-                    MonetaryAVG: 30,
-                    MonetarySUM: 30,
-                    RScore: 4,
-                    RecencyD: 12,
-                    RecencyM: 1,
-                    RecencyQ: 1,
-                    RecencyW: 3,
-                    RecencyY: 1,
-                }
-            ]
-            calcularDadosLaterais(dadosClientes);
-        });
-    </script>
 </head>
+<body onload="AlertaMensagem();" class="mod-bg-1 mod-nav-link header-function-fixed nav-function-top nav-function-fixed blur">
+    <script>var classHolder;</script>
+    <form name="aspnetForm" method="post" action="./dashboardclusters.aspx" id="aspnetForm">
+        <div>
+            <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjgPZBYCZg9kFgICAw9kFgQCBw8WAh4EVGV4dAUZTGVhbmRybyBkYSBTaWx2YSBDYXJ2YWxob2QCCQ8WAh8ABRJsZWFuZHJvQGNodXJuZXkuYWlkZK9DdigmnJgjEaXtLBXyMn82BxD4" />
+        </div>
 
-<body class="mod-bg-1 mod-nav-link header-function-fixed nav-function-top blur">
-    <form id="form1" runat="server">
+        <div>
+
+            <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="232CE901" />
+            <input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAT6iPky9w4ALThMHoi/noTIPBSVCbiNZokcDPXV1rXkYQmYfo01D0WU0piD6GscspiILa9lGzTPKGJGNfv3gV7+6k/PHMXikJYxjyJjAl7KoI8q2l8=" />
+        </div>
+        <input name="ctl00$ErroMessage" type="hidden" id="ctl00_ErroMessage" /> <input name="ctl00$SucessMessage" type="hidden" id="ctl00_SucessMessage" /> <input name="ctl00$AlertMessage" type="hidden" id="ctl00_AlertMessage" />
+
         <!-- BEGIN Page Wrapper -->
         <div class="page-wrapper">
             <div class="page-inner">
@@ -248,8 +52,8 @@
                 <aside class="page-sidebar">
                     <div class="page-logo">
                         <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative" data-toggle="modal" data-target="#modal-shortcut">
-                            <img src="img/logo.png" alt="SmartAdmin WebApp" aria-roledescription="logo" />
-                            <span class="page-logo-text mr-1">SmartAdmin WebApp</span>
+                            <img src="img2/logo-churneyai2.png" alt="Churney" aria-roledescription="logo">
+                            <span class="page-logo-text mr-1"></span>
                             <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2"></span>
                             <i class="fal d-inline-block ml-1 fs-lg color-primary-300"></i>
                         </a>
@@ -1171,8 +975,8 @@
                         <!-- we need this logo when user switches to nav-function-top -->
                         <div class="page-logo">
                             <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative" data-toggle="modal" data-target="#modal-shortcut">
-                                <img src="img/logo.png" alt="SmartAdmin WebApp" aria-roledescription="logo" />
-                                <span class="page-logo-text mr-1">SmartAdmin WebApp</span>
+                                <img src="img2/logo-churneyai2.png" alt="Churney" aria-roledescription="logo">
+                                <span class="page-logo-text mr-1"></span>
                                 <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2"></span>
                                 <i class="fal d-inline-block ml-1 fs-lg color-primary-300"></i>
                             </a>
@@ -1201,216 +1005,35 @@
                                 <i class="ni ni-menu"></i>
                             </a>
                         </div>
-                        <div class="search">
-                            <input type="text" id="search-field" placeholder="Search for anything" class="form-control" tabindex="1" />
-                            <a href="#" onclick="return false;" class="btn-danger btn-search-close js-waves-off d-none" data-action="toggle" data-class="mobile-search-on">
-                                <i class="fal fa-times"></i>
-                            </a>
-                        </div>
+
                         <div class="ml-auto d-flex">
-                            <!-- activate app search icon (mobile) -->
-                            <div class="hidden-sm-up">
-                                <a href="#" class="header-icon" data-action="toggle" data-class="mobile-search-on" data-focus="search-field" title="Search">
-                                    <i class="fal fa-search"></i>
-                                </a>
-                            </div>
-
-                            <!-- app shortcuts -->
-                            <div>
-                                <a href="#" class="header-icon" data-toggle="dropdown" title="My Apps">
-                                    <i class="fal fa-cog"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-animated w-auto h-auto">
-                                    <div class="dropdown-header bg-trans-gradient d-flex justify-content-center align-items-center rounded-top">
-                                        <h4 class="m-0 text-center color-white">
-                                            Quick Shortcut
-                                            <small class="mb-0 opacity-80">User Applications & Addons</small>
-                                        </h4>
-                                    </div>
-                                    <div class="custom-scroll h-100">
-                                        <ul class="app-list">
-                                            <li>
-                                                <a href="#" class="app-list-item hover-white">
-                                                    <span class="icon-stack">
-                                                        <i class="base-2 icon-stack-3x color-primary-600"></i>
-                                                        <i class="base-3 icon-stack-2x color-primary-700"></i>
-                                                        <i class="ni ni-settings icon-stack-1x text-white fs-lg"></i>
-                                                    </span>
-                                                    <span class="app-list-name"> Services </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="app-list-item hover-white">
-                                                    <span class="icon-stack">
-                                                        <i class="base-2 icon-stack-3x color-primary-400"></i>
-                                                        <i class="base-10 text-white icon-stack-1x"></i>
-                                                        <i class="ni md-profile color-primary-800 icon-stack-2x"></i>
-                                                    </span>
-                                                    <span class="app-list-name"> Account </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="app-list-item hover-white">
-                                                    <span class="icon-stack">
-                                                        <i class="base-9 icon-stack-3x color-success-400"></i>
-                                                        <i class="base-2 icon-stack-2x color-success-500"></i>
-                                                        <i class="ni ni-shield icon-stack-1x text-white"></i>
-                                                    </span>
-                                                    <span class="app-list-name"> Security </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="app-list-item hover-white">
-                                                    <span class="icon-stack">
-                                                        <i class="base-18 icon-stack-3x color-info-700"></i>
-                                                        <span class="position-absolute pos-top pos-left pos-right color-white fs-md mt-2 fw-400">28</span>
-                                                    </span>
-                                                    <span class="app-list-name"> Calendar </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="app-list-item hover-white">
-                                                    <span class="icon-stack">
-                                                        <i class="base-7 icon-stack-3x color-info-500"></i>
-                                                        <i class="base-7 icon-stack-2x color-info-700"></i>
-                                                        <i class="ni ni-graph icon-stack-1x text-white"></i>
-                                                    </span>
-                                                    <span class="app-list-name"> Stats </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="app-list-item hover-white">
-                                                    <span class="icon-stack">
-                                                        <i class="base-4 icon-stack-3x color-danger-500"></i>
-                                                        <i class="base-4 icon-stack-1x color-danger-400"></i>
-                                                        <i class="ni ni-envelope icon-stack-1x text-white"></i>
-                                                    </span>
-                                                    <span class="app-list-name"> Messages </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="app-list-item hover-white">
-                                                    <span class="icon-stack">
-                                                        <i class="base-4 icon-stack-3x color-fusion-400"></i>
-                                                        <i class="base-5 icon-stack-2x color-fusion-200"></i>
-                                                        <i class="base-5 icon-stack-1x color-fusion-100"></i>
-                                                        <i class="fal fa-keyboard icon-stack-1x color-info-50"></i>
-                                                    </span>
-                                                    <span class="app-list-name"> Notes </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="app-list-item hover-white">
-                                                    <span class="icon-stack">
-                                                        <i class="base-16 icon-stack-3x color-fusion-500"></i>
-                                                        <i class="base-10 icon-stack-1x color-primary-50 opacity-30"></i>
-                                                        <i class="base-10 icon-stack-1x fs-xl color-primary-50 opacity-20"></i>
-                                                        <i class="fal fa-dot-circle icon-stack-1x text-white opacity-85"></i>
-                                                    </span>
-                                                    <span class="app-list-name"> Photos </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="app-list-item hover-white">
-                                                    <span class="icon-stack">
-                                                        <i class="base-19 icon-stack-3x color-primary-400"></i>
-                                                        <i class="base-7 icon-stack-2x color-primary-300"></i>
-                                                        <i class="base-7 icon-stack-1x fs-xxl color-primary-200"></i>
-                                                        <i class="base-7 icon-stack-1x color-primary-500"></i>
-                                                        <i class="fal fa-globe icon-stack-1x text-white opacity-85"></i>
-                                                    </span>
-                                                    <span class="app-list-name"> Maps </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="app-list-item hover-white">
-                                                    <span class="icon-stack">
-                                                        <i class="base-5 icon-stack-3x color-success-700 opacity-80"></i>
-                                                        <i class="base-12 icon-stack-2x color-success-700 opacity-30"></i>
-                                                        <i class="fal fa-comment-alt icon-stack-1x text-white"></i>
-                                                    </span>
-                                                    <span class="app-list-name"> Chat </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="app-list-item hover-white">
-                                                    <span class="icon-stack">
-                                                        <i class="base-5 icon-stack-3x color-warning-600"></i>
-                                                        <i class="base-7 icon-stack-2x color-warning-800 opacity-50"></i>
-                                                        <i class="fal fa-phone icon-stack-1x text-white"></i>
-                                                    </span>
-                                                    <span class="app-list-name"> Phone </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="app-list-item hover-white">
-                                                    <span class="icon-stack">
-                                                        <i class="base-6 icon-stack-3x color-danger-600"></i>
-                                                        <i class="fal fa-chart-line icon-stack-1x text-white"></i>
-                                                    </span>
-                                                    <span class="app-list-name"> Projects </span>
-                                                </a>
-                                            </li>
-                                            <li class="w-100">
-                                                <a href="#" class="btn btn-default mt-4 mb-2 pr-5 pl-5">
-                                                    Add more apps
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
                             <!-- app user menu -->
                             <div>
-                                <a href="#" data-toggle="dropdown" title="drlantern@gotbootstrap.com" class="header-icon d-flex align-items-center justify-content-center ml-2">
-                                    <img src="img/demo/avatars/avatar-admin.png" class="profile-image rounded-circle" alt="Dr. Codex Lantern" />
+                                <a href="#" data-toggle="dropdown" title="drlantern@gotbootstrap.com" class="header-icon d-flex align-items-center justify-content-center ml-2" style="cursor: pointer;">
+                                    <img src="img2/user.png" class="profile-image rounded-circle" alt="">
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-animated dropdown-lg">
                                     <div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
                                         <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
                                             <span class="mr-2">
-                                                <img src="img/demo/avatars/avatar-admin.png" class="rounded-circle profile-image" alt="Dr. Codex Lantern" />
+                                                <img src="img2/user.png" class="rounded-circle profile-image" alt="">
                                             </span>
                                             <div class="info-card-text">
-                                                <div class="fs-lg text-truncate text-truncate-lg">
-                                                    Dr. Codex Lantern
-                                                </div>
-                                                <span class="text-truncate text-truncate-md opacity-80">drlantern@gotbootstrap.com</span>
+                                                <div class="fs-lg text-truncate text-truncate-lg">Leandro da Silva Carvalho</div>
+                                                <span class="text-truncate text-truncate-md opacity-80">leandro@churney.ai</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="dropdown-divider m-0"></div>
-                                    <a href="#" class="dropdown-item" data-action="app-reset">
-                                        <span data-i18n="drpdwn.reset_layout">Reset Layout</span>
+                                    <a href="editarusuario.aspx" class="dropdown-item">
+                                        <span data-i18n="drpdwn.settings">Alterar Dados</span>
                                     </a>
-                                    <a href="#" class="dropdown-item" data-toggle="modal" data-target=".js-modal-settings">
-                                        <span data-i18n="drpdwn.settings">Settings</span>
+                                    <a href="alterarsenha.aspx" class="dropdown-item">
+                                        <span data-i18n="drpdwn.reset_layout">Alterar Senha</span>
                                     </a>
                                     <div class="dropdown-divider m-0"></div>
-                                    <a href="#" class="dropdown-item" data-action="app-fullscreen">
-                                        <span data-i18n="drpdwn.fullscreen">Fullscreen</span>
-                                        <i class="float-right text-muted fw-n">F11</i>
-                                    </a>
-                                    <a href="#" class="dropdown-item" data-action="app-print">
-                                        <span data-i18n="drpdwn.print">Print</span>
-                                        <i class="float-right text-muted fw-n">Ctrl + P</i>
-                                    </a>
-                                    <div class="dropdown-multilevel dropdown-multilevel-left">
-                                        <div class="dropdown-item">Language</div>
-                                        <div class="dropdown-menu">
-                                            <a href="#?lang=fr" class="dropdown-item" data-action="lang" data-lang="fr">Français</a>
-                                            <a href="#?lang=en" class="dropdown-item active" data-action="lang" data-lang="en">English (US)</a>
-                                            <a href="#?lang=es" class="dropdown-item" data-action="lang" data-lang="es">Español</a>
-                                            <a href="#?lang=ru" class="dropdown-item" data-action="lang" data-lang="ru">Русский язык</a>
-                                            <a href="#?lang=jp" class="dropdown-item" data-action="lang" data-lang="jp">日本語</a>
-                                            <a href="#?lang=ch" class="dropdown-item" data-action="lang" data-lang="ch">中文</a>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown-divider m-0"></div>
-                                    <a class="dropdown-item fw-500 pt-3 pb-3" href="page_login.html">
+                                    <a class="dropdown-item fw-500 pt-3 pb-3" href="sair.aspx">
                                         <span data-i18n="drpdwn.page-logout">Logout</span>
-                                        <span class="float-right fw-n">&commat;codexlantern</span>
                                     </a>
                                 </div>
                             </div>
@@ -1418,86 +1041,319 @@
                     </header>
                     <!-- END Page Header -->
                     <!-- BEGIN Page Content -->
-                    <!-- the #js-page-content id is needed for some plugins to initialize -->
+
+                    <link rel="stylesheet" media="screen, print" href="css/datagrid/datatables/datatables.bundle.css">
+
+                    <!-- NOVOS CSS DE AJUSTE -->
+                    <link rel="stylesheet" href="css/style-panel-custom.css" />
+
+                    <style>
+                        @media only screen and (max-width: 641px) {
+                            #chartdivMultiAxis {
+                                width: 100%;
+                                height: 700px;
+                            }
+                        }
+
+                        .amcharts-g2 {
+                            stroke-dasharray: 3px 3px;
+                            stroke-linejoin: round;
+                            stroke-linecap: round;
+                            -webkit-animation: am-moving-dashes 1s linear infinite;
+                            animation: am-moving-dashes 1s linear infinite;
+                        }
+
+                        @-webkit-keyframes am-moving-dashes {
+                            100% {
+                                stroke-dashoffset: -31px;
+                            }
+                        }
+
+                        @keyframes am-moving-dashes {
+                            100% {
+                                stroke-dashoffset: -31px;
+                            }
+                        }
+
+                        .amcharts-graph-column-front {
+                            -webkit-transition: all 0.3s 0.3s ease-out;
+                            transition: all 0.3s 0.3s ease-out;
+                        }
+
+                            .amcharts-graph-column-front:hover {
+                                fill: #496375;
+                                stroke: #496375;
+                                -webkit-transition: all 0.3s ease-out;
+                                transition: all 0.3s ease-out;
+                            }
+
+                        .amcharts-g3 {
+                            stroke-linejoin: round;
+                            stroke-linecap: round;
+                            stroke-dasharray: 500%;
+                            -webkit-animation: am-draw 40s;
+                            animation: am-draw 40s;
+                        }
+
+                        @-webkit-keyframes am-draw {
+                            0% {
+                                stroke-dashoffset: 500%;
+                            }
+
+                            100% {
+                                stroke-dashoffset: 0%;
+                            }
+                        }
+
+                        @keyframes am-draw {
+                            0% {
+                                stroke-dashoffset: 500%;
+                            }
+
+                            100% {
+                                stroke-dashoffset: 0%;
+                            }
+                        }
+                    </style>
+
+                    <!-- Resources -->
+                    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+                    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+                    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+                    <script src="https://www.amcharts.com/lib/4/lang/pt_BR.js"></script>
+
+                    <!-- UTILITÁRIOS -->
+                    <script src="js2/json/sort.js"></script>
+
+                    <!-- TOOLTIP -->
+                    <script src="js2/tooltip/tooltip.js"></script>
+
+                    <!-- EXPORT EXCEL -->
+                    <script src="js2/data/03-dadosinterpretacao.js"></script>
+                    <script src="js2/data/04-dadosclusters.js"></script>
+                    <script src="js2/data/05-dadosclustersagrupados.js"></script>
+
+                    <!-- EXPORT TABELA  -->
+                    <script src="js2/data/08-dados_tabela.js"></script>
+
+                    <!-- GRAFICOS -->
+                    <script src="js2/graficos/util.js"></script>
+                    <script src="js2/graficos/bubble.js"></script>
+                    <script src="js2/graficos/multiaxisXY.js"></script>
+                    <script src="js2/graficos/riskmap.js"></script>
+
+                    <script src="js2/util/criarLegenda.js"></script>
+                    <script src="js2/util/HabilitarDesabilitarCheck.js"></script>
+                    <script src="js2/util/addCheckboxInChart.js"></script>
+                    <script src="js2/util/createTable.js"></script>
+                    <script src="js2/util/groupclusterRFM.js"></script>
+                    <script src="js2/util/filtrarDados.js"></script>
+
+                    <script>
+                        function RetornarDadosClientesRFMScoreInterpretacao() {
+                            $.ajax({
+                                type: 'POST',
+                                url: 'dashboardclusters.aspx/RetornarDadosClientesRFMScoreInterpretacao',
+                                data: '{ }',
+                                contentType: 'application/json; charset=utf-8',
+                                dataType: 'json',
+                                async: false,
+                                success: function (msg) {
+                                    dadosClientesRFMScoreInterpretacao = JSON.parse(msg.d.dadosClientesRFMScoreInterpretacao);
+                                }
+                            });
+                        }
+
+                        function RecuperarDadosInterpretacaoR() {
+                            $.ajax({
+                                type: 'POST',
+                                url: 'dashboardclusters.aspx/RecuperarDadosInterpretacaoR',
+                                data: '{ }',
+                                contentType: 'application/json; charset=utf-8',
+                                dataType: 'json',
+                                async: false,
+                                success: function (msg) {
+                                    dadosInterpretacao = JSON.parse(msg.d.dadosInterpretacaoR);
+                                }
+                            });
+                        }
+
+                        function RetornarDadosClusters() {
+                            $.ajax({
+                                type: 'POST',
+                                url: 'dashboardclusters.aspx/RetornarDadosClusters',
+                                data: '{ }',
+                                contentType: 'application/json; charset=utf-8',
+                                dataType: 'json',
+                                async: false,
+                                success: function (msg) {
+                                    dadosclusters = JSON.parse(msg.d.dadosClusters);
+                                }
+                            });
+                        }
+
+                        function RetornarDadosClustersAgrupados() {
+                            $.ajax({
+                                type: 'POST',
+                                url: 'dashboardclusters.aspx/RetornarDadosClustersAgrupados',
+                                data: '{ }',
+                                contentType: 'application/json; charset=utf-8',
+                                dataType: 'json',
+                                async: false,
+                                success: function (msg) {
+                                    dadosclustersagrupados = JSON.parse(msg.d.dadosClustersAgrupados);
+                                }
+                            });
+                        }
+
+                        function RetornarDados() {
+                            RetornarDadosClientesRFMScoreInterpretacao();
+                            RetornarDadosClusters();
+                            RetornarDadosClustersAgrupados();
+                            RecuperarDadosInterpretacaoR();
+                            GerarGraficos();
+                        }
+
+                        RetornarDados();
+
+                        function GerarGraficos() {
+                            am4core.ready(function () {
+
+                                let arraySeries = [];
+
+                               
+                                var dataSort = Array.from(dadosclusters);
+
+                                dataSort = dataSort.sort(sort('AvgM', 'desc'));
+
+                                var max = dataSort[0].AvgM;
+                                var min = dataSort[dataSort.length - 1].AvgM;
+
+                                //Data da Última Compra (em dias)
+                               
+                                let tooltipHtmlBubble = criarToolTip("tooltip-chartdivBublle", "panelCheck", "chartdivBublle");
+                                let toolTipTextTeste = "[bold]Cluster:[/] {ClusterId}\n{InterpretacaoFM} - {InterpretacaoR}\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#.###,00')}\n----\n[bold]Recência Média:[/] {AvgRD} em dia(s)\n[bold]Frequência Média:[/] {AvgF} pedido(s)\n----\n[bold]Qtd. Clientes[/]: {QtdClientes}\n[bold]Total de Pedidos[/]: {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}";
+
+                                let GraficoBubble = GerarGraficoBubble("chartdivBublle", dataSort, "", "Último pedido (O quão é Recente)", "Quantidade de Pedidos (Fidelidade)", "AvgRD", "AvgF", "AvgM", tooltipHtmlBubble, "CorFundoFM", dadosInterpretacao, min, max, "dashboarcluster.aspx", "ClusterId");
+                                arraySeries.push(GraficoBubble[1]);
+
+                                // Risck
+                                var toolTip = "[bold]{InterpretacaoFM} - {InterpretacaoR}[/]\n----\n[bold]Qtd. Clientes[/]: {QtdClientes.formatNumber('#.')}\n[bold]Qtd. de Pedidos:[/] {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}\n[bold]----\n[bold]Frequência Média:[/] {AvgF.formatNumber('#,###.00')} pedido(s)\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#,###.00')}\n----\n[bold]Qtd. Clusters[/]: {QTDClusters.formatNumber('#.')}";
+
+                                let graficoRiskHeatMapClientes = GerarGraficoRiskHeatMap("chartdivRiskClientes", dadosclustersagrupados, "", "InterpretacaoR", "InterpretacaoFM", "QtdClientes", toolTip, "CorFundoR", "CorFundoFM", "QtdClientes");
+                                arraySeries.push(graficoRiskHeatMapClientes[1]);
+
+                                let graficoRiskHeatMapPedidos = GerarGraficoRiskHeatMap("chartdivRiskPedidos", dadosclustersagrupados, "", "InterpretacaoR", "InterpretacaoFM", "SumF", toolTip, "CorFundoR", "CorFundoFM", "SumF");
+                                arraySeries.push(graficoRiskHeatMapPedidos[1]);
+
+                                let graficoRiskHeatMapValores = GerarGraficoRiskHeatMap("chartdivRiskM", dadosclustersagrupados, "", "InterpretacaoR", "InterpretacaoFM", "SumM", toolTip, "CorFundoR", "CorFundoFM", "SumM.formatNumber('#,###.00')");
+                                arraySeries.push(graficoRiskHeatMapValores[1]);
+
+                                let graficoMultiAxisXY = GerarGraficoMultiAxisXY("chartdivMultiAxis", dadosclusters);
+                                arraySeries.push(graficoMultiAxisXY[1]);
+
+                                /* data, valueSearch,color, seriesChartAll */
+                                criarLegenda(dataSort, "InterpretacaoFM", "CorFundoFM", arraySeries, 'legendInterpretacaoFM', 'FM', 'FMOrdem');
+                                criarLegenda(dataSort, "InterpretacaoR", "CorFundoR", arraySeries, 'legendInterpretacaoR', 'R', 'ROrdem');
+
+                                HabilitarDesabilitarCheck(arraySeries, true, null, "checkAll", "legendaPrincipal", 'legendInterpretacaoFM', 'legendInterpretacaoR');
+
+                                addCheckboxInChart('panelCheckChartRiskM', graficoRiskHeatMapValores[1], 'value');
+                                addCheckboxInChart('panelCheckAxis', graficoMultiAxisXY[1], 'valueY');
+                                addCheckboxInChart('panelCheck', GraficoBubble[1], 'value');
+
+                                dadosFiltro = dadosClientesRFMScoreInterpretacao;
+
+                                calcularDados(dadosFiltro);
+                            });
+                        }
+                    </script>
+
                     <main id="js-page-content" role="main" class="page-content">
                         <ol class="breadcrumb page-breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="javascript:void(0);">SmartAdmin</a>
-                            </li>
-                            <li class="breadcrumb-item">Application Intel</li>
-                            <li class="breadcrumb-item active">Marketing Dashboard</li>
-                            <li class="position-absolute pos-top pos-right d-none d-sm-block">
-                                <span class="js-get-date"></span>
-                            </li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Churney</a></li>
+                            <li class="breadcrumb-item">Gerar análise</li>
+                            <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
                         <div class="subheader">
                             <h1 class="subheader-title">
-                                <i class="subheader-icon fal fa-chart-area"></i>
-                                <span class="fw-300">Dashboard</span> de Vendas
+                                <i class='subheader-icon fal fa-chart-pie'></i> <span class='fw-300'>Dashboard</span> - Clusters
+                                <small>
+                                    Abaixo você encontrará os segmentos de clientes a partir do comportamento de compras.
+                                </small>
                             </h1>
                         </div>
+
                         <div class="row">
-                            <div class="col-lg-2">
+                            <div class="col-sm-6 col-xl-3">
                                 <div class="p-3 bg-primary-300 rounded overflow-hidden position-relative text-white mb-g">
                                     <div class="">
                                         <h3 class="display-4 d-block l-h-n m-0 fw-500">
-                                            <span id="QtdClientesLateral">3.874</span>
+                                            <span id="QtdClientes">000</span>
                                             <small class="m-0 l-h-n">Quantidade de Clientes</small>
                                         </h3>
                                     </div>
-                                    <i class="fal fa-user position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n1" style="font-size: 6rem"></i>
+                                    <i class="fal fa-user position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n1" style="font-size:6rem"></i>
                                 </div>
+                            </div>
+                            <div class="col-sm-6 col-xl-3">
                                 <div class="p-3 bg-warning-400 rounded overflow-hidden position-relative text-white mb-g">
                                     <div class="">
                                         <h3 class="display-4 d-block l-h-n m-0 fw-500">
-                                            <span id="QtdPedidosLateral">9.952</span>
+                                            <span id="QtdPedidos">000</span>
                                             <small class="m-0 l-h-n">Total de Pedidos</small>
                                         </h3>
                                     </div>
-                                    <i class="fal fa-globe position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n4" style="font-size: 6rem"></i>
+                                    <i class="fal fa-globe position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n4" style="font-size: 6rem;"></i>
                                 </div>
+                            </div>
+                            <div class="col-sm-6 col-xl-3">
                                 <div class="p-3 bg-success-200 rounded overflow-hidden position-relative text-white mb-g">
                                     <div class="">
                                         <h3 class="display-4 d-block l-h-n m-0 fw-500">
-                                            <span id="QtdVendasLateral">R$ 620.060,90</span>
-                                            <small class="m-0 l-h-n">Valor das Vendas</small>
+                                            <span id="TotalVendas">000</span>
+                                            <small class="m-0 l-h-n">Valor dos Pedidos</small>
                                         </h3>
                                     </div>
-                                    <i class="fal fa-gem position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n4" style="font-size: 6rem"></i>
+                                    <i class="fal fa-gem position-absolute pos-right pos-bottom opacity-15  mb-n1 mr-n4" style="font-size: 6rem;"></i>
                                 </div>
+                            </div>
+                            <div class="col-sm-6 col-xl-3">
                                 <div class="p-3 bg-info-200 rounded overflow-hidden position-relative text-white mb-g">
                                     <div class="">
                                         <h3 class="display-4 d-block l-h-n m-0 fw-500">
-                                            <span id="QtdTicketMedioLateral">R$ 62,31</span>
-                                            <small class="m-0 l-h-n">Ticket Médio dos Clientes</small>
+                                            <span id="TicketMedio">000</span>
+                                            <small class="m-0 l-h-n">Média do Ticket Médio dos Clientes</small>
                                         </h3>
                                     </div>
-                                    <i class="fal fa-lightbulb position-absolute pos-right pos-bottom opacity-15 mb-n5 mr-n6" style="font-size: 8rem"></i>
+                                    <i class="fal fa-lightbulb position-absolute pos-right pos-bottom opacity-15 mb-n5 mr-n6" style="font-size: 8rem;"></i>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="col-lg-10">
+                        <div class="row">
+                            <!-- Gráfico Buuble -->
+                            <div class="col-lg-12">
                                 <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
                                     <div class="panel-hdr" role="heading">
                                         <h2>
                                             <!--Data da Última Compra (em dias)-->
-                                            Dias desde o último pedido (Temporal) x Quantidade de
-                                            Pedidos (Fidelidade) x Ticket Médio (Monetário)
+                                            <!--Último pedido (Análise Temporal - Recente) x Quantidade de Pedidos (Fidelidade) x Monetário-->
+                                            Clusters de Clientes - <span class="fw-300"><i>Agrupados por Perfil</i></span>
                                         </h2>
                                     </div>
                                     <div class="panel-container show">
                                         <div class="panel-content bg-subtlelight-fade">
-                                            <!-- painel com os checks -->
-                                            <!-- O VALUE do input é igual a key do 04-dadoscluster.js -->
+
                                             <div class="frame-wrap demo">
-                                                <div class="demo d-flex" style="display: flex" id="panelCheck">
+                                                <div class="demo d-flex" style="display: flex;" id="panelCheck">
                                                     <div class="custom-control custom-switch">
                                                         <input type="checkbox" class="custom-control-input" id="switchTkMedio" value="AvgM" checked="" />
                                                         <label class="custom-control-label" for="switchTkMedio">Ticket Médio</label>
                                                     </div>
                                                     <div class="custom-control custom-switch">
                                                         <input type="checkbox" class="custom-control-input" id="switchValVendas" value="SumM" />
-                                                        <label class="custom-control-label" for="switchValVendas">Valor das vendas</label>
+                                                        <label class="custom-control-label" for="switchValVendas">Valor dos Pedidos</label>
                                                     </div>
                                                     <div class="custom-control custom-switch">
                                                         <input type="checkbox" class="custom-control-input" id="switchQtdClientes" value="QtdClientes" />
@@ -1509,12 +1365,13 @@
                                                     </div>
                                                     <div class="custom-control custom-switch">
                                                         <!-- como não encontrei o CLTV nos dados, eu coloquei esse campo no value -->
-                                                        <input type="checkbox" class="custom-control-input" id="switchCLTV" value="AvgRD" />
+                                                        <input type="checkbox" class="custom-control-input" id="switchCLTV" value="CLTV" />
                                                         <label class="custom-control-label" for="switchCLTV">CLTV</label>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="chartdivBublle" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important"></div>
+
+                                            <div id="chartdivBublle" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important;"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -1525,10 +1382,13 @@
                             <div class="col-lg-12">
                                 <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
                                     <div class="panel-hdr" role="heading">
-                                        <h2>Filtros</h2>
+                                        <h2>
+                                            Filtros
+                                        </h2>
                                     </div>
                                     <div class="panel-container show">
                                         <div class="panel-content bg-subtlelight-fade box-filter" id="legendaPrincipal">
+
                                             <div class="legend-chart" id="legendInterpretacaoFM"></div>
                                             <div class="legend-chart" id="legendInterpretacaoR"></div>
 
@@ -1538,7 +1398,8 @@
                                                         <label class="space-label" for="checkAll">Marcar todos</label>
                                                         <input type="checkbox" class="custom-control-input" id="checkAll" />
                                                         <label class="custom-control-label" for="checkAll">
-                                                            Desmarcar todos</label>
+                                                            Desmarcar todos
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1548,50 +1409,62 @@
                             </div>
                         </div>
 
+                        <!-- Mapa hidden Riscos -->
                         <div class="row">
                             <div class="col-lg-4">
                                 <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
                                     <div class="panel-hdr" role="heading">
-                                        <h2>Mapa de Risco - Onde estão os clientes?</h2>
-                                    </div>
-                                    <div class="panel-container show">
-                                        <div class="panel-content bg-subtlelight-fade">
-                                            <div class="spacing-chart"></div>
-
-                                            <div id="chartdivRiskClientes" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
-                                    <div class="panel-hdr" role="heading">
-                                        <h2>Mapa de Risco - Onde estão os Pedidos?</h2>
-                                    </div>
-                                    <div class="panel-container show">
-                                        <div class="panel-content bg-subtlelight-fade">
-                                            <div class="spacing-chart"></div>
-                                            <div id="chartdivRiskPedidos" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
-                                    <div class="panel-hdr" role="heading">
-                                        <h2>Mapa de Risco - Onde está o Dinheiro?</h2>
+                                        <h2>
+                                            Mapa de Risco - Onde estão os clientes?
+                                        </h2>
                                     </div>
                                     <div class="panel-container show">
                                         <div class="panel-content bg-subtlelight-fade">
                                             <div class="frame-wrap demo spacing-chart">
-                                                <div class="demo d-flex" style="display: flex" id="panelCheckChartRiskM">
+                                                <div class="demo d-flex" style="display: flex;" id="panelCheckChartRiskR">
+                                                </div>
+                                            </div>
+                                            <div id="chartdivRiskClientes" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
+                                    <div class="panel-hdr" role="heading">
+                                        <h2>
+                                            Mapa de Risco - Onde estão os Pedidos?
+                                        </h2>
+                                    </div>
+                                    <div class="panel-container show">
+                                        <div class="panel-content bg-subtlelight-fade">
+                                            <div class="frame-wrap demo spacing-chart">
+                                                <div class="demo d-flex" style="display: flex;" id="panelCheckChartRiskF">
+                                                </div>
+                                            </div>
+                                            <div id="chartdivRiskPedidos" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
+                                    <div class="panel-hdr" role="heading">
+                                        <h2>
+                                            Mapa de Risco - Onde está o Dinheiro?
+                                        </h2>
+                                    </div>
+                                    <div class="panel-container show">
+                                        <div class="panel-content bg-subtlelight-fade">
+                                            <div class="frame-wrap demo spacing-chart">
+                                                <div class="demo d-flex" style="display: flex;" id="panelCheckChartRiskM">
                                                     <div class="custom-control custom-switch">
                                                         <input type="checkbox" class="custom-control-input" id="switchTkMedioRisk" value="AvgM" />
                                                         <label class="custom-control-label" for="switchTkMedioRisk">Ticket Médio</label>
                                                     </div>
                                                     <div class="custom-control custom-switch">
                                                         <input type="checkbox" class="custom-control-input" id="switchValVendasRisk" value="SumM" checked="" />
-                                                        <label class="custom-control-label" for="switchValVendasRisk">Valor das vendas</label>
+                                                        <label class="custom-control-label" for="switchValVendasRisk">Valor dos Pedidos</label>
                                                     </div>
 
                                                     <div class="custom-control custom-switch">
@@ -1601,33 +1474,34 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div id="chartdivRiskM" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important"></div>
+                                            <div id="chartdivRiskM" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important;"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Gráfico Multi XY -->
                         <div class="row">
                             <div class="col-lg-12">
                                 <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
                                     <div class="panel-hdr" role="heading">
                                         <h2>
-                                            Quantidade de Clientes x Número de Pedidos x Volume de
-                                            Vendas
+                                            Quantidade de Clientes x Número de Pedidos x Volume de Vendas
                                         </h2>
                                     </div>
                                     <div class="panel-container show">
                                         <div class="panel-content bg-subtlelight-fade">
+
                                             <div class="frame-wrap demo">
-                                                <div class="demo d-flex" style="display: flex" id="panelCheckAxis">
+                                                <div class="demo d-flex" style="display: flex;" id="panelCheckAxis">
                                                     <div class="custom-control custom-switch">
                                                         <input type="checkbox" class="custom-control-input" id="switchTkMedioAxis" value="AvgM" checked="" />
                                                         <label class="custom-control-label" for="switchTkMedioAxis">Ticket Médio</label>
                                                     </div>
                                                     <div class="custom-control custom-switch">
                                                         <input type="checkbox" class="custom-control-input" id="switchValVendasAxis" value="SumM" />
-                                                        <label class="custom-control-label" for="switchValVendasAxis">Valor das vendas</label>
+                                                        <label class="custom-control-label" for="switchValVendasAxis">Valor dos Pedidos</label>
                                                     </div>
                                                     <div class="custom-control custom-switch">
                                                         <input type="checkbox" class="custom-control-input" id="switchQtdClientesAxis" value="QtdClientes" />
@@ -1645,13 +1519,14 @@
                                                 </div>
                                             </div>
 
-                                            <div id="chartdivMultiAxis" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important"></div>
+                                            <div id="chartdivMultiAxis" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important;"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Tabela -->
                         <div class="row">
                             <div class="col-lg-12">
                                 <div id="panel-4" class="panel" data-panel-sortable data-panel-close data-panel-locked>
@@ -1661,21 +1536,22 @@
                                         </h2>
                                     </div>
                                     <div class="panel-container show">
-                                        <div class="panel-content" style="height: 800px; overflow-y: scroll">
+                                        <div class="panel-content" style="height: 800px; overflow-y: scroll;">
                                             <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+
                                                 <thead class="bg-warning-200">
                                                     <tr>
-                                                        <th width="40px">Cluster</th>
-                                                        <th width="40px">Clientes</th>
-                                                        <th width="50px">Pedidos</th>
-                                                        <th width="90px">Última Compra</th>
-                                                        <th width="60px">Fidelidade</th>
-                                                        <th width="80px">Tícket Médio</th>
-                                                        <th width="120px">Volume das Vendas</th>
-                                                        <th width="60px" class="tr-align">CLTV</th>
-                                                        <th width="100px">Tipo de Cliente</th>
+                                                        <th width="40px" class="tr-align">Cluster</th>
+                                                        <th width="40px" class="tr-align">Quantidade de<br />Clientes</th>
+                                                        <th width="50px" class="tr-align">Total de<br />Pedidos</th>
+                                                        <th width="90px" class="tr-align">Recente<br />(Última Compra)</th>
+                                                        <th width="60px" class="tr-align">Frequente<br />(Fidelidade)<br /></th>
+                                                        <th width="80px" class="tr-align">Monetário<br />(Tícket Médio)</th>
+                                                        <th width="120px" class="tr-align">Monetário<br />(Valor dos Pedidos)</th>
+                                                        <th width="60px" class="tr-align">Monetário<br />(CLTV)</th>
+                                                        <th width="100px" class="tr-align">Perfil</th>
+                                                        <th width="40px" class="tr-align">Situação Atual</th>
                                                         <th width="40px" class="tr-align">Ação</th>
-                                                        <th width="40px" class="tr-align">Visualizar</th>
                                                     </tr>
                                                 </thead>
 
@@ -1689,28 +1565,34 @@
                             </div>
                         </div>
                     </main>
+
+                    <script src="js/datagrid/datatables/datatables.bundle.js"></script>
+
+                    <script>
+                        var TABELA_GLOBAL;
+                        var DADOS_TABELA = dadosclusters;
+                        $(document).ready(function () {
+                            TABELA_GLOBAL = createTable(
+                                "#dt-basic-example",
+                                "#tbody",
+                                DADOS_TABELA
+                            );
+                        });
+                    </script>
+
+
+
                     <!-- this overlay is activated only when mobile menu is triggered -->
                     <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div>
                     <!-- END Page Content -->
                     <!-- BEGIN Page Footer -->
                     <footer class="page-footer" role="contentinfo">
                         <div class="d-flex align-items-center flex-1 text-muted">
-                            <span class="hidden-md-down fw-700">2020 © SmartAdmin by&nbsp;<a href="https://www.gotbootstrap.com" class="text-primary fw-500" title="gotbootstrap.com" target="_blank">gotbootstrap.com</a></span>
+                            <span class="hidden-md-down fw-700">2020 © Churney - Powered by &nbsp;<a href='http://www.netcommerce.com.br' class='text-primary fw-500' title='NetCommerce Group' target='_blank'>NetCommerce Group</a></span>
                         </div>
                         <div>
                             <ul class="list-table m-0">
-                                <li>
-                                    <a href="intel_introduction.html" class="text-secondary fw-700">About</a>
-                                </li>
-                                <li class="pl-3">
-                                    <a href="info_app_licensing.html" class="text-secondary fw-700">License</a>
-                                </li>
-                                <li class="pl-3">
-                                    <a href="info_app_docs.html" class="text-secondary fw-700">Documentation</a>
-                                </li>
-                                <li class="pl-3 fs-xl">
-                                    <a href="https://wrapbootstrap.com/user/MyOrange" class="text-secondary" target="_blank"><i class="fal fa-question-circle" aria-hidden="true"></i></a>
-                                </li>
+                                <li><a href="http://www.churney.ai" class="text-secondary fw-700">Sobre</a></li>
                             </ul>
                         </div>
                     </footer>
@@ -1719,68 +1601,79 @@
             </div>
         </div>
         <!-- END Page Wrapper -->
-        <!-- BEGIN Quick Menu -->
-        <!-- to add more items, please make sure to change the variable '$menu-items: number;' in your _page-components-shortcut.scss -->
-        <nav class="shortcut-menu d-none d-sm-block">
-            <input type="checkbox" class="menu-open" name="menu-open" id="menu_open" />
-            <label for="menu_open" class="menu-open-button">
-                <span class="app-shortcut-icon d-block"></span>
-            </label>
-            <a href="#" class="menu-item btn" data-toggle="tooltip" data-placement="left" title="Scroll Top">
-                <i class="fal fa-arrow-up"></i>
-            </a>
-            <a href="page_login.html" class="menu-item btn" data-toggle="tooltip" data-placement="left" title="Logout">
-                <i class="fal fa-sign-out"></i>
-            </a>
-            <a href="#" class="menu-item btn" data-action="app-fullscreen" data-toggle="tooltip" data-placement="left" title="Full Screen">
-                <i class="fal fa-expand"></i>
-            </a>
-            <a href="#" class="menu-item btn" data-action="app-print" data-toggle="tooltip" data-placement="left" title="Print page">
-                <i class="fal fa-print"></i>
-            </a>
-            <a href="#" class="menu-item btn" data-action="app-voice" data-toggle="tooltip" data-placement="left" title="Voice command">
-                <i class="fal fa-microphone"></i>
-            </a>
-        </nav>
-        <!-- END Quick Menu -->
+        <!-- BEGIN Color profile -->
+        <!-- this area is hidden and will not be seen on screens or screen readers -->
+        <!-- we use this only for CSS color refernce for JS stuff -->
+        <p id="js-color-profile" class="d-none">
+            <span class="color-primary-50"></span>
+            <span class="color-primary-100"></span>
+            <span class="color-primary-200"></span>
+            <span class="color-primary-300"></span>
+            <span class="color-primary-400"></span>
+            <span class="color-primary-500"></span>
+            <span class="color-primary-600"></span>
+            <span class="color-primary-700"></span>
+            <span class="color-primary-800"></span>
+            <span class="color-primary-900"></span>
+            <span class="color-info-50"></span>
+            <span class="color-info-100"></span>
+            <span class="color-info-200"></span>
+            <span class="color-info-300"></span>
+            <span class="color-info-400"></span>
+            <span class="color-info-500"></span>
+            <span class="color-info-600"></span>
+            <span class="color-info-700"></span>
+            <span class="color-info-800"></span>
+            <span class="color-info-900"></span>
+            <span class="color-danger-50"></span>
+            <span class="color-danger-100"></span>
+            <span class="color-danger-200"></span>
+            <span class="color-danger-300"></span>
+            <span class="color-danger-400"></span>
+            <span class="color-danger-500"></span>
+            <span class="color-danger-600"></span>
+            <span class="color-danger-700"></span>
+            <span class="color-danger-800"></span>
+            <span class="color-danger-900"></span>
+            <span class="color-warning-50"></span>
+            <span class="color-warning-100"></span>
+            <span class="color-warning-200"></span>
+            <span class="color-warning-300"></span>
+            <span class="color-warning-400"></span>
+            <span class="color-warning-500"></span>
+            <span class="color-warning-600"></span>
+            <span class="color-warning-700"></span>
+            <span class="color-warning-800"></span>
+            <span class="color-warning-900"></span>
+            <span class="color-success-50"></span>
+            <span class="color-success-100"></span>
+            <span class="color-success-200"></span>
+            <span class="color-success-300"></span>
+            <span class="color-success-400"></span>
+            <span class="color-success-500"></span>
+            <span class="color-success-600"></span>
+            <span class="color-success-700"></span>
+            <span class="color-success-800"></span>
+            <span class="color-success-900"></span>
+            <span class="color-fusion-50"></span>
+            <span class="color-fusion-100"></span>
+            <span class="color-fusion-200"></span>
+            <span class="color-fusion-300"></span>
+            <span class="color-fusion-400"></span>
+            <span class="color-fusion-500"></span>
+            <span class="color-fusion-600"></span>
+            <span class="color-fusion-700"></span>
+            <span class="color-fusion-800"></span>
+            <span class="color-fusion-900"></span>
+        </p>
+        <!-- END Color profile -->
     </form>
 
-    <!-- base vendor bundle:
-            DOC: if you remove pace.js from core please note on Internet Explorer some CSS animations may execute before a page is fully loaded, resulting 'jump' animations
-                    + pace.js (recommended)
-                    + jquery.js (core)
-                    + jquery-ui-cust.js (core)
-                    + popper.js (core)
-                    + bootstrap.js (core)
-                    + slimscroll.js (extension)
-                    + app.navigation.js (core)
-                    + ba-throttle-debounce.js (core)
-                    + waves.js (extension)
-                    + smartpanels.js (extension)
-                    + src/../jquery-snippets.js (core) -->
-    <script src="js/vendors.bundle.js"></script>
     <script src="js/app.bundle.js"></script>
+
     <script type="text/javascript">
         /* Activate smart panels */
-        $("#js-page-content").smartPanel();
-    </script>
-    <!-- The order of scripts is irrelevant. Please check out the plugin pages for more details about these plugins below: -->
-    <script src="js/statistics/peity/peity.bundle.js"></script>
-    <script src="js/statistics/flot/flot.bundle.js"></script>
-    <script src="js/statistics/easypiechart/easypiechart.bundle.js"></script>
-    <script src="js/datagrid/datatables/datatables.bundle.js"></script>
-
-    <script src="js3/util/createTable.js"></script>
-    <script>
-        var TABELA_GLOBAL;
-        $(document).ready(function() {
-            TABELA_GLOBAL = createTable(
-                "#dt-basic-example",
-                "#tbody",
-                DADOS_TABELA
-            );
-        });
+        $('#js-page-content').smartPanel();
     </script>
 </body>
-
 </html>

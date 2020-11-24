@@ -115,28 +115,13 @@ function GerarGraficoGauge(chartDivId, data, dataRange, multirange, min, max, va
     hand.fill = am4core.color("#444");
     hand.stroke = am4core.color("#000");
 
-    //var hand2 = chartdivGauge.hands.push(new am4charts.ClockHand());
-    //hand2.innerRadius = am4core.percent(95);
-    //hand2.radius = am4core.percent(100);
-    //hand2.startWidth = 20;
-    //hand2.pin.disabled = true;
-    //hand2.value = Number(valorreferencia); 
-    //hand2.fill = am4core.color(corReferencia);
-    //hand2.stroke = am4core.color(corReferencia);
-    //hand2.tooltipText = "My ToolTip";
-    ////hand2.tooltip.tooltipPosition = "fixed";
-
-    ////hand2.tooltip.pointerOrientation = "vertical"
-    ////hand2.tooltip.dy = 100;
-
-    ////var label3 = hand2.createChild(am4core.Label);
-    ////label3.isMeasured = false;
-    ////label3.text = "AA";
-
-
-    var event = createEnventX(axis, valorreferencia, corReferencia, tooltipReferencia);
-    event.bullet.rotation = -15;
-
-    //event.bullet.radius = am4core.percent(25);
-    //event.bullet.innerRadius = am4core.percent(20);
+    var hand2 = chartdivGauge.hands.push(new am4charts.ClockHand());
+    hand2.innerRadius = am4core.percent(95);
+    hand2.radius = am4core.percent(100);
+    hand2.startWidth = 20;
+    hand2.pin.disabled = true;
+    hand2.value = Number(valorreferencia);
+    hand2.fill = am4core.color(corReferencia);
+    hand2.stroke = am4core.color(corReferencia);
+    hand2.hand.tooltipText = tooltipReferencia;
 }

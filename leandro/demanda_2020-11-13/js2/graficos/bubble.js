@@ -1,5 +1,5 @@
 ﻿// JavaScript source code
-function GerarGraficoBubbleHeatMap(chartDivId, data, titulo, legendaX, legendaY, valorX, valorY, valor, toolTip, corFundo, range, min, max) {
+function GerarGraficoBubble(chartDivId, data, titulo, legendaX, legendaY, valorX, valorY, valor, toolTip, corFundo, range, min, max, redirect = '', parametro ='', tooltipTipo = "text") {
 
     var chartBubble = am4core.create(chartDivId, am4charts.XYChart);
     chartBubble.maskBullets = false;
@@ -50,20 +50,43 @@ function GerarGraficoBubbleHeatMap(chartDivId, data, titulo, legendaX, legendaY,
     seriesBubble.columns.template.disabled = true;
     seriesBubble.sequencedInterpolation = true;
 
+    seriesBubble.tooltip.label.interactionsEnabled = true;
+    seriesBubble.tooltip.keepTargetHover = true;
+    seriesBubble.tooltip.pointerOrientation = "horizontal";
+
     var bulletBubble = seriesBubble.bullets.push(new am4core.Circle());
-    bulletBubble.tooltipText = toolTip;
     bulletBubble.strokeWidth = 3;
+    bulletBubble.propertyFields.fill = corFundo;
+    bulletBubble.fillOpacity = 0.7;
     bulletBubble.propertyFields.stroke = corFundo;
     bulletBubble.strokeOpacity = 0;
-    bulletBubble.propertyFields.fill = corFundo;
 
-    bulletBubble.fillOpacity = 0.7;
-
-    chartBubble.data = data;
+    if (toolTip){
+        if(tooltipTipo == "text") {
+            bulletBubble.tooltipText = toolTip;
+        } else {
+            bulletBubble.tooltipHTML = toolTip;
+        }
+    }
 
     bulletBubble.adapter.add("tooltipY", function (tooltipY, target) {
         return -target.radius + 1;
     })
+
+    if (redirect) {
+        bulletBubble.events.on(
+            "hit",
+            function (ev) {
+                let dataItem = ev.target.dataItem.dataContext;
+
+                document.location.href = redirect + '?' + parametro + '=' + dataItem[parametro];
+            },
+            this
+        );
+        bulletBubble.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+    }
+
+    chartBubble.data = data;
 
     //usar o valor valor min/max da frequencia p/ o calcular min e max do raio do bubble
     seriesBubble.heatRules.push({
@@ -73,9 +96,13 @@ function GerarGraficoBubbleHeatMap(chartDivId, data, titulo, legendaX, legendaY,
         max: max/3
     });
 
+    //bulletBubble.radius = 15;
+
     bulletBubble.hiddenState.properties.scale = 0.01;
     bulletBubble.hiddenState.properties.opacity = 1;
 
     var hoverStateBublle = bulletBubble.states.create("hover");
     hoverStateBublle.properties.strokeOpacity = 1;
+
+    return [chartBubble, seriesBubble];
 }

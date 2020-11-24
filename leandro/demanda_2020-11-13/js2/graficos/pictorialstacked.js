@@ -29,4 +29,6 @@
     //chartPictorial.legend = new am4charts.Legend();
     //chartPictorial.legend.position = "left";
     //chartPictorial.legend.valign = "bottom";
+
+    return [chartPictorial, series];
 }

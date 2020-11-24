@@ -1,5 +1,5 @@
 ﻿// JavaScript source code
-function GerarGraficoRiskHeatMap(chartDivId, data, titulo, valorX, valorY, valor, toolTip, corFundoX, corFundoY, textoLabel) {
+function GerarGraficoRiskHeatMap(chartDivId, data, titulo, valorX, valorY, valor, toolTip, corFundoX, corFundoY, textoLabel ) {
 
     var chartRisk = am4core.create(chartDivId, am4charts.XYChart);
 
@@ -91,7 +91,7 @@ function GerarGraficoRiskHeatMap(chartDivId, data, titulo, valorX, valorY, valor
     bullet1Risk.interactionsEnabled = false;
 
     var bullet2Risk = seriesRisk.bullets.push(new am4charts.LabelBullet());
-    bullet2Risk.label.text = "{" + textoLabel + "}"; //"{QtdClientes}";
+    bullet2Risk.label.text = "{value.formatNumber('#.')}"; // "{" + textoLabel + "}"; //"{QtdClientes}";
     //bullet2Risk.propertyFields.fill = "{CorFundoFM}";
     bullet2Risk.label.fill = am4core.color("#fff");
     bullet2Risk.zIndex = 1;
@@ -100,15 +100,16 @@ function GerarGraficoRiskHeatMap(chartDivId, data, titulo, valorX, valorY, valor
 
     var baseWidthRisk = Math.min(chartRisk.plotContainer.maxWidth, chartRisk.plotContainer.maxHeight);
     var maxRadiusRisk = baseWidthRisk / Math.sqrt(chartRisk.data.length) / 2 - 2; // 2 is jast a margin
-    seriesRisk.heatRules.push({ min: 10, max: maxRadiusRisk, property: "radius", target: bullet1Risk.circle });
+    seriesRisk.heatRules.push({min: 10, max: maxRadiusRisk, property: "radius", target: bullet1Risk.circle, });
 
     chartRisk.plotContainer.events.on("maxsizechanged", function () {
         var side = Math.min(chartRisk.plotContainer.maxWidth, chartRisk.plotContainer.maxHeight);
         bullet1Risk.circle.clones.each(function (clone) {
             clone.scale = side / baseWidthRisk;
             //clone.fill = am4core.color("blue");
-        })
-    })
+        });
+    });
+
 
     /*
       SELECIONAR OS DADOS DO GRÁFICO
