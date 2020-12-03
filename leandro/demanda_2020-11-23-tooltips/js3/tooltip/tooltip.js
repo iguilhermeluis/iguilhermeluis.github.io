@@ -96,17 +96,17 @@ const toolTipBubble = (tooltipID, panelCheckID, chartID) => {
     "        </table>" +
     "         <hr style='margin: 10px 0; border: 3px solid #fff!important' />" +
     "    </div>" +
-    "    <div style='background: #292a43; width: 100%; padding: 5px 10px; box-sizing: border-box; border-radius: 0 0 6px 6px; display: flex; flex-direction: column;'>" +
-    "       <button onclick='' style='background: transparent; cursor: pointer; padding: 5px 10px; width: 100%; border: 1px solid #fff; border-radius: 4px; color: #fff; display: flex; justify-content: space-around;'>" +
-    "            <i class='fal fa-eye'></i> view details" +
-    "      </button>" +
-    "       <button onclick='' style='background: transparent; cursor: pointer; padding: 5px 10px; width: 100%; border: 1px solid #fff; border-radius: 4px; color: #fff; margin-top: 5px; display: flex; justify-content: space-around;'>" +
-    "            <i class='fal fa-bullseye-arrow'></i> save segment" +
-    "      </button>" +
-    "       <button onclick='' style='background: transparent; cursor: pointer; padding: 5px 10px; width: 100%; border: 1px solid #fff; border-radius: 4px; color: #fff; margin-top: 5px; display: flex; justify-content: space-around;'>" +
-    "            <i class='fal fa-mail-bulk'></i> create message" +
-    "      </button>" +
-    "    </div>" +
+    "    <div style='background: #292a43; width: 100%; padding: 1px 6px; box-sizing: border-box; display: flex; flex-direction: column;'>" +
+    '       <button onclick="alert(`string test`)" style="cursor: pointer; display: flex!important; color: #123; padding: 5px 10px; width: 100%; border: 1px solid #fff; border-radius: 4px; justify-content: center; align-items: center; margin-bottom:5px" >' +
+    '            <i class="fal fa-eye" style="margin-right:5px"></i> view details' +
+    '      </button>' +
+    '       <button onclick="alert(`string test`)" style="cursor: pointer; display: flex!important; color: #123; padding: 5px 10px; width: 100%; border: 1px solid #fff; border-radius: 4px; justify-content: center; align-items: center; margin-bottom:5px">' +
+    '            <i class="fal fa-bullseye-arrow" style="margin-right:5px"></i> save segment' +
+    '     </button>'+
+    '       <button  onclick="alert(`string test`)" style="cursor: pointer; display: flex!important; color: #123; padding: 5px 10px; width: 100%; border: 1px solid #fff; border-radius: 4px; justify-content: center; align-items: center; margin-bottom:5px">' +
+    '            <i class="fal fa-mail-bulk"></i> create message' +
+    '      </button>' +
+    '    </div>' +
     "</div>"
   );
 };
