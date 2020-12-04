@@ -1,0 +1,171 @@
+/* CSS legenda */
+.legend-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.legend-chart ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.legend-chart ul li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.legend-chart ul li p {
+  font-size: 10px;
+  margin-left: 5px;
+  height: 0px;
+}
+
+.legend-chart ul li div {
+  cursor: pointer;
+  width: 23px;
+  height: 23px;
+  min-width: 23px;
+  min-height: 23px;
+  border-radius: 3px;
+  transition: 0.5s;
+}
+
+.spacing-chart {
+  height: 36px;
+  overflow: hidden;
+}
+
+.demo {
+  background-color: transparent !important;
+}
+
+.demo .custom-control-label {
+  font-size: 0.8rem;
+}
+
+.box-filter .custom-control-input:checked ~ .custom-control-label::before {
+  color: #6e4e9e;
+  border-color: #6e4e9e;
+  background-color: #fff;
+}
+.box-filter .custom-switch .custom-control-label::before {
+  background-color: #fff;
+  border: #7a59ad solid 2px;
+  background-color: #7a59ad;
+}
+.box-filter .custom-control-label::before {
+  border: #6e4e9e solid 2px;
+  background-color: #7a59ad;
+}
+.box-filter
+  .custom-switch
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
+  background-color: #adb5bd;
+}
+.box-filter .custom-switch .custom-control-label::after {
+  background-color: #fff;
+}
+
+.space-label {
+  margin-right: 45px;
+  font-size: 0.8rem;
+  position: relative;
+  margin-bottom: 0;
+  vertical-align: top;
+}
+
+/*.chartdivMultiAxis {
+          width: 100%;
+          height: 500px;
+      }*/
+
+@media only screen and (max-width: 641px) {
+  #chartdivMultiAxis {
+    width: 100%;
+    height: 700px;
+  }
+}
+
+.amcharts-g2 {
+  stroke-dasharray: 3px 3px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  -webkit-animation: am-moving-dashes 1s linear infinite;
+  animation: am-moving-dashes 1s linear infinite;
+}
+
+@-webkit-keyframes am-moving-dashes {
+  100% {
+    stroke-dashoffset: -31px;
+  }
+}
+
+@keyframes am-moving-dashes {
+  100% {
+    stroke-dashoffset: -31px;
+  }
+}
+
+.amcharts-graph-column-front {
+  -webkit-transition: all 0.3s 0.3s ease-out;
+  transition: all 0.3s 0.3s ease-out;
+}
+
+.amcharts-graph-column-front:hover {
+  fill: #496375;
+  stroke: #496375;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+
+.amcharts-g3 {
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 500%;
+  -webkit-animation: am-draw 40s;
+  animation: am-draw 40s;
+}
+
+@-webkit-keyframes am-draw {
+  0% {
+    stroke-dashoffset: 500%;
+  }
+
+  100% {
+    stroke-dashoffset: 0%;
+  }
+}
+
+@keyframes am-draw {
+  0% {
+    stroke-dashoffset: 500%;
+  }
+
+  100% {
+    stroke-dashoffset: 0%;
+  }
+}
+
+@media screen and (min-width: 720px) {
+  table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    /*  table-layout: fixed; */
+  }
+
+  .align {
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .tr-align {
+    text-align: center;
+  }
+}

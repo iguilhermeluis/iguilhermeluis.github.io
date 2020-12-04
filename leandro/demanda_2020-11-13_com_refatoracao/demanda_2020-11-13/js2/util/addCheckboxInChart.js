@@ -8,6 +8,9 @@ function addCheckboxInChart(id, serie, value) {
     // pega a series que return na bubble [chart, series]
     serieParam.dataItems.each(function (dataItem) {
       let newValue = dataItem.dataContext[ev.target.value];
+
+      console.warn("newV", newValue);
+
       if (newValue) {
         dataItem[target] = newValue;
       }
@@ -15,8 +18,8 @@ function addCheckboxInChart(id, serie, value) {
   };
 
   document.getElementById(id).onclick = function (ev) {
-    console.warn("@@@@@@@@@@@", id);
     changeValueChart(serie, ev, value);
+    console.warn(serie);
     document
       .getElementById(id)
       .querySelectorAll("input")

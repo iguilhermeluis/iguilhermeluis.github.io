@@ -1,0 +1,1786 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head runat="server">
+    <title></title>
+    <meta name="description" content="Marketing Dashboard" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui" />
+    <!-- Call App Mode on ios devices -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- Remove Tap Highlight on Windows Phone IE -->
+    <meta name="msapplication-tap-highlight" content="no" />
+    <!-- base css -->
+    <link rel="stylesheet" media="screen, print" href="css/vendors.bundle.css" />
+    <link rel="stylesheet" media="screen, print" href="css/app.bundle.css" />
+    <!-- Place favicon.ico in the root directory -->
+    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png" />
+    <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#5bbad5" />
+    <link rel="stylesheet" media="screen, print" href="css/datagrid/datatables/datatables.bundle.css" />
+    <link id="mytheme" rel="stylesheet" href="css/themes/cust-theme-3.css" />
+
+    <!-- NOVOS CSS DE AJUSTE -->
+    <link rel="stylesheet" href="css/style-panel-custom.css" />
+
+    <!-- Resources -->
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="https://www.amcharts.com/lib/4/lang/pt_BR.js"></script>
+
+    <!-- EXPORT EXCEL -->
+    <script src="js2/data/02-dadosclientes.js"></script>
+    <script src="js2/data/04-dadosclusters.js"></script>
+    <script src="js2/data/03-dadosinterpretacao.js"></script>
+    <script src="js2/data/05-dadosclustersagrupados.js"></script>
+
+    <!-- EXPORT TABELA  -->
+    <script src="js3/data/dados_tabela.js"></script>
+
+    <!-- GRAFICOS -->
+    <script src="js2/graficos/util.js"></script>
+    <script src="js2/graficos/bubbleheatmap.js"></script>
+    <script src="js2/graficos/semicircle.js"></script>
+    <script src="js2/graficos/riskmap.js"></script>
+    <script src="js2/graficos/dumbbell-plot.js"></script>
+    <script src="js2/graficos/radarchart.js"></script>
+
+    <!-- TOOLTIPS -->
+    <script src="js3/tooltip/tooltip.js"></script>
+
+
+    <!-- graficos novos-->
+    <script src="js3/graficos/multiAxisEdit.js"></script>
+    <script src="js3/graficos/chartBubble.js"></script>
+
+
+
+
+    <!-- UTILITÁRIOS -->
+    <script src="js2/json/sort.js"></script>
+    <script src="js2/util/groupclusterRFM.js"></script>
+
+    <!-- UTILITÁRIOS novos-->
+    <script src="js3/util/criarLegenda.js"></script>
+    <script src="js3/util/HabilitarDesabilitarCheck.js"></script>
+    <script src="js3/util/addCheckboxInChart.js"></script>
+    <script src="js3/util/filtrarDadosLaterais.js"></script>
+
+    <script>
+        am4core.ready(function() {
+            /* O arraySeries é necessário para fazer o alternancia dos 
+      elementos dos gráficos */
+            let arraySeries = [];
+            let toolTip =
+                "[bold]{InterpretacaoFM} - {InterpretacaoR}[/]\n----\n[bold]Qtd. Clientes[/]: {QtdClientes.formatNumber('#.')}\n[bold]Qtd. de Pedidos:[/] {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}\n[bold]----\n[bold]Frequência Média:[/] {AvgF.formatNumber('#,###.00')} pedido(s)\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#,###.00')}\n----\n[bold]Qtd. Clusters[/]: {QTDClusters.formatNumber('#.')}";
+
+            /*
+        Todos os gráficos que precisem usar o filtro global necessita retorna 
+        o gráfico e a série no final da função.
+        exemplo: return [chartBubble, seriesBubble];
+      */
+
+            //Mapa de Risco - Onde estão os clientes?
+            let graficoRiskHeatMap = GerarGraficoRiskHeatMap(
+                "chartdivRiskClientes",
+                dadosclustersagrupados,
+                "",
+                "InterpretacaoR",
+                "InterpretacaoFM",
+                "QtdClientes",
+                toolTip,
+                "CorFundoR",
+                "CorFundoFM",
+                "QtdClientes"
+            );
+            arraySeries.push(graficoRiskHeatMap[1]);
+
+            //Mapa de Risco - Onde estão os Pedidos?
+            let graficoRiskHeatMap2 = GerarGraficoRiskHeatMap(
+                "chartdivRiskPedidos",
+                dadosclustersagrupados,
+                "",
+                "InterpretacaoR",
+                "InterpretacaoFM",
+                "SumF",
+                toolTip,
+                "CorFundoR",
+                "CorFundoFM",
+                "SumF"
+            );
+            arraySeries.push(graficoRiskHeatMap2[1]);
+
+            //Mapa de Risco - Onde está o Dinheiro?
+            let graficoRiskHeatMap3 = GerarGraficoRiskHeatMap(
+                "chartdivRiskM",
+                dadosclustersagrupados,
+                "",
+                "InterpretacaoR",
+                "InterpretacaoFM",
+                "SumM",
+                toolTip,
+                "CorFundoR",
+                "CorFundoFM",
+                "SumM"
+            );
+            arraySeries.push(graficoRiskHeatMap3[1]);
+
+            // Quantidade de Clientes x Número de Pedidos x Volume de Vendas
+            let graficoMultiAxisXY = GerarGraficoMultiAxisXY(
+                "chartdivMultiAxis",
+                dadosclusters
+            );
+            arraySeries.push(graficoMultiAxisXY[1]);
+
+            //Dias desde o último pedido (Temporal) x Quantidade de Pedidos (Fidelidade) x Ticket Médio (Monetário)
+            let toolTipBubble =
+                "[bold]Cluster:[/] {ClusterId}\n{InterpretacaoFM} - {InterpretacaoR}\n[bold]Ticket Médio[/]: R$ {AvgM.formatNumber('#.###,00')}\n----\n[bold]Recência Média:[/] {AvgRD} em dia(s)\n[bold]Frequência Média:[/] {AvgF} pedido(s)\n----\n[bold]Qtd. Clientes[/]: {QtdClientes}\n[bold]Total de Pedidos[/]: {SumF}\n[bold]Valor das Vendas[/]: R$ {SumM.formatNumber('#,###.00')}";
+
+            let dataSort = Array.from(dadosclusters);
+            dataSort = dataSort.sort(sort("AvgM", "desc"));
+
+            let max = dataSort[0].AvgM;
+            let min = dataSort[dataSort.length - 1].AvgM;
+
+            //Data da Última Compra (em dias)
+            // GerarGraficoBubbleHeatMap("chartdivBublle", dataSort, "", "Dias desde o último pedido", "Quantidade de Pedidos (Fidelidade)", "AvgRD", "AvgF", "AvgM", toolTip, "CorFundoFM", dadosInterpretacao, min, max);
+
+
+              
+            let tooltipHtmlBubble = toolTipBubble("tooltip-chartdivBublle", "panelCheck", "chartdivBublle");
+    
+
+
+            let bubble = gerarChartBubble(
+                "chartdivBublle",
+                dataSort,
+                "Dias desde o último pedido",
+                "AvgRD",
+                "AvgF",
+                "AvgM",
+                "InterpretacaoFM",
+                tooltipHtmlBubble
+            );
+            arraySeries.push(bubble[1]);
+
+            /* data, valueSearch,color, seriesChartAll */
+            criarLegenda(
+                dataSort,
+                "InterpretacaoFM",
+                "CorFundoFM",
+                arraySeries,
+                "legendInterpretacaoFM",
+                "FM",
+                "FMOrdem"
+            );
+            criarLegenda(
+                dataSort,
+                "InterpretacaoR",
+                "CorFundoR",
+                arraySeries,
+                "legendInterpretacaoR",
+                "R",
+                "ROrdem"
+            );
+
+            HabilitarDesabilitarCheck(
+                arraySeries,
+                true,
+                null,
+                "checkAll",
+                "legendaPrincipal",
+                "legendInterpretacaoFM",
+                "legendInterpretacaoR"
+            );
+
+            addCheckboxInChart(
+                "panelCheckChartRiskM",
+                graficoRiskHeatMap3[1],
+                "value"
+            );
+            addCheckboxInChart("panelCheckAxis", graficoMultiAxisXY[1], "valueY");
+            addCheckboxInChart("panelCheck", bubble[1], "value");
+
+            //carregar as informações laterais
+
+            dadosClientes = [{
+                    FScore: 3,
+                    Frequency: 1,
+                    IDClienteOrigem: "83901",
+                    MScore: 1,
+                    MonetaryAVG: 29.8,
+                    MonetarySUM: 29.8,
+                    RScore: 4,
+                    RecencyD: 12,
+                    RecencyM: 1,
+                    RecencyQ: 1,
+                    RecencyW: 3,
+                    RecencyY: 1,
+                },
+                {
+                    FScore: 3,
+                    Frequency: 1,
+                    IDClienteOrigem: "83911",
+                    MScore: 1,
+                    MonetaryAVG: 30,
+                    MonetarySUM: 30,
+                    RScore: 4,
+                    RecencyD: 12,
+                    RecencyM: 1,
+                    RecencyQ: 1,
+                    RecencyW: 3,
+                    RecencyY: 1,
+                }
+            ]
+            calcularDadosLaterais(dadosClientes);
+        });
+    </script>
+</head>
+
+<body class="mod-bg-1 mod-nav-link header-function-fixed nav-function-top blur">
+    <form id="form1" runat="server">
+        <!-- BEGIN Page Wrapper -->
+        <div class="page-wrapper">
+            <div class="page-inner">
+                <!-- BEGIN Left Aside -->
+                <aside class="page-sidebar">
+                    <div class="page-logo">
+                        <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative" data-toggle="modal" data-target="#modal-shortcut">
+                            <img src="img/logo.png" alt="SmartAdmin WebApp" aria-roledescription="logo" />
+                            <span class="page-logo-text mr-1">SmartAdmin WebApp</span>
+                            <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2"></span>
+                            <i class="fal d-inline-block ml-1 fs-lg color-primary-300"></i>
+                        </a>
+                    </div>
+                    <!-- BEGIN PRIMARY NAVIGATION -->
+                    <nav id="js-primary-nav" class="primary-nav" role="navigation">
+                        <ul id="js-nav-menu" class="nav-menu">
+                            <li class="active open">
+                                <a href="#" title="Application Intel" data-filter-tags="application intel">
+                                    <i class="fal fa-info-circle"></i>
+                                    <span class="nav-link-text" data-i18n="nav.application_intel">Application Intel</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="intel_analytics_dashboard.html" title="Analytics Dashboard" data-filter-tags="application intel analytics dashboard">
+                                            <span class="nav-link-text" data-i18n="nav.application_intel_analytics_dashboard">Analytics Dashboard</span>
+                                        </a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="intel_marketing_dashboard.html" title="Marketing Dashboard" data-filter-tags="application intel marketing dashboard">
+                                            <span class="nav-link-text" data-i18n="nav.application_intel_marketing_dashboard">Marketing Dashboard</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="intel_introduction.html" title="Introduction" data-filter-tags="application intel introduction">
+                                            <span class="nav-link-text" data-i18n="nav.application_intel_introduction">Introduction</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="intel_privacy.html" title="Privacy" data-filter-tags="application intel privacy">
+                                            <span class="nav-link-text" data-i18n="nav.application_intel_privacy">Privacy</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Theme Settings" data-filter-tags="theme settings">
+                                    <i class="fal fa-cog"></i>
+                                    <span class="nav-link-text" data-i18n="nav.theme_settings">Theme Settings</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="settings_how_it_works.html" title="How it works" data-filter-tags="theme settings how it works">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">How it works</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="settings_layout_options.html" title="Layout Options" data-filter-tags="theme settings layout options">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_layout_options">Layout Options</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="settings_skin_options.html" title="Skin Options" data-filter-tags="theme settings skin options">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_skin_options">Skin Options</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="settings_saving_db.html" title="Saving to Database" data-filter-tags="theme settings saving to database">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_saving_to_database">Saving to Database</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Documentation" data-filter-tags="documentation">
+                                    <i class="fal fa-book"></i>
+                                    <span class="nav-link-text" data-i18n="nav.documentation">Documentation</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="docs_general.html" title="General Docs" data-filter-tags="documentation general docs">
+                                            <span class="nav-link-text" data-i18n="nav.documentation_general_docs">General Docs</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="docs_project_structure.html" title="Project Structure" data-filter-tags="documentation project structure">
+                                            <span class="nav-link-text" data-i18n="nav.documentation_project_structure">Project Structure</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="docs_flavors_editions.html" title="Flavors & Editions" data-filter-tags="documentation flavors & editions">
+                                            <span class="nav-link-text" data-i18n="nav.documentation_flavors_&_editions">Flavors & Editions</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="docs_community_support.html" title="Community Support" data-filter-tags="documentation community support">
+                                            <span class="nav-link-text" data-i18n="nav.documentation_community_support">Community Support</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="docs_premium_support.html" title="Premium Support" data-filter-tags="documentation premium support">
+                                            <span class="nav-link-text" data-i18n="nav.documentation_premium_support">Premium Support</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="docs_licensing.html" title="Licensing" data-filter-tags="documentation licensing">
+                                            <span class="nav-link-text" data-i18n="nav.documentation_licensing">Licensing</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="docs_buildnotes.html" title="Build Notes" data-filter-tags="documentation build notes">
+                                            <span class="nav-link-text" data-i18n="nav.documentation_build_notes">Build Notes</span>
+                                            <span class="">v4.4.5</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-title">Tools & Components</li>
+                            <li>
+                                <a href="#" title="UI Components" data-filter-tags="ui components">
+                                    <i class="fal fa-window"></i>
+                                    <span class="nav-link-text" data-i18n="nav.ui_components">UI Components</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="ui_alerts.html" title="Alerts" data-filter-tags="ui components alerts">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_alerts">Alerts</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_accordion.html" title="Accordions" data-filter-tags="ui components accordions">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_accordions">Accordions</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_badges.html" title="Badges" data-filter-tags="ui components badges">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_badges">Badges</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_breadcrumbs.html" title="Breadcrumbs" data-filter-tags="ui components breadcrumbs">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_breadcrumbs">Breadcrumbs</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_buttons.html" title="Buttons" data-filter-tags="ui components buttons">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_buttons">Buttons</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_button_group.html" title="Button Group" data-filter-tags="ui components button group">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_button_group">Button Group</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_cards.html" title="Cards" data-filter-tags="ui components cards">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_cards">Cards</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_carousel.html" title="Carousel" data-filter-tags="ui components carousel">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_carousel">Carousel</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_collapse.html" title="Collapse" data-filter-tags="ui components collapse">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_collapse">Collapse</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_dropdowns.html" title="Dropdowns" data-filter-tags="ui components dropdowns">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_dropdowns">Dropdowns</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_list_filter.html" title="List Filter" data-filter-tags="ui components list filter">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_list_filter">List Filter</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_modal.html" title="Modal" data-filter-tags="ui components modal">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_modal">Modal</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_navbars.html" title="Navbars" data-filter-tags="ui components navbars">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_navbars">Navbars</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_panels.html" title="Panels" data-filter-tags="ui components panels">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_panels">Panels</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_pagination.html" title="Pagination" data-filter-tags="ui components pagination">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_pagination">Pagination</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_popovers.html" title="Popovers" data-filter-tags="ui components popovers">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_popovers">Popovers</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_progress_bars.html" title="Progress Bars" data-filter-tags="ui components progress bars">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_progress_bars">Progress Bars</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_scrollspy.html" title="ScrollSpy" data-filter-tags="ui components scrollspy">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_scrollspy">ScrollSpy</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_side_panel.html" title="Side Panel" data-filter-tags="ui components side panel">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_side_panel">Side Panel</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_spinners.html" title="Spinners" data-filter-tags="ui components spinners">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_spinners">Spinners</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_tabs_pills.html" title="Tabs & Pills" data-filter-tags="ui components tabs & pills">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_tabs_&_pills">Tabs & Pills</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_toasts.html" title="Toasts" data-filter-tags="ui components toasts">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_toasts">Toasts</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="ui_tooltips.html" title="Tooltips" data-filter-tags="ui components tooltips">
+                                            <span class="nav-link-text" data-i18n="nav.ui_components_tooltips">Tooltips</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Utilities" data-filter-tags="utilities">
+                                    <i class="fal fa-bolt"></i>
+                                    <span class="nav-link-text" data-i18n="nav.utilities">Utilities</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="utilities_borders.html" title="Borders" data-filter-tags="utilities borders">
+                                            <span class="nav-link-text" data-i18n="nav.utilities_borders">Borders</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="utilities_clearfix.html" title="Clearfix" data-filter-tags="utilities clearfix">
+                                            <span class="nav-link-text" data-i18n="nav.utilities_clearfix">Clearfix</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="utilities_color_pallet.html" title="Color Pallet" data-filter-tags="utilities color pallet">
+                                            <span class="nav-link-text" data-i18n="nav.utilities_color_pallet">Color Pallet</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="utilities_display_property.html" title="Display Property" data-filter-tags="utilities display property">
+                                            <span class="nav-link-text" data-i18n="nav.utilities_display_property">Display Property</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="utilities_fonts.html" title="Fonts" data-filter-tags="utilities fonts">
+                                            <span class="nav-link-text" data-i18n="nav.utilities_fonts">Fonts</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="utilities_flexbox.html" title="Flexbox" data-filter-tags="utilities flexbox">
+                                            <span class="nav-link-text" data-i18n="nav.utilities_flexbox">Flexbox</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="utilities_helpers.html" title="Helpers" data-filter-tags="utilities helpers">
+                                            <span class="nav-link-text" data-i18n="nav.utilities_helpers">Helpers</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="utilities_position.html" title="Position" data-filter-tags="utilities position">
+                                            <span class="nav-link-text" data-i18n="nav.utilities_position">Position</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="utilities_responsive_grid.html" title="Responsive Grid" data-filter-tags="utilities responsive grid">
+                                            <span class="nav-link-text" data-i18n="nav.utilities_responsive_grid">Responsive Grid</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="utilities_sizing.html" title="Sizing" data-filter-tags="utilities sizing">
+                                            <span class="nav-link-text" data-i18n="nav.utilities_sizing">Sizing</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="utilities_spacing.html" title="Spacing" data-filter-tags="utilities spacing">
+                                            <span class="nav-link-text" data-i18n="nav.utilities_spacing">Spacing</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="utilities_typography.html" title="Typography" data-filter-tags="utilities typography fonts headings bold lead colors sizes link text states list styles truncate alignment">
+                                            <span class="nav-link-text" data-i18n="nav.utilities_typography">Typography</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="Menu child" data-filter-tags="utilities menu child">
+                                            <span class="nav-link-text" data-i18n="nav.utilities_menu_child">Menu child</span>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="javascript:void(0);" title="Sublevel Item" data-filter-tags="utilities menu child sublevel item">
+                                                    <span class="nav-link-text" data-i18n="nav.utilities_menu_child_sublevel_item">Sublevel Item</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);" title="Another Item" data-filter-tags="utilities menu child another item">
+                                                    <span class="nav-link-text" data-i18n="nav.utilities_menu_child_another_item">Another Item</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="disabled">
+                                        <a href="javascript:void(0);" title="Disabled item" data-filter-tags="utilities disabled item">
+                                            <span class="nav-link-text" data-i18n="nav.utilities_disabled_item">Disabled item</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Font Icons" data-filter-tags="font icons">
+                                    <i class="fal fa-map-marker-alt"></i>
+                                    <span class="nav-link-text" data-i18n="nav.font_icons">Font Icons</span>
+                                    <span class="dl-ref bg-primary-500 hidden-nav-function-minify hidden-nav-function-top">7,500+</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);" title="FontAwesome" data-filter-tags="font icons fontawesome">
+                                            <span class="nav-link-text" data-i18n="nav.font_icons_fontawesome">FontAwesome Pro</span>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="icons_fontawesome_light.html" title="Light" data-filter-tags="font icons fontawesome light">
+                                                    <span class="nav-link-text" data-i18n="nav.font_icons_fontawesome_light">Light</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="icons_fontawesome_regular.html" title="Regular" data-filter-tags="font icons fontawesome regular">
+                                                    <span class="nav-link-text" data-i18n="nav.font_icons_fontawesome_regular">Regular</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="icons_fontawesome_solid.html" title="Solid" data-filter-tags="font icons fontawesome solid">
+                                                    <span class="nav-link-text" data-i18n="nav.font_icons_fontawesome_solid">Solid</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="icons_fontawesome_duotone.html" title="Duotone" data-filter-tags="font icons fontawesome duotone">
+                                                    <span class="nav-link-text" data-i18n="nav.font_icons_fontawesome_duotone">Duotone</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="icons_fontawesome_brand.html" title="Brand" data-filter-tags="font icons fontawesome brand">
+                                                    <span class="nav-link-text" data-i18n="nav.font_icons_fontawesome_brand">Brand</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="NextGen Icons" data-filter-tags="font icons nextgen icons">
+                                            <span class="nav-link-text" data-i18n="nav.font_icons_nextgen_icons">NextGen Icons</span>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="icons_nextgen_general.html" title="General" data-filter-tags="font icons nextgen icons general">
+                                                    <span class="nav-link-text" data-i18n="nav.font_icons_nextgen_icons_general">General</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="icons_nextgen_base.html" title="Base" data-filter-tags="font icons nextgen icons base">
+                                                    <span class="nav-link-text" data-i18n="nav.font_icons_nextgen_icons_base">Base</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="Stack Icons" data-filter-tags="font icons stack icons">
+                                            <span class="nav-link-text" data-i18n="nav.font_icons_stack_icons">Stack Icons</span>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="icons_stack_showcase.html" title="Showcase" data-filter-tags="font icons stack icons showcase">
+                                                    <span class="nav-link-text" data-i18n="nav.font_icons_stack_icons_showcase">Showcase</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="icons_stack_generate.html?layers=3" title="Generate Stack" data-filter-tags="font icons stack icons generate stack">
+                                                    <span class="nav-link-text" data-i18n="nav.font_icons_stack_icons_generate_stack">Generate Stack</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Tables" data-filter-tags="tables">
+                                    <i class="fal fa-th-list"></i>
+                                    <span class="nav-link-text" data-i18n="nav.tables">Tables</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="tables_basic.html" title="Basic Tables" data-filter-tags="tables basic tables">
+                                            <span class="nav-link-text" data-i18n="nav.tables_basic_tables">Basic Tables</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="tables_generate_style.html" title="Generate Table Style" data-filter-tags="tables generate table style">
+                                            <span class="nav-link-text" data-i18n="nav.tables_generate_table_style">Generate Table Style</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Form Stuff" data-filter-tags="form stuff">
+                                    <i class="fal fa-edit"></i>
+                                    <span class="nav-link-text" data-i18n="nav.form_stuff">Form Stuff</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="form_basic_inputs.html" title="Basic Inputs" data-filter-tags="form stuff basic inputs">
+                                            <span class="nav-link-text" data-i18n="nav.form_stuff_basic_inputs">Basic Inputs</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="form_checkbox_radio.html" title="Checkbox & Radio" data-filter-tags="form stuff checkbox & radio">
+                                            <span class="nav-link-text" data-i18n="nav.form_stuff_checkbox_&_radio">Checkbox & Radio</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="form_input_groups.html" title="Input Groups" data-filter-tags="form stuff input groups">
+                                            <span class="nav-link-text" data-i18n="nav.form_stuff_input_groups">Input Groups</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="form_validation.html" title="Validation" data-filter-tags="form stuff validation">
+                                            <span class="nav-link-text" data-i18n="nav.form_stuff_validation">Validation</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-title">Plugins & Addons</li>
+                            <li>
+                                <a href="#" title="Plugins" data-filter-tags="plugins">
+                                    <i class="fal fa-shield-alt"></i>
+                                    <span class="nav-link-text" data-i18n="nav.plugins">Core Plugins</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="plugin_faq.html" title="Plugins FAQ" data-filter-tags="plugins plugins faq">
+                                            <span class="nav-link-text" data-i18n="nav.plugins_plugins_faq">Plugins FAQ</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="plugin_waves.html" title="Waves" data-filter-tags="plugins waves">
+                                            <span class="nav-link-text" data-i18n="nav.plugins_waves">Waves</span>
+                                            <span class="dl-ref label bg-primary-400 ml-2">9 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="plugin_pacejs.html" title="PaceJS" data-filter-tags="plugins pacejs">
+                                            <span class="nav-link-text" data-i18n="nav.plugins_pacejs">PaceJS</span>
+                                            <span class="dl-ref label bg-primary-500 ml-2">13 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="plugin_smartpanels.html" title="SmartPanels" data-filter-tags="plugins smartpanels">
+                                            <span class="nav-link-text" data-i18n="nav.plugins_smartpanels">SmartPanels</span>
+                                            <span class="dl-ref label bg-primary-600 ml-2">9 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="plugin_bootbox.html" title="BootBox" data-filter-tags="plugins bootbox alert sound">
+                                            <span class="nav-link-text" data-i18n="nav.plugins_bootbox">BootBox</span>
+                                            <span class="dl-ref label bg-primary-600 ml-2">15 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="plugin_slimscroll.html" title="Slimscroll" data-filter-tags="plugins slimscroll">
+                                            <span class="nav-link-text" data-i18n="nav.plugins_slimscroll">Slimscroll</span>
+                                            <span class="dl-ref label bg-primary-700 ml-2">5 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="plugin_throttle.html" title="Throttle" data-filter-tags="plugins throttle">
+                                            <span class="nav-link-text" data-i18n="nav.plugins_throttle">Throttle</span>
+                                            <span class="dl-ref label bg-primary-700 ml-2">1 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="plugin_navigation.html" title="Navigation" data-filter-tags="plugins navigation">
+                                            <span class="nav-link-text" data-i18n="nav.plugins_navigation">Navigation</span>
+                                            <span class="dl-ref label bg-primary-700 ml-2">2 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="plugin_i18next.html" title="i18next" data-filter-tags="plugins i18next">
+                                            <span class="nav-link-text" data-i18n="nav.plugins_i18next">i18next</span>
+                                            <span class="dl-ref label bg-primary-700 ml-2">10 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="plugin_appcore.html" title="App.Core" data-filter-tags="plugins app.core">
+                                            <span class="nav-link-text" data-i18n="nav.plugins_app.core">App.Core</span>
+                                            <span class="dl-ref label bg-success-700 ml-2">14 KB</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Datatables" data-filter-tags="datatables datagrid">
+                                    <i class="fal fa-table"></i>
+                                    <span class="nav-link-text" data-i18n="nav.datatables">Datatables</span>
+                                    <span class="dl-ref bg-primary-500 hidden-nav-function-minify hidden-nav-function-top">235 KB</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="datatables_basic.html" title="Basic" data-filter-tags="datatables datagrid basic">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_basic">Basic</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_autofill.html" title="Autofill" data-filter-tags="datatables datagrid autofill">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_autofill">Autofill</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_buttons.html" title="Buttons" data-filter-tags="datatables datagrid buttons">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_buttons">Buttons</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_export.html" title="Export" data-filter-tags="datatables datagrid export tables pdf excel print csv">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_export">Export</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_colreorder.html" title="ColReorder" data-filter-tags="datatables datagrid colreorder">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_colreorder">ColReorder</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_columnfilter.html" title="ColumnFilter" data-filter-tags="datatables datagrid columnfilter">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_columnfilter">ColumnFilter</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_fixedcolumns.html" title="FixedColumns" data-filter-tags="datatables datagrid fixedcolumns">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_fixedcolumns">FixedColumns</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_fixedheader.html" title="FixedHeader" data-filter-tags="datatables datagrid fixedheader">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_fixedheader">FixedHeader</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_keytable.html" title="KeyTable" data-filter-tags="datatables datagrid keytable">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_keytable">KeyTable</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_responsive.html" title="Responsive" data-filter-tags="datatables datagrid responsive">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_responsive">Responsive</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_responsive_alt.html" title="Responsive Alt" data-filter-tags="datatables datagrid responsive alt">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_responsive_alt">Responsive Alt</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_rowgroup.html" title="RowGroup" data-filter-tags="datatables datagrid rowgroup">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_rowgroup">RowGroup</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_rowreorder.html" title="RowReorder" data-filter-tags="datatables datagrid rowreorder">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_rowreorder">RowReorder</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_scroller.html" title="Scroller" data-filter-tags="datatables datagrid scroller">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_scroller">Scroller</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_select.html" title="Select" data-filter-tags="datatables datagrid select">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_select">Select</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="datatables_alteditor.html" title="AltEditor" data-filter-tags="datatables datagrid alteditor">
+                                            <span class="nav-link-text" data-i18n="nav.datatables_alteditor">AltEditor</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Statistics" data-filter-tags="statistics chart graphs">
+                                    <i class="fal fa-chart-pie"></i>
+                                    <span class="nav-link-text" data-i18n="nav.statistics">Statistics</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="statistics_flot.html" title="Flot" data-filter-tags="statistics chart graphs flot bar pie">
+                                            <span class="nav-link-text" data-i18n="nav.statistics_flot">Flot</span>
+                                            <span class="dl-ref label bg-primary-500 ml-2">36 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="statistics_chartjs.html" title="Chart.js" data-filter-tags="statistics chart graphs chart.js bar pie">
+                                            <span class="nav-link-text" data-i18n="nav.statistics_chart.js">Chart.js</span>
+                                            <span class="dl-ref label bg-primary-500 ml-2">205 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="statistics_chartist.html" title="Chartist.js" data-filter-tags="statistics chart graphs chartist.js">
+                                            <span class="nav-link-text" data-i18n="nav.statistics_chartist.js">Chartist.js</span>
+                                            <span class="dl-ref label bg-primary-600 ml-2">39 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="statistics_c3.html" title="C3 Charts" data-filter-tags="statistics chart graphs c3 charts">
+                                            <span class="nav-link-text" data-i18n="nav.statistics_c3_charts">C3 Charts</span>
+                                            <span class="dl-ref label bg-primary-600 ml-2">197 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="statistics_peity.html" title="Peity" data-filter-tags="statistics chart graphs peity small">
+                                            <span class="nav-link-text" data-i18n="nav.statistics_peity">Peity</span>
+                                            <span class="dl-ref label bg-primary-700 ml-2">4 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="statistics_sparkline.html" title="Sparkline" data-filter-tags="statistics chart graphs sparkline small tiny">
+                                            <span class="nav-link-text" data-i18n="nav.statistics_sparkline">Sparkline</span>
+                                            <span class="dl-ref label bg-primary-700 ml-2">42 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="statistics_easypiechart.html" title="Easy Pie Chart" data-filter-tags="statistics chart graphs easy pie chart">
+                                            <span class="nav-link-text" data-i18n="nav.statistics_easy_pie_chart">Easy Pie Chart</span>
+                                            <span class="dl-ref label bg-primary-700 ml-2">4 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="statistics_dygraph.html" title="Dygraph" data-filter-tags="statistics chart graphs dygraph complex">
+                                            <span class="nav-link-text" data-i18n="nav.statistics_dygraph">Dygraph</span>
+                                            <span class="dl-ref label bg-primary-700 ml-2">120 KB</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Notifications" data-filter-tags="notifications">
+                                    <i class="fal fa-exclamation-circle"></i>
+                                    <span class="nav-link-text" data-i18n="nav.notifications">Notifications</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="notifications_sweetalert2.html" title="SweetAlert2" data-filter-tags="notifications sweetalert2">
+                                            <span class="nav-link-text" data-i18n="nav.notifications_sweetalert2">SweetAlert2</span>
+                                            <span class="dl-ref label bg-primary-500 ml-2">40 KB</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="notifications_toastr.html" title="Toastr" data-filter-tags="notifications toastr">
+                                            <span class="nav-link-text" data-i18n="nav.notifications_toastr">Toastr</span>
+                                            <span class="dl-ref label bg-primary-600 ml-2">5 KB</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Form Plugins" data-filter-tags="form plugins">
+                                    <i class="fal fa-credit-card-front"></i>
+                                    <span class="nav-link-text" data-i18n="nav.form_plugins">Form Plugins</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="form_plugins_colorpicker.html" title="Color Picker" data-filter-tags="form plugins color picker">
+                                            <span class="nav-link-text" data-i18n="nav.form_plugins_color_picker">Color Picker</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="form_plugins_datepicker.html" title="Date Picker" data-filter-tags="form plugins date picker">
+                                            <span class="nav-link-text" data-i18n="nav.form_plugins_date_picker">Date Picker</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="form_plugins_daterange_picker.html" title="Date Range Picker" data-filter-tags="form plugins date range picker">
+                                            <span class="nav-link-text" data-i18n="nav.form_plugins_date_range_picker">Date Range Picker</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="form_plugins_dropzone.html" title="Dropzone" data-filter-tags="form plugins dropzone">
+                                            <span class="nav-link-text" data-i18n="nav.form_plugins_dropzone">Dropzone</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="form_plugins_ionrangeslider.html" title="Ion.RangeSlider" data-filter-tags="form plugins ion.rangeslider">
+                                            <span class="nav-link-text" data-i18n="nav.form_plugins_ion.rangeslider">Ion.RangeSlider</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="form_plugins_inputmask.html" title="Inputmask" data-filter-tags="form plugins inputmask">
+                                            <span class="nav-link-text" data-i18n="nav.form_plugins_inputmask">Inputmask</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="form_plugin_imagecropper.html" title="Image Cropper" data-filter-tags="form plugins image cropper">
+                                            <span class="nav-link-text" data-i18n="nav.form_plugins_image_cropper">Image Cropper</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="form_plugin_select2.html" title="Select2" data-filter-tags="form plugins select2">
+                                            <span class="nav-link-text" data-i18n="nav.form_plugins_select2">Select2</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="form_plugin_summernote.html" title="Summernote" data-filter-tags="form plugins summernote texteditor editor">
+                                            <span class="nav-link-text" data-i18n="nav.form_plugins_summernote">Summernote</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Miscellaneous" data-filter-tags="miscellaneous">
+                                    <i class="fal fa-globe"></i>
+                                    <span class="nav-link-text" data-i18n="nav.miscellaneous">Miscellaneous</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="miscellaneous_fullcalendar.html" title="FullCalendar" data-filter-tags="miscellaneous fullcalendar">
+                                            <span class="nav-link-text" data-i18n="nav.miscellaneous_fullcalendar">FullCalendar</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="miscellaneous_lightgallery.html" title="Light Gallery" data-filter-tags="miscellaneous light gallery">
+                                            <span class="nav-link-text" data-i18n="nav.miscellaneous_light_gallery">Light Gallery</span>
+                                            <span class="dl-ref label bg-primary-500 ml-2">61 KB</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-title">Layouts & Apps</li>
+                            <li>
+                                <a href="#" title="Pages" data-filter-tags="pages">
+                                    <i class="fal fa-plus-circle"></i>
+                                    <span class="nav-link-text" data-i18n="nav.pages">Page Views</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="page_chat.html" title="Chat" data-filter-tags="pages chat">
+                                            <span class="nav-link-text" data-i18n="nav.pages_chat">Chat</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="page_contacts.html" title="Contacts" data-filter-tags="pages contacts">
+                                            <span class="nav-link-text" data-i18n="nav.pages_contacts">Contacts</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="Forum" data-filter-tags="pages forum">
+                                            <span class="nav-link-text" data-i18n="nav.pages_forum">Forum</span>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="page_forum_list.html" title="List" data-filter-tags="pages forum list">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_forum_list">List</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="page_forum_threads.html" title="Threads" data-filter-tags="pages forum threads">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_forum_threads">Threads</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="page_forum_discussion.html" title="Discussion" data-filter-tags="pages forum discussion">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_forum_discussion">Discussion</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="Inbox" data-filter-tags="pages inbox">
+                                            <span class="nav-link-text" data-i18n="nav.pages_inbox">Inbox</span>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="page_inbox_general.html" title="General" data-filter-tags="pages inbox general">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_inbox_general">General</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="page_inbox_read.html" title="Read" data-filter-tags="pages inbox read">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_inbox_read">Read</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="page_inbox_write.html" title="Write" data-filter-tags="pages inbox write">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_inbox_write">Write</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="page_invoice.html" title="Invoice (printable)" data-filter-tags="pages invoice (printable)">
+                                            <span class="nav-link-text" data-i18n="nav.pages_invoice_(printable)">Invoice (printable)</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="Authentication" data-filter-tags="pages authentication">
+                                            <span class="nav-link-text" data-i18n="nav.pages_authentication">Authentication</span>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="page_forget.html" title="Forget Password" data-filter-tags="pages authentication forget password">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_authentication_forget_password">Forget Password</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="page_locked.html" title="Locked Screen" data-filter-tags="pages authentication locked screen">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_authentication_locked_screen">Locked Screen</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="page_login.html" title="Login" data-filter-tags="pages authentication login">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_authentication_login">Login</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="page_login_alt.html" title="Login Alt" data-filter-tags="pages authentication login alt">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_authentication_login_alt">Login Alt</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="page_register.html" title="Register" data-filter-tags="pages authentication register">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_authentication_register">Register</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="page_confirmation.html" title="Confirmation" data-filter-tags="pages authentication confirmation">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_authentication_confirmation">Confirmation</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="Error Pages" data-filter-tags="pages error pages">
+                                            <span class="nav-link-text" data-i18n="nav.pages_error_pages">Error Pages</span>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="page_error.html" title="General Error" data-filter-tags="pages error pages general error">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_error_pages_general_error">General Error</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="page_error_404.html" title="Server Error" data-filter-tags="pages error pages server error">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_error_pages_server_error">Server Error</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="page_error_announced.html" title="Announced Error" data-filter-tags="pages error pages announced error">
+                                                    <span class="nav-link-text" data-i18n="nav.pages_error_pages_announced_error">Announced Error</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="page_profile.html" title="Profile" data-filter-tags="pages profile">
+                                            <span class="nav-link-text" data-i18n="nav.pages_profile">Profile</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="page_search.html" title="Search Results" data-filter-tags="pages search results">
+                                            <span class="nav-link-text" data-i18n="nav.pages_search_results">Search Results</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="filter-message js-filter-message bg-success-600"></div>
+                    </nav>
+                    <!-- END PRIMARY NAVIGATION -->
+                    <!-- NAV FOOTER -->
+                    <div class="nav-footer shadow-top">
+                        <a href="#" onclick="return false;" data-action="toggle" data-class="nav-function-minify" class="hidden-md-down">
+                            <i class="ni ni-chevron-right"></i>
+                            <i class="ni ni-chevron-right"></i>
+                        </a>
+                        <ul class="list-table m-auto nav-footer-buttons">
+                            <li>
+                                <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Chat logs">
+                                    <i class="fal fa-comments"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Support Chat">
+                                    <i class="fal fa-life-ring"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Make a call">
+                                    <i class="fal fa-phone"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END NAV FOOTER -->
+                </aside>
+                <!-- END Left Aside -->
+                <div class="page-content-wrapper">
+                    <!-- BEGIN Page Header -->
+                    <header class="page-header" role="banner">
+                        <!-- we need this logo when user switches to nav-function-top -->
+                        <div class="page-logo">
+                            <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative" data-toggle="modal" data-target="#modal-shortcut">
+                                <img src="img/logo.png" alt="SmartAdmin WebApp" aria-roledescription="logo" />
+                                <span class="page-logo-text mr-1">SmartAdmin WebApp</span>
+                                <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2"></span>
+                                <i class="fal d-inline-block ml-1 fs-lg color-primary-300"></i>
+                            </a>
+                        </div>
+                        <!-- DOC: nav menu layout change shortcut -->
+                        <div class="hidden-md-down dropdown-icon-menu position-relative">
+                            <a href="#" class="header-btn btn js-waves-off" data-action="toggle" data-class="nav-function-hidden" title="Hide Navigation">
+                                <i class="ni ni-menu"></i>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="#" class="btn js-waves-off" data-action="toggle" data-class="nav-function-minify" title="Minify Navigation">
+                                        <i class="ni ni-minify-nav"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="btn js-waves-off" data-action="toggle" data-class="nav-function-fixed" title="Lock Navigation">
+                                        <i class="ni ni-lock-nav"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- DOC: mobile button appears during mobile width -->
+                        <div class="hidden-lg-up">
+                            <a href="#" class="header-btn btn press-scale-down" data-action="toggle" data-class="mobile-nav-on">
+                                <i class="ni ni-menu"></i>
+                            </a>
+                        </div>
+                        <div class="search">
+                            <input type="text" id="search-field" placeholder="Search for anything" class="form-control" tabindex="1" />
+                            <a href="#" onclick="return false;" class="btn-danger btn-search-close js-waves-off d-none" data-action="toggle" data-class="mobile-search-on">
+                                <i class="fal fa-times"></i>
+                            </a>
+                        </div>
+                        <div class="ml-auto d-flex">
+                            <!-- activate app search icon (mobile) -->
+                            <div class="hidden-sm-up">
+                                <a href="#" class="header-icon" data-action="toggle" data-class="mobile-search-on" data-focus="search-field" title="Search">
+                                    <i class="fal fa-search"></i>
+                                </a>
+                            </div>
+
+                            <!-- app shortcuts -->
+                            <div>
+                                <a href="#" class="header-icon" data-toggle="dropdown" title="My Apps">
+                                    <i class="fal fa-cog"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-animated w-auto h-auto">
+                                    <div class="dropdown-header bg-trans-gradient d-flex justify-content-center align-items-center rounded-top">
+                                        <h4 class="m-0 text-center color-white">
+                                            Quick Shortcut
+                                            <small class="mb-0 opacity-80">User Applications & Addons</small>
+                                        </h4>
+                                    </div>
+                                    <div class="custom-scroll h-100">
+                                        <ul class="app-list">
+                                            <li>
+                                                <a href="#" class="app-list-item hover-white">
+                                                    <span class="icon-stack">
+                                                        <i class="base-2 icon-stack-3x color-primary-600"></i>
+                                                        <i class="base-3 icon-stack-2x color-primary-700"></i>
+                                                        <i class="ni ni-settings icon-stack-1x text-white fs-lg"></i>
+                                                    </span>
+                                                    <span class="app-list-name"> Services </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="app-list-item hover-white">
+                                                    <span class="icon-stack">
+                                                        <i class="base-2 icon-stack-3x color-primary-400"></i>
+                                                        <i class="base-10 text-white icon-stack-1x"></i>
+                                                        <i class="ni md-profile color-primary-800 icon-stack-2x"></i>
+                                                    </span>
+                                                    <span class="app-list-name"> Account </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="app-list-item hover-white">
+                                                    <span class="icon-stack">
+                                                        <i class="base-9 icon-stack-3x color-success-400"></i>
+                                                        <i class="base-2 icon-stack-2x color-success-500"></i>
+                                                        <i class="ni ni-shield icon-stack-1x text-white"></i>
+                                                    </span>
+                                                    <span class="app-list-name"> Security </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="app-list-item hover-white">
+                                                    <span class="icon-stack">
+                                                        <i class="base-18 icon-stack-3x color-info-700"></i>
+                                                        <span class="position-absolute pos-top pos-left pos-right color-white fs-md mt-2 fw-400">28</span>
+                                                    </span>
+                                                    <span class="app-list-name"> Calendar </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="app-list-item hover-white">
+                                                    <span class="icon-stack">
+                                                        <i class="base-7 icon-stack-3x color-info-500"></i>
+                                                        <i class="base-7 icon-stack-2x color-info-700"></i>
+                                                        <i class="ni ni-graph icon-stack-1x text-white"></i>
+                                                    </span>
+                                                    <span class="app-list-name"> Stats </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="app-list-item hover-white">
+                                                    <span class="icon-stack">
+                                                        <i class="base-4 icon-stack-3x color-danger-500"></i>
+                                                        <i class="base-4 icon-stack-1x color-danger-400"></i>
+                                                        <i class="ni ni-envelope icon-stack-1x text-white"></i>
+                                                    </span>
+                                                    <span class="app-list-name"> Messages </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="app-list-item hover-white">
+                                                    <span class="icon-stack">
+                                                        <i class="base-4 icon-stack-3x color-fusion-400"></i>
+                                                        <i class="base-5 icon-stack-2x color-fusion-200"></i>
+                                                        <i class="base-5 icon-stack-1x color-fusion-100"></i>
+                                                        <i class="fal fa-keyboard icon-stack-1x color-info-50"></i>
+                                                    </span>
+                                                    <span class="app-list-name"> Notes </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="app-list-item hover-white">
+                                                    <span class="icon-stack">
+                                                        <i class="base-16 icon-stack-3x color-fusion-500"></i>
+                                                        <i class="base-10 icon-stack-1x color-primary-50 opacity-30"></i>
+                                                        <i class="base-10 icon-stack-1x fs-xl color-primary-50 opacity-20"></i>
+                                                        <i class="fal fa-dot-circle icon-stack-1x text-white opacity-85"></i>
+                                                    </span>
+                                                    <span class="app-list-name"> Photos </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="app-list-item hover-white">
+                                                    <span class="icon-stack">
+                                                        <i class="base-19 icon-stack-3x color-primary-400"></i>
+                                                        <i class="base-7 icon-stack-2x color-primary-300"></i>
+                                                        <i class="base-7 icon-stack-1x fs-xxl color-primary-200"></i>
+                                                        <i class="base-7 icon-stack-1x color-primary-500"></i>
+                                                        <i class="fal fa-globe icon-stack-1x text-white opacity-85"></i>
+                                                    </span>
+                                                    <span class="app-list-name"> Maps </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="app-list-item hover-white">
+                                                    <span class="icon-stack">
+                                                        <i class="base-5 icon-stack-3x color-success-700 opacity-80"></i>
+                                                        <i class="base-12 icon-stack-2x color-success-700 opacity-30"></i>
+                                                        <i class="fal fa-comment-alt icon-stack-1x text-white"></i>
+                                                    </span>
+                                                    <span class="app-list-name"> Chat </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="app-list-item hover-white">
+                                                    <span class="icon-stack">
+                                                        <i class="base-5 icon-stack-3x color-warning-600"></i>
+                                                        <i class="base-7 icon-stack-2x color-warning-800 opacity-50"></i>
+                                                        <i class="fal fa-phone icon-stack-1x text-white"></i>
+                                                    </span>
+                                                    <span class="app-list-name"> Phone </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="app-list-item hover-white">
+                                                    <span class="icon-stack">
+                                                        <i class="base-6 icon-stack-3x color-danger-600"></i>
+                                                        <i class="fal fa-chart-line icon-stack-1x text-white"></i>
+                                                    </span>
+                                                    <span class="app-list-name"> Projects </span>
+                                                </a>
+                                            </li>
+                                            <li class="w-100">
+                                                <a href="#" class="btn btn-default mt-4 mb-2 pr-5 pl-5">
+                                                    Add more apps
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- app user menu -->
+                            <div>
+                                <a href="#" data-toggle="dropdown" title="drlantern@gotbootstrap.com" class="header-icon d-flex align-items-center justify-content-center ml-2">
+                                    <img src="img/demo/avatars/avatar-admin.png" class="profile-image rounded-circle" alt="Dr. Codex Lantern" />
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-animated dropdown-lg">
+                                    <div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
+                                        <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
+                                            <span class="mr-2">
+                                                <img src="img/demo/avatars/avatar-admin.png" class="rounded-circle profile-image" alt="Dr. Codex Lantern" />
+                                            </span>
+                                            <div class="info-card-text">
+                                                <div class="fs-lg text-truncate text-truncate-lg">
+                                                    Dr. Codex Lantern
+                                                </div>
+                                                <span class="text-truncate text-truncate-md opacity-80">drlantern@gotbootstrap.com</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider m-0"></div>
+                                    <a href="#" class="dropdown-item" data-action="app-reset">
+                                        <span data-i18n="drpdwn.reset_layout">Reset Layout</span>
+                                    </a>
+                                    <a href="#" class="dropdown-item" data-toggle="modal" data-target=".js-modal-settings">
+                                        <span data-i18n="drpdwn.settings">Settings</span>
+                                    </a>
+                                    <div class="dropdown-divider m-0"></div>
+                                    <a href="#" class="dropdown-item" data-action="app-fullscreen">
+                                        <span data-i18n="drpdwn.fullscreen">Fullscreen</span>
+                                        <i class="float-right text-muted fw-n">F11</i>
+                                    </a>
+                                    <a href="#" class="dropdown-item" data-action="app-print">
+                                        <span data-i18n="drpdwn.print">Print</span>
+                                        <i class="float-right text-muted fw-n">Ctrl + P</i>
+                                    </a>
+                                    <div class="dropdown-multilevel dropdown-multilevel-left">
+                                        <div class="dropdown-item">Language</div>
+                                        <div class="dropdown-menu">
+                                            <a href="#?lang=fr" class="dropdown-item" data-action="lang" data-lang="fr">Français</a>
+                                            <a href="#?lang=en" class="dropdown-item active" data-action="lang" data-lang="en">English (US)</a>
+                                            <a href="#?lang=es" class="dropdown-item" data-action="lang" data-lang="es">Español</a>
+                                            <a href="#?lang=ru" class="dropdown-item" data-action="lang" data-lang="ru">Русский язык</a>
+                                            <a href="#?lang=jp" class="dropdown-item" data-action="lang" data-lang="jp">日本語</a>
+                                            <a href="#?lang=ch" class="dropdown-item" data-action="lang" data-lang="ch">中文</a>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider m-0"></div>
+                                    <a class="dropdown-item fw-500 pt-3 pb-3" href="page_login.html">
+                                        <span data-i18n="drpdwn.page-logout">Logout</span>
+                                        <span class="float-right fw-n">&commat;codexlantern</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    <!-- END Page Header -->
+                    <!-- BEGIN Page Content -->
+                    <!-- the #js-page-content id is needed for some plugins to initialize -->
+                    <main id="js-page-content" role="main" class="page-content">
+                        <ol class="breadcrumb page-breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0);">SmartAdmin</a>
+                            </li>
+                            <li class="breadcrumb-item">Application Intel</li>
+                            <li class="breadcrumb-item active">Marketing Dashboard</li>
+                            <li class="position-absolute pos-top pos-right d-none d-sm-block">
+                                <span class="js-get-date"></span>
+                            </li>
+                        </ol>
+                        <div class="subheader">
+                            <h1 class="subheader-title">
+                                <i class="subheader-icon fal fa-chart-area"></i>
+                                <span class="fw-300">Dashboard</span> de Vendas
+                            </h1>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <div class="p-3 bg-primary-300 rounded overflow-hidden position-relative text-white mb-g">
+                                    <div class="">
+                                        <h3 class="display-4 d-block l-h-n m-0 fw-500">
+                                            <span id="QtdClientesLateral">3.874</span>
+                                            <small class="m-0 l-h-n">Quantidade de Clientes</small>
+                                        </h3>
+                                    </div>
+                                    <i class="fal fa-user position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n1" style="font-size: 6rem"></i>
+                                </div>
+                                <div class="p-3 bg-warning-400 rounded overflow-hidden position-relative text-white mb-g">
+                                    <div class="">
+                                        <h3 class="display-4 d-block l-h-n m-0 fw-500">
+                                            <span id="QtdPedidosLateral">9.952</span>
+                                            <small class="m-0 l-h-n">Total de Pedidos</small>
+                                        </h3>
+                                    </div>
+                                    <i class="fal fa-globe position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n4" style="font-size: 6rem"></i>
+                                </div>
+                                <div class="p-3 bg-success-200 rounded overflow-hidden position-relative text-white mb-g">
+                                    <div class="">
+                                        <h3 class="display-4 d-block l-h-n m-0 fw-500">
+                                            <span id="QtdVendasLateral">R$ 620.060,90</span>
+                                            <small class="m-0 l-h-n">Valor das Vendas</small>
+                                        </h3>
+                                    </div>
+                                    <i class="fal fa-gem position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n4" style="font-size: 6rem"></i>
+                                </div>
+                                <div class="p-3 bg-info-200 rounded overflow-hidden position-relative text-white mb-g">
+                                    <div class="">
+                                        <h3 class="display-4 d-block l-h-n m-0 fw-500">
+                                            <span id="QtdTicketMedioLateral">R$ 62,31</span>
+                                            <small class="m-0 l-h-n">Ticket Médio dos Clientes</small>
+                                        </h3>
+                                    </div>
+                                    <i class="fal fa-lightbulb position-absolute pos-right pos-bottom opacity-15 mb-n5 mr-n6" style="font-size: 8rem"></i>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-10">
+                                <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
+                                    <div class="panel-hdr" role="heading">
+                                        <h2>
+                                            <!--Data da Última Compra (em dias)-->
+                                            Dias desde o último pedido (Temporal) x Quantidade de
+                                            Pedidos (Fidelidade) x Ticket Médio (Monetário)
+                                        </h2>
+                                    </div>
+                                    <div class="panel-container show">
+                                        <div class="panel-content bg-subtlelight-fade">
+                                            <!-- painel com os checks -->
+                                            <!-- O VALUE do input é igual a key do 04-dadoscluster.js -->
+                                            <div class="frame-wrap demo">
+                                                <div class="demo d-flex" style="display: flex" id="panelCheck">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="switchTkMedio" value="AvgM" checked="" />
+                                                        <label class="custom-control-label" for="switchTkMedio">Ticket Médio</label>
+                                                    </div>
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="switchValVendas" value="SumM" />
+                                                        <label class="custom-control-label" for="switchValVendas">Valor das vendas</label>
+                                                    </div>
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="switchQtdClientes" value="QtdClientes" />
+                                                        <label class="custom-control-label" for="switchQtdClientes">Qtd. Clientes</label>
+                                                    </div>
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="switchQtdPedido" value="SumF" />
+                                                        <label class="custom-control-label" for="switchQtdPedido">Qtd. Pedidos</label>
+                                                    </div>
+                                                    <div class="custom-control custom-switch">
+                                                        <!-- como não encontrei o CLTV nos dados, eu coloquei esse campo no value -->
+                                                        <input type="checkbox" class="custom-control-input" id="switchCLTV" value="AvgRD" />
+                                                        <label class="custom-control-label" for="switchCLTV">CLTV</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="chartdivBublle" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
+                                    <div class="panel-hdr" role="heading">
+                                        <h2>Filtros</h2>
+                                    </div>
+                                    <div class="panel-container show">
+                                        <div class="panel-content bg-subtlelight-fade box-filter" id="legendaPrincipal">
+                                            <div class="legend-chart" id="legendInterpretacaoFM"></div>
+                                            <div class="legend-chart" id="legendInterpretacaoR"></div>
+
+                                            <div class="frame-wrap demo">
+                                                <div class="demo d-flex justify-content-center">
+                                                    <div class="custom-control custom-switch">
+                                                        <label class="space-label" for="checkAll">Marcar todos</label>
+                                                        <input type="checkbox" class="custom-control-input" id="checkAll" />
+                                                        <label class="custom-control-label" for="checkAll">
+                                                            Desmarcar todos</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
+                                    <div class="panel-hdr" role="heading">
+                                        <h2>Mapa de Risco - Onde estão os clientes?</h2>
+                                    </div>
+                                    <div class="panel-container show">
+                                        <div class="panel-content bg-subtlelight-fade">
+                                            <div class="spacing-chart"></div>
+
+                                            <div id="chartdivRiskClientes" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
+                                    <div class="panel-hdr" role="heading">
+                                        <h2>Mapa de Risco - Onde estão os Pedidos?</h2>
+                                    </div>
+                                    <div class="panel-container show">
+                                        <div class="panel-content bg-subtlelight-fade">
+                                            <div class="spacing-chart"></div>
+                                            <div id="chartdivRiskPedidos" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
+                                    <div class="panel-hdr" role="heading">
+                                        <h2>Mapa de Risco - Onde está o Dinheiro?</h2>
+                                    </div>
+                                    <div class="panel-container show">
+                                        <div class="panel-content bg-subtlelight-fade">
+                                            <div class="frame-wrap demo spacing-chart">
+                                                <div class="demo d-flex" style="display: flex" id="panelCheckChartRiskM">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="switchTkMedioRisk" value="AvgM" />
+                                                        <label class="custom-control-label" for="switchTkMedioRisk">Ticket Médio</label>
+                                                    </div>
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="switchValVendasRisk" value="SumM" checked="" />
+                                                        <label class="custom-control-label" for="switchValVendasRisk">Valor das vendas</label>
+                                                    </div>
+
+                                                    <div class="custom-control custom-switch">
+                                                        <!-- como não encontrei o CLTV nos dados, eu coloquei esse campo no value -->
+                                                        <input type="checkbox" class="custom-control-input" id="switchCLTVRisk" value="SumF" />
+                                                        <label class="custom-control-label" for="switchCLTVRisk">CLTV</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div id="chartdivRiskM" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="panel-1" class="panel" data-panel-sortable data-panel-close data-panel-locked>
+                                    <div class="panel-hdr" role="heading">
+                                        <h2>
+                                            Quantidade de Clientes x Número de Pedidos x Volume de
+                                            Vendas
+                                        </h2>
+                                    </div>
+                                    <div class="panel-container show">
+                                        <div class="panel-content bg-subtlelight-fade">
+                                            <div class="frame-wrap demo">
+                                                <div class="demo d-flex" style="display: flex" id="panelCheckAxis">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="switchTkMedioAxis" value="AvgM" checked="" />
+                                                        <label class="custom-control-label" for="switchTkMedioAxis">Ticket Médio</label>
+                                                    </div>
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="switchValVendasAxis" value="SumM" />
+                                                        <label class="custom-control-label" for="switchValVendasAxis">Valor das vendas</label>
+                                                    </div>
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="switchQtdClientesAxis" value="QtdClientes" />
+                                                        <label class="custom-control-label" for="switchQtdClientesAxis">Qtd. Clientes</label>
+                                                    </div>
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="switchQtdPedidoAxis" value="SumF" />
+                                                        <label class="custom-control-label" for="switchQtdPedidoAxis">Qtd. Pedidos</label>
+                                                    </div>
+                                                    <div class="custom-control custom-switch">
+                                                        <!-- como não encontrei o CLTV nos dados, eu coloquei esse campo no value -->
+                                                        <input type="checkbox" class="custom-control-input" id="switchCLTVAxis" value="AvgRD" />
+                                                        <label class="custom-control-label" for="switchCLTVAxis">CLTV</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div id="chartdivMultiAxis" class="w-100 mt-4" style="height: 400px; margin-top: 0 !important"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="panel-4" class="panel" data-panel-sortable data-panel-close data-panel-locked>
+                                    <div class="panel-hdr">
+                                        <h2>
+                                            Sale <span class="fw-300"><i>Records</i></span>
+                                        </h2>
+                                    </div>
+                                    <div class="panel-container show">
+                                        <div class="panel-content" style="height: 800px; overflow-y: scroll">
+                                            <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                                                <thead class="bg-warning-200">
+                                                    <tr>
+                                                        <th width="40px">Cluster</th>
+                                                        <th width="40px">Clientes</th>
+                                                        <th width="50px">Pedidos</th>
+                                                        <th width="90px">Última Compra</th>
+                                                        <th width="60px">Fidelidade</th>
+                                                        <th width="80px">Tícket Médio</th>
+                                                        <th width="120px">Volume das Vendas</th>
+                                                        <th width="60px" class="tr-align">CLTV</th>
+                                                        <th width="100px">Tipo de Cliente</th>
+                                                        <th width="40px" class="tr-align">Ação</th>
+                                                        <th width="40px" class="tr-align">Visualizar</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody id="tbody"></tbody>
+                                                <tfoot id="tfoot"></tfoot>
+                                            </table>
+                                            <!-- datatable end -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <!-- this overlay is activated only when mobile menu is triggered -->
+                    <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div>
+                    <!-- END Page Content -->
+                    <!-- BEGIN Page Footer -->
+                    <footer class="page-footer" role="contentinfo">
+                        <div class="d-flex align-items-center flex-1 text-muted">
+                            <span class="hidden-md-down fw-700">2020 © SmartAdmin by&nbsp;<a href="https://www.gotbootstrap.com" class="text-primary fw-500" title="gotbootstrap.com" target="_blank">gotbootstrap.com</a></span>
+                        </div>
+                        <div>
+                            <ul class="list-table m-0">
+                                <li>
+                                    <a href="intel_introduction.html" class="text-secondary fw-700">About</a>
+                                </li>
+                                <li class="pl-3">
+                                    <a href="info_app_licensing.html" class="text-secondary fw-700">License</a>
+                                </li>
+                                <li class="pl-3">
+                                    <a href="info_app_docs.html" class="text-secondary fw-700">Documentation</a>
+                                </li>
+                                <li class="pl-3 fs-xl">
+                                    <a href="https://wrapbootstrap.com/user/MyOrange" class="text-secondary" target="_blank"><i class="fal fa-question-circle" aria-hidden="true"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </footer>
+                    <!-- END Page Footer -->
+                </div>
+            </div>
+        </div>
+        <!-- END Page Wrapper -->
+        <!-- BEGIN Quick Menu -->
+        <!-- to add more items, please make sure to change the variable '$menu-items: number;' in your _page-components-shortcut.scss -->
+        <nav class="shortcut-menu d-none d-sm-block">
+            <input type="checkbox" class="menu-open" name="menu-open" id="menu_open" />
+            <label for="menu_open" class="menu-open-button">
+                <span class="app-shortcut-icon d-block"></span>
+            </label>
+            <a href="#" class="menu-item btn" data-toggle="tooltip" data-placement="left" title="Scroll Top">
+                <i class="fal fa-arrow-up"></i>
+            </a>
+            <a href="page_login.html" class="menu-item btn" data-toggle="tooltip" data-placement="left" title="Logout">
+                <i class="fal fa-sign-out"></i>
+            </a>
+            <a href="#" class="menu-item btn" data-action="app-fullscreen" data-toggle="tooltip" data-placement="left" title="Full Screen">
+                <i class="fal fa-expand"></i>
+            </a>
+            <a href="#" class="menu-item btn" data-action="app-print" data-toggle="tooltip" data-placement="left" title="Print page">
+                <i class="fal fa-print"></i>
+            </a>
+            <a href="#" class="menu-item btn" data-action="app-voice" data-toggle="tooltip" data-placement="left" title="Voice command">
+                <i class="fal fa-microphone"></i>
+            </a>
+        </nav>
+        <!-- END Quick Menu -->
+    </form>
+
+    <!-- base vendor bundle:
+            DOC: if you remove pace.js from core please note on Internet Explorer some CSS animations may execute before a page is fully loaded, resulting 'jump' animations
+                    + pace.js (recommended)
+                    + jquery.js (core)
+                    + jquery-ui-cust.js (core)
+                    + popper.js (core)
+                    + bootstrap.js (core)
+                    + slimscroll.js (extension)
+                    + app.navigation.js (core)
+                    + ba-throttle-debounce.js (core)
+                    + waves.js (extension)
+                    + smartpanels.js (extension)
+                    + src/../jquery-snippets.js (core) -->
+    <script src="js/vendors.bundle.js"></script>
+    <script src="js/app.bundle.js"></script>
+    <script type="text/javascript">
+        /* Activate smart panels */
+        $("#js-page-content").smartPanel();
+    </script>
+    <!-- The order of scripts is irrelevant. Please check out the plugin pages for more details about these plugins below: -->
+    <script src="js/statistics/peity/peity.bundle.js"></script>
+    <script src="js/statistics/flot/flot.bundle.js"></script>
+    <script src="js/statistics/easypiechart/easypiechart.bundle.js"></script>
+    <script src="js/datagrid/datatables/datatables.bundle.js"></script>
+
+    <script src="js3/util/createTable.js"></script>
+    <script>
+        var TABELA_GLOBAL;
+        $(document).ready(function() {
+            TABELA_GLOBAL = createTable(
+                "#dt-basic-example",
+                "#tbody",
+                DADOS_TABELA
+            );
+        });
+    </script>
+</body>
+
+</html>
