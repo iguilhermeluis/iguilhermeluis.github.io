@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tabela de preço Leandro</title>
+  <link rel="stylesheet" href="css/new-style.css" />
+  <meta name="theme-color" content="#45a0d5">
+</head>
+
+<body>
+    <div id="block-price" class="pricing container">
+        <h1 class="pricing__title">
+            <strong>Planos</strong> e <strong>Preços</strong> para o seu negócio
+        </h1>
+
+        <!-- menu mobile -->
+
+        <div class="btn-mobile">
+            <div class="active">Iniciante</div>
+            <div>Básico</div>
+            <div>Avançado</div>
+            <div>Profissional</div>
+            <div>Exclusivo</div>
+            <div>Elite</div>
+        </div>
+
+        <!-- fim menu mobile -->
+
+        <div class="big-container">
+            <div class="btn-arrow-tb arrow-left" onclick="move_left()"></div>
+            <div class="container-slider-table">
+                <div class="info-plain">
+                    <ul>
+                        <li>
+                            Produtos
+                            <span class="help-tip" data-label="produtos">
+                                <p>
+                                    Limite de números de cadastros de produtos únicos.
+                                    <br /><br />
+                                    <strong>Observação:</strong> Não são contabilizadas
+                                    variações (ex.: cor, tamanho, etc.) quando cadastradas no
+                                    mesmo produto.
+                                </p>
+                            </span>
+                        </li>
+                        <li>
+                            Visitas
+                            <span class="help-tip" data-label="visitas">
+                                <p>
+                                    Limite de visitas mensais.<br /><br />
+                                    <strong>Observação:</strong> Ao atingir o limite a loja
+                                    continua funcionando normalmente, onde é possível realizar o
+                                    upgrade ou cobrança de R$ 0,01 por visita excedente no
+                                    período.
+                                </p>
+                            </span>
+                        </li>
+                        <li>
+                            Suporte
+                            <span class="help-tip">
+                                <p>
+                                    Suporte realizado via equipe de especialistas da
+                                    plataforma.<br /><br />
+                                    <strong>Observação:</strong> Atendimento por telefone
+                                    disponível de segunda a sexta da 08h as 18h.
+                                </p>
+                            </span>
+                        </li>
+                        <li>
+                            Integração nativa com os Marketplaces
+                            <span class="help-tip" data-label="visitas">
+                                <p>
+                                    Integração direta com 18 marketplaces.<br /><br />
+                                    Todos os dados de produto, estoque, vendas, fiscal, etc. são
+                                    integrados e consolidados em um painel único.<br /><br />
+                                    <strong>Observação:</strong> Com cobrança de 1% sobre os
+                                    pedidos aprovados no mês.
+                                </p>
+                            </span>
+                        </li>
+                        <li>
+                            Cobrança por pedidos em marketplaces
+                            <span class="help-tip" data-label="visitas">
+                                <p>
+                                    Válido para todos os planos e Marketplaces.
+                                    <br /><br />
+                                    <strong>Observação:</strong> São considerados os pedidos
+                                    aprovados e processados mensalmente (do primeiro ao último
+                                    dia do mês) independente do vencimento da assinatura.
+                                </p>
+                            </span>
+                        </li>
+
+                        <li>
+                            Cobrança por pedido na loja virtual
+                            <span class="help-tip">
+                                <p>
+                                    Valor cobrado por todos os pedidos aprovados na loja
+                                    virtual.<br /><br />
+                                    <strong>Observação:</strong> Modelo de cobrança válida
+                                    apenas para o plano “Exclusivo”
+                                </p>
+                            </span>
+                        </li>
+
+                        <li>
+                            B2B
+                            <span class="help-tip">
+                                <p>
+                                    <strong>Tabela de preço:</strong> recurso que possibilita
+                                    tabela de preço diferenciada por cliente.<br />
+                                    Função
+                                    <strong>ideal para trabalhar com o modelo de varejo e
+                                        atacado</strong>
+                                    na mesma loja. <br /><br />
+
+                                    <strong>Impostos:</strong> recurso de impostos avançado para
+                                    venda B2B, principalmente interestaduais ou lojas com NCM de
+                                    diferentes alíquotas.<br />
+                                </p>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="table scroller">
+                    <div class="table__header">
+                        <!-- row title product -->
+                        <ul class="table__name ul">
+                            <li class="name-plan li default">
+                                <div class="name-plan__box">Iniciante</div>
+                            </li>
+                            <li class="name-plan li">
+                                <div class="name-plan__box">
+                                    <span class="highlight">mais vendido</span>Básico
+                                </div>
+                            </li>
+                            <li class="name-plan li">
+                                <div class="name-plan__box">Avançado</div>
+                            </li>
+                            <li class="name-plan li">
+                                <div class="name-plan__box">Profissional</div>
+                            </li>
+                            <li class="name-plan li">
+                                <div class="name-plan__box">Exclusivo</div>
+                            </li>
+                            <li class="name-plan li">
+                                <div class="name-plan__box">Elite</div>
+                            </li>
+                        </ul>
+                        <!-- end row title product -->
+
+                        <!-- row price -->
+                        <ul class="table__price ul">
+                            <li class="li default">
+                                <div class="box-price">
+                                    <span class="amount">R$ </span>
+                                    <span class="price">49 </span>
+                                    <span class="monthy">por mês </span>
+                                </div>
+                            </li>
+                            <li class="li">
+                                <div class="box-price">
+                                    <span class="amount">R$ </span>
+                                    <span class="price">99 </span>
+                                    <span class="monthy">por mês </span>
+                                </div>
+                            </li>
+                            <li class="li">
+                                <div class="box-price">
+                                    <span class="amount">R$ </span>
+                                    <span class="price">199</span>
+                                    <span class="monthy">por mês </span>
+                                </div>
+                            </li>
+                            <li class="li">
+                                <div class="box-price">
+                                    <span class="amount">R$ </span>
+                                    <span class="price">499 </span>
+                                    <span class="monthy">por mês </span>
+                                </div>
+                            </li>
+                            <li class="li">
+                                <div class="box-price">
+                                    <span class="amount">R$ </span>
+                                    <span class="price">749 </span>
+                                    <span class="monthy">por mês </span>
+                                </div>
+                            </li>
+
+                            <li class="li">
+                                <div class="box-price">
+                                    <span class="amount">R$ </span>
+                                    <span class="price">949 </span>
+                                    <span class="monthy">por mês </span>
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- end row price -->
+
+                        <!-- row buttons -->
+                        <ul class="table__button ul">
+                            <li class="li default">
+                                <a href="#" class="button  ">Criar Loja</a>
+                            </li>
+                            <li class="li">
+                                <a href="#" class="button  ">Criar Loja</a>
+                            </li>
+                            <li class="li">
+                                <a href="#" class="button ">Criar Loja</a>
+                            </li>
+                            <li class="li">
+                                <a href="#" class="button ">Criar Loja</a>
+                            </li>
+                            <li class="li">
+                                <a href="#" class="button">Contato</a>
+                            </li>
+
+                            <li class="li">
+                                <a href="#" class="button">Fale direto</a>
+                            </li>
+                        </ul>
+
+                        <!-- end row buttons -->
+                    </div>
+
+                    <div class="table__content">
+                        <ul>
+                            <li class="li default"><span>100</span></li>
+                            <li class="li"><span>500</span></li>
+                            <li class="li"><span>1.000</span></li>
+                            <li class="li"><span>5.000</span></li>
+                            <li class="li"><span>Ilimitado</span></li>
+                            <li class="li"><span>Ilimitado</span></li>
+                        </ul>
+                        <ul>
+                            <li class="li default"><span>10.000</span></li>
+                            <li class="li"><span>25.000</span></li>
+                            <li class="li"><span>35.000</span></li>
+                            <li class="li"><span>60.000</span></li>
+                            <li class="li"><span>Ilimitado</span></li>
+                            <li class="li"><span>Ilimitado</span></li>
+                        </ul>
+                        <ul>
+                            <li class="li default">E-mail</li>
+                            <li class="li">E-mail</li>
+                            <li class="li">
+                                <div class="mini-container">
+                                    <span class="item">Chat</span>
+                                    <span class="break plus">+</span>
+                                    <span class="item">E-mail</span>
+                                </div>
+                            </li>
+
+                            <li class="li">
+                                <div class="mini-container">
+                                    <span class="item">Chat</span>
+                                    <span class="break plus">+</span>
+                                    <span class="item">E-mail</span>
+                                    <span class="break"></span>
+                                    <span class="item">
+                                        <plus>+</plus> Telefone
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="li">
+                                <div class="mini-container">
+                                    <span class="item">Chat</span>
+                                    <span class="break plus">+</span>
+                                    <span class="item">E-mail</span>
+                                    <span class="break"></span>
+                                    <span class="item">
+                                        <plus>+</plus> Telefone
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="li">
+                                <div class="mini-container">
+                                    <span class="item">Chat</span>
+                                    <span class="break plus">+</span>
+                                    <span class="item">E-mail</span>
+                                    <span class="break"></span>
+                                    <span class="item">
+                                        <plus>+</plus> Telefone
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="li default"><span class="tick"></span></li>
+                            <li class="li"><span class="tick"></span></li>
+                            <li class="li"><span class="tick"></span></li>
+                            <li class="li"><span class="tick"></span></li>
+                            <li class="li"><span class="tick"></span></li>
+                            <li class="li"><span class="tick"></span></li>
+                        </ul>
+                        <ul>
+                            <li class="li default"><span>1%</span></li>
+                            <li class="li"><span>1%</span></li>
+                            <li class="li"><span>1%</span></li>
+                            <li class="li"><span>1%</span></li>
+                            <li class="li"><span>Sob Consulta</span></li>
+                            <li class="li"><span>Sob Consulta</span></li>
+                        </ul>
+                        <ul>
+                            <li class="li default"><span class="no-tick"></span></li>
+                            <li class="li"><span class="no-tick"></span></li>
+                            <li class="li"><span class="no-tick"></span></li>
+                            <li class="li"><span class="no-tick"></span></li>
+                            <li class="li"><span>Sob Consulta</span></li>
+                            <li class="li"><span>Sob Consulta</span></li>
+                        </ul>
+                        <ul>
+                            <li class="li default"><span class="no-tick"></span></li>
+                            <li class="li"><span class="no-tick"></span></li>
+                            <li class="li"><span class="no-tick"></span></li>
+                            <li class="li">Tabela de preços</li>
+                            <li class="li">
+                                <div class="mini-container">
+                                    <span class="item">Tabela de preços</span>
+                                    <span class="break plus-alt">+</span>
+                                    <span class="item">Impostos</span>
+                                </div>
+                            </li>
+
+                            <li class="li">
+                                <div class="mini-container">
+                                    <span class="item">Tabela de preços</span>
+                                    <span class="break plus-alt">+</span>
+                                    <span class="item">Impostos</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-arrow-tb arrow-right" onclick="move_right()"></div>
+        </div>
+    </div>
+
+    <script src="js/main-table.js"> </script>
+</body>
+
+</html>
