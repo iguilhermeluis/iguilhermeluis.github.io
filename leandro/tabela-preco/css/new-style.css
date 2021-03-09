@@ -383,7 +383,7 @@
 }
 
 #block-price .table__content .tick {
-  background: url("/img/img_check.svg") 0% 0%/15px no-repeat;
+  background: url("../img/img_check.svg") 0% 0%/15px no-repeat;
   width: 18px;
   height: 16px;
   display: block;
@@ -391,7 +391,7 @@
 }
 
 #block-price .table__content .no-tick {
-  background: url("/img/img_uncheck.svg") 0% 0%/15px no-repeat;
+  background: url("../img/img_uncheck.svg") 0% 0%/15px no-repeat;
   width: 16px;
   height: 18px;
   display: block;
@@ -419,7 +419,7 @@
 
 #block-price .table__hide::after {
   content: "";
-  background: url("/img/arrow2_btn.svg") 0% 0%/contain no-repeat;
+  background: url("../img/arrow2_btn.svg") 0% 0%/contain no-repeat;
   width: 20px;
   height: 12px;
   margin-left: 6px;
@@ -519,7 +519,7 @@
 
 .pricing .table-hide::after {
   content: "";
-  background: url("/imgs/arrow2_btn.svg") 7px center no-repeat;
+  background: url("../imgs/arrow2_btn.svg") 7px center no-repeat;
   width: 36px;
   height: 42px;
   transition: transform 0.3s ease-in-out 0s, -webkit-transform 0.3s ease-in-out 0s;
@@ -554,7 +554,7 @@
 
 .pricing .pricing-mobile .slick-arrow {
   top: 10px;
-  background: url("/img/blue-right.svg") 12px center no-repeat;
+  background: url("../img/blue-right.svg") 12px center no-repeat;
   width: 45px;
   height: 45px;
   z-index: 10;
@@ -706,7 +706,7 @@
 .big-container .arrow-left,
 .big-container .arrow-right {
   top: 10px;
-  background: url("/img/arrow-left.svg") 12px center no-repeat;
+  background: url("../img/arrow-left.svg") 12px center no-repeat;
   width: 45px;
   height: 45px;
   z-index: 10;
@@ -718,7 +718,7 @@
 }
 
 .big-container .arrow-right {
-  background: url("/img/arrow-right.svg") 5px center no-repeat;
+  background: url("../img/arrow-right.svg") 5px center no-repeat;
 }
 
 .big-container .btn-arrow-tb {
