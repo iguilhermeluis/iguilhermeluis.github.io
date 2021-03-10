@@ -1128,4 +1128,8 @@
   outline: 0px;
   background: transparent;
 }
+
+.scroller {
+  scroll-behavior: smooth;
+}
 /*# sourceMappingURL=new-style.css.map */

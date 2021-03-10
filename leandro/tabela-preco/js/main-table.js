@@ -53,61 +53,47 @@ function move_slow(pos, isLeft) {
   let arrowRight = document.querySelector(".arrow-right");
 
   let maxScrollLeft = scroller.scrollWidth - scroller.clientWidth;
-  let i = scroller.scrollLeft;
+
+  let total = maxScrollLeft - pos;
+
+  let newValue = total < 100 ? maxScrollLeft : pos;
 
   if (isLeft) {
-    let x;
-    x = setInterval(function () {
-      scroller.scrollLeft = i;
+    newValue = pos < 100 ? 0 : pos;
+  }
 
-      if (scroller.scrollLeft == 0) {
-        arrowLeft.style.opacity = 0.3;
-        arrowLeft.style.cursor = "not-allowed";
-      }
+  scroller.scrollLeft = newValue;
 
-      if (scroller.scrollLeft > 0) {
-        arrowRight.style.opacity = 1;
-        arrowRight.style.cursor = "pointer";
-      }
-
-      if (i <= pos) {
-        clearInterval(x);
-      }
-      i -= 10;
-    }, 80);
+  if (isLeft) {
+    if (newValue == 0) {
+      arrowLeft.style.opacity = 0.3;
+      arrowLeft.style.cursor = "not-allowed";
+    }
+    if (newValue > 0) {
+      arrowRight.style.opacity = 1;
+      arrowRight.style.cursor = "pointer";
+    }
   } else {
-    // right
     arrowLeft.style.opacity = 1;
     arrowLeft.style.cursor = "pointer";
-
-    let x;
-    x = setInterval(function () {
-      scroller.scrollLeft += i;
-
-      i += 10;
-
-      if (scroller.scrollLeft >= maxScrollLeft) {
-        arrowRight.style.opacity = 0.3;
-        arrowRight.style.cursor = "not-allowed";
-      }
-      if (i >= pos) {
-        clearInterval(x);
-      }
-    }, 80);
+    if (newValue >= maxScrollLeft) {
+      arrowRight.style.opacity = 0.3;
+      arrowRight.style.cursor = "not-allowed";
+    }
   }
 }
 
 function move_left() {
   let scroller_actual = document.querySelector(".scroller").scrollLeft;
   if (scroller_actual !== 0) {
-    let calc = scroller_actual - 150;
+    let calc = scroller_actual - 300;
     move_slow(calc < 0 ? 0 : calc, true);
   }
 }
 
 function move_right() {
   let scroller_actual = document.querySelector(".scroller").scrollLeft;
-  move_slow(scroller_actual + 150, false);
+  move_slow(scroller_actual + 300, false);
 }
 
 function partArray(arr, size) {
