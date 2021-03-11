@@ -3013,8 +3013,11 @@
 </script>
 
 
+<script src="js/util.validate.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+   
     <script>
         (function($) {
             $(function() {
@@ -3123,18 +3126,39 @@
 
                 let maskCNPJCPF = (id) => {
                     let elementCPFCNPJ = document.getElementById(id)
+                    elementCPFCNPJ.addEventListener('blur', (event) => {
+                        elementCPFCNPJ.classList.remove('is-valid');
+                        elementCPFCNPJ.classList.add('is-invalid');
+                        let val = $(`#${id}`).val();
+                        let valLength = val.replace(/\D/g, '').length;
+
+                        if (valLength == 11 || valLength == 14) {
+                            let cnpjOrCpf = val.replace(/\D/g, '');
+                            let isValid = valLength == 11 ? valid.cpf(cnpjOrCpf) : valid.cnpj(cnpjOrCpf);
+                            if (isValid){
+                                elementCPFCNPJ.classList.remove('is-invalid');
+                                elementCPFCNPJ.classList.add('is-valid');
+                            }
+                       } 
+                        
+                    });
+
                     elementCPFCNPJ.addEventListener('keydown', (event) => {
 
                         var maskCpjCnpj = function(val) {
+
+                            elementCPFCNPJ.classList.remove('is-valid');
+                                    elementCPFCNPJ.classList.add('is-invalid');
                                 let valLength = val.replace(/\D/g, '').length;
                                 if (valLength == 11 || valLength == 14) {
-
-                                    elementCPFCNPJ.classList.remove('is-invalid');
-                                    elementCPFCNPJ.classList.add('is-valid');
-                                } else {
-                                    elementCPFCNPJ.classList.remove('is-valid');
-                                    elementCPFCNPJ.classList.add('is-invalid');
-                                }
+                                    let cnpjOrCpf = val.replace(/\D/g, '');
+                                    let isValid = valLength == 11 ? valid.cpf(cnpjOrCpf) : valid.cnpj(cnpjOrCpf);
+                            
+                                    if (isValid){
+                                        elementCPFCNPJ.classList.remove('is-invalid');
+                                        elementCPFCNPJ.classList.add('is-valid');
+                                    }
+                                }  
                                 return valLength < 12 ? '000.000.000-009999' : '00.000.000/0000-00';
                             },
                             ccOptions = {
@@ -3142,7 +3166,7 @@
                                     field.mask(maskCpjCnpj.apply({}, arguments), options);
                                 }
                             };
-                        $(`#${id}`).mask(maskCpjCnpj, ccOptions);
+                       $(`#${id}`).mask(maskCpjCnpj, ccOptions);
                     });
 
                 }
