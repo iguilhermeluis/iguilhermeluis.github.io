@@ -35,7 +35,7 @@
 }
 
 .pricing__title strong {
-  color: #45a0d5;
+  color: #00acc8;
 }
 
 .slick-slider {
@@ -108,7 +108,7 @@
   padding: 10px;
   letter-spacing: 1px;
   background: #ffffff;
-  color: #45a0d5;
+  color: #00acc8;
   text-align: center;
   margin: 5px 0px;
   width: 99% !important;
@@ -172,8 +172,8 @@
 }
 
 .pricing .table__price {
-  color: #45a0d5;
-  font-size: 55px;
+  color: #00acc8;
+  font-size: 45px;
   font-weight: 900;
   line-height: 40px;
   letter-spacing: -4px;
@@ -190,21 +190,118 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-pack: center;
-  -ms-flex-pack: center;
-      justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
-.pricing .table__price li .amount {
-  font-size: 20px;
+.pricing .table__price li .box-price select {
+  border: 1px solid #fff;
+  position: relative;
+  width: 100%;
+  height: 40px;
+  background-color: transparent;
+  border: 1px solid #cfcfcf;
+  padding: 0 25px 0 15px;
+  text-align: left;
+  outline: 0;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 0;
+  will-change: all;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  margin-top: 15px;
 }
 
-.pricing .table__price li .price {
-  margin: 0px 8px;
+.pricing .table__price li .box-price select option {
+  border: 1px solid #cfcfcf;
+  padding: 0 20px 0 15px;
+  font-size: 12px;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  padding: 20px;
+  display: block;
+  zoom: 1.4;
 }
 
-.pricing .table__price li .monthy {
-  font-size: 16px;
+.pricing .table__price li .box-price select option:hover {
+  background-color: #ccc;
+}
+
+.pricing .table__price li .box-price .group-price {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+
+.pricing .table__price li .box-price .annual {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  display: block;
+}
+
+.pricing .table__price li .box-price .prefix {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  margin: 0;
+  padding: 0;
+  line-height: 1px;
+  text-align: center;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.pricing .table__price li .box-price .prefix .strike:before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 20px;
+  width: 50%;
+  height: 2px;
+  background-color: red;
+  -webkit-transform: rotate(-10deg);
+          transform: rotate(-10deg);
+  opacity: 0.6;
+}
+
+.pricing .table__price li .box-price sup,
+.pricing .table__price li .box-price .amount {
+  font-size: 35%;
+}
+
+.pricing .table__price li .box-price .amount {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.pricing .table__price li .box-price .price {
+  padding: 0 40px 0px 20px;
+}
+
+.pricing .table__price li .box-price .decimal {
+  letter-spacing: 0;
+  position: absolute;
+  top: -10px;
+  right: 0;
+}
+
+.pricing .table__price li .box-price .monthy {
+  font-size: 14px;
   line-height: 16px;
   font-weight: normal;
   letter-spacing: 0px;
@@ -212,6 +309,21 @@
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
       align-self: center;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.pricing .table__price li:nth-child(2) {
+  color: #fff;
+}
+
+.pricing .table__price li:nth-child(2) select {
+  color: #fff;
+}
+
+.pricing .table__price li:nth-child(2) select option {
+  background-color: #253746;
 }
 
 .pricing .table__price li:first-child::before,
@@ -224,8 +336,7 @@
 }
 
 .pricing .table__button li .button {
-  border-radius: 14px;
-  background-color: #98bf11;
+  background-color: #f19100;
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
@@ -234,10 +345,6 @@
   margin: 0px auto;
   width: calc(100% - 10px);
   padding: 0px;
-}
-
-.pricing .table__button li:nth-child(2) .button {
-  border: 1px solid #9ebb3f;
 }
 
 .pricing .help-tip {
@@ -366,6 +473,11 @@
   display: flex;
 }
 
+.pricing .table__content ul li:nth-child(2) {
+  background: #253746;
+  color: #fff;
+}
+
 #block-price ul {
   padding: 0px;
   list-style: none;
@@ -431,7 +543,8 @@
 */
 .table__header ul li:nth-child(2)::before,
 .table__content ul li:nth-child(2)::before {
-  background: #e9f4fa;
+  background: #253746;
+  color: #fff !important;
 }
 
 .break {
@@ -444,7 +557,7 @@
   height: 7px;
   font-size: 20px;
   font-weight: bolder;
-  color: #45a0d5;
+  color: #00acc8;
   line-height: 16px;
   display: block;
   margin: 0px 3px;
@@ -453,7 +566,7 @@
 }
 
 .plus {
-  color: #45a0d5;
+  color: #00acc8;
   font-weight: bolder;
   font-size: 20px;
   display: inline-block;
@@ -463,13 +576,13 @@
   height: 7px;
   font-size: 20px;
   font-weight: bolder;
-  color: #45a0d5;
+  color: #00acc8;
   line-height: 0.4;
   display: block;
 }
 
 .pricing .table__title {
-  color: #45a0d5;
+  color: #00acc8;
   font-size: 30px;
   font-weight: bold;
   line-height: 55px;
@@ -500,7 +613,7 @@
 .pricing .table-hide::before {
   content: "";
   width: 36px;
-  background: #45a0d5;
+  background: #00acc8;
   height: 42px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -893,20 +1006,26 @@
     width: 100% !important;
   }
   .table__name .name-plan__box .highlight {
-    font-size: 15px;
-    color: #5b5b5f;
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    color: #fff;
+    background: #00acc8;
     line-height: 1;
-    background: #f7ba3c;
-    display: block;
-    padding: 2px 17px;
-    border-radius: 15px;
-    margin: -8px 0px 4px;
-    width: 100%;
+    font-weight: 300;
+    position: absolute;
+    top: 0px;
+    border-radius: 15px !important;
+    max-width: 120px;
+    margin: 0 auto;
   }
   .table__name li:nth-child(2) .name-plan__box {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    background-color: #253746;
+    color: #fff;
+    padding-top: 20px;
   }
   .container-slider-table {
     display: -webkit-box;
@@ -926,8 +1045,7 @@
     margin: 20px 0px;
   }
   .pricing .table__header {
-    background: #edeef0;
-    color: #45a0d5;
+    color: #00acc8;
     border: 1px solid #cecfd4;
     margin: 40px 0px 0px;
     display: -webkit-box;
@@ -959,7 +1077,6 @@
     display: flex;
   }
   .pricing .table__name .name-plan__box {
-    background: #edeef0;
     color: #414143;
     border-radius: 0px;
     -webkit-filter: none;
@@ -1032,20 +1149,6 @@
   .pricing .pricing-mobile {
     display: none;
   }
-  .pricing .table__price li .box-price {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-        flex-direction: column;
-    margin: 20px 0px;
-    position: relative;
-  }
-  .pricing .table__price li .amount {
-    line-height: 20px;
-    position: absolute;
-    left: -20px;
-    top: 5px;
-  }
   .table__name .name-plan__box {
     background: #ffffff;
     position: relative;
@@ -1063,31 +1166,38 @@
     -ms-flex-direction: column;
         flex-direction: column;
     color: #414143;
-    font-size: 24px;
-    font-weight: 600;
+    border-bottom: 2px solid #d8d9db;
     line-height: 25px;
     letter-spacing: 0.4px;
-    padding: 20px 0px;
-    margin: -20px auto 0px;
+    padding: 20px 10px;
   }
   .table__name .name-plan__box .highlight {
-    font-size: 15px;
+    font-size: 12px;
     color: #5b5b5f;
     line-height: 1;
-    background: #f7ba3c;
-    display: block;
+    background: #00acc8;
     padding: 2px 17px;
     border-radius: 15px;
-    margin: -8px 0px 4px;
+    color: #fff;
+    font-weight: 300;
+    font-family: Ubuntu, arial, sans-serif;
+    position: absolute;
+    top: -5px;
+  }
+  .table__name li .name-plan__box {
+    font-family: Ubuntu, arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
   }
   .table__name li:nth-child(2) .name-plan__box {
-    background: #e9f4fa;
-    margin: -40px auto;
-    border-radius: 10px 10px 0px 0px;
+    background: #253746;
+    color: #fff;
     position: absolute;
     left: 0px;
     max-width: 100%;
     right: 0px;
+    border-bottom: 2px solid #00acc8;
   }
 }
 

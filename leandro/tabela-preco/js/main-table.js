@@ -68,8 +68,6 @@ function move_slow(pos, isLeft) {
     if (newValue == 0) {
       arrowLeft.style.opacity = 0.3;
       arrowLeft.style.cursor = "not-allowed";
-    }
-    if (newValue > 0) {
       arrowRight.style.opacity = 1;
       arrowRight.style.cursor = "pointer";
     }

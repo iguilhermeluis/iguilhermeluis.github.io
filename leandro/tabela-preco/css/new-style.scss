@@ -1,6 +1,6 @@
 /* colors */
 
-$blue: #45a0d5;
+$blue: #00acc8;
 $white: #ffffff;
 
 /* reset */
@@ -160,34 +160,139 @@ $white: #ffffff;
     }
   }
 
-
   .table__price {
     color: $blue;
-    font-size: 55px;
+    font-size: 45px;
     font-weight: 900;
     line-height: 40px;
     letter-spacing: -4px;
+
     li {
       position: relative;
       display: flex;
+
       .box-price {
         display: flex;
-        -webkit-box-pack: center;
+        align-items: center;
         justify-content: center;
+        flex-direction: column;
+        //width: 100%;
+
+        select {
+          border: 1px solid #fff;
+          // color: #fff;
+
+          position: relative;
+          width: 100%;
+          height: 40px;
+          background-color: transparent;
+          border: 1px solid #cfcfcf;
+
+          padding: 0 25px 0 15px;
+          text-align: left;
+          outline: 0;
+          font-size: 12px;
+          font-weight: 700;
+          border-radius: 0;
+          will-change: all;
+          transition: all 0.2s ease;
+          margin-top: 15px;
+
+          option {
+            // background-color: #253746;
+            border: 1px solid #cfcfcf;
+            padding: 0 20px 0 15px;
+            font-size: 12px;
+
+            transition: all 0.2s ease;
+            padding: 20px;
+            display: block;
+            zoom: 1.4;
+            &:hover {
+              background-color: #ccc;
+            }
+          }
+        }
+        .group-price {
+          display: flex;
+          align-items: center;
+          position: relative;
+        }
+
+        .annual {
+          font-size: 12px;
+          font-weight: 400;
+          letter-spacing: 0;
+          display: block;
+        }
+        .prefix {
+          font-size: 10px;
+          text-transform: uppercase;
+          letter-spacing: 0;
+          margin: 0;
+          padding: 0;
+          line-height: 1px;
+          text-align: center;
+          position: relative;
+          margin-bottom: 15px;
+          // top: -5px;
+
+          .strike:before {
+            content: "";
+            position: absolute;
+            top: 0px;
+            left: 20px;
+            width: 50%;
+            height: 2px;
+            background-color: red;
+            transform: rotate(-10deg);
+            opacity: 0.6;
+          }
+        }
+
+        sup,
+        .amount {
+          font-size: 35%;
+        }
+
+        .amount {
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+
+        .price {
+          padding: 0 40px 0px 20px;
+        }
+        .decimal {
+          letter-spacing: 0;
+
+          position: absolute;
+          top: -10px;
+          right: 0;
+        }
+        .monthy {
+          font-size: 14px;
+          line-height: 16px;
+          font-weight: normal;
+          letter-spacing: 0px;
+          text-transform: lowercase;
+          align-self: center;
+          position: absolute;
+          right: 0;
+          bottom: 0;
+        }
       }
-      .amount {
-        font-size: 20px;
-      }
-      .price {
-        margin: 0px 8px;
-      }
-      .monthy {
-        font-size: 16px;
-        line-height: 16px;
-        font-weight: normal;
-        letter-spacing: 0px;
-        text-transform: lowercase;
-        align-self: center;
+    }
+
+    li:nth-child(2) {
+      color: #fff;
+
+      select {
+        color: #fff;
+        option {
+          background-color: #253746;
+        }
       }
     }
 
@@ -200,8 +305,8 @@ $white: #ffffff;
     margin-top: -10px;
     li {
       .button {
-        border-radius: 14px;
-        background-color: rgb(152, 191, 17);
+        // border-radius: 14px;
+        background-color: #f19100;
         color: $white;
         font-size: 18px;
         font-weight: 600;
@@ -213,7 +318,7 @@ $white: #ffffff;
       }
     }
     li:nth-child(2) .button {
-      border: 1px solid rgb(158, 187, 63);
+      // border: 1px solid rgb(158, 187, 63);
     }
   }
 
@@ -324,6 +429,11 @@ $white: #ffffff;
         line-height: 18px;
         display: flex;
       }
+
+      li:nth-child(2) {
+        background: #253746;
+        color: #fff;
+      }
       // li:first-child {
       //   background: rgb(246, 246, 246);
       //   text-align: left;
@@ -392,7 +502,8 @@ $white: #ffffff;
 */
 .table__header ul li:nth-child(2)::before,
 .table__content ul li:nth-child(2)::before {
-  background: rgb(233, 244, 250);
+  background: #253746;
+  color: #fff !important;
 }
 
 .break {
@@ -762,7 +873,7 @@ $white: #ffffff;
   .info-plain {
     min-width: 150px;
   }
- 
+
   .btn-mobile {
     margin: 0 auto;
     display: flex;
@@ -786,14 +897,12 @@ $white: #ffffff;
     }
   }
 
- 
   .pricing .table__price li .amount {
     line-height: 20px;
     position: absolute;
     left: 5px;
     top: 4px;
   }
-
 
   .table__name {
     .name-plan__box {
@@ -815,23 +924,30 @@ $white: #ffffff;
       padding: 20px 0px;
       margin: -20px auto 0px;
 
-      width: 100%!important;
+      width: 100% !important;
 
       .highlight {
-        font-size: 15px;
-        color: rgb(91, 91, 95);
+        padding: 0;
+        margin: 0;
+        font-size: 12px;
+        color: #fff;
+
+        background: #00acc8;
         line-height: 1;
-        background: rgb(247, 186, 60);
-        display: block;
-        padding: 2px 17px;
-        border-radius: 15px;
-        margin: -8px 0px 4px;
-        width: 100%;
+        font-weight: 300;
+        position: absolute;
+        top: 0px;
+        border-radius: 15px !important;
+        max-width: 120px;
+        margin: 0 auto;
       }
     }
 
     li:nth-child(2) .name-plan__box {
-     display: flex;
+      display: flex;
+      background-color: #253746;
+      color: #fff;
+      padding-top: 20px;
     }
   }
 
@@ -851,7 +967,7 @@ $white: #ffffff;
   }
   .pricing {
     .table__header {
-      background: rgb(237, 238, 240);
+      // background: rgb(237, 238, 240);
       color: $blue;
       border: 1px solid rgb(206, 207, 212);
       margin: 40px 0px 0px;
@@ -879,7 +995,7 @@ $white: #ffffff;
 
     .table__name {
       .name-plan__box {
-        background: rgb(237, 238, 240);
+        //background: rgb(237, 238, 240);
         color: rgb(65, 65, 67);
         border-radius: 0px;
         filter: none;
@@ -954,22 +1070,6 @@ $white: #ffffff;
     display: none;
   }
 
-  .pricing .table__price li .box-price {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    flex-direction: column;
-    margin: 20px 0px;
-    position: relative;
-  }
-
-  .pricing .table__price li .amount {
-    line-height: 20px;
-    position: absolute;
-    left: -20px;
-    top: 5px;
-  }
-
-
   .table__name {
     .name-plan__box {
       background: $white;
@@ -983,33 +1083,48 @@ $white: #ffffff;
       -webkit-box-direction: normal;
       flex-direction: column;
       color: rgb(65, 65, 67);
-      font-size: 24px;
-      font-weight: 600;
+
+      border-bottom: 2px solid #d8d9db;
       line-height: 25px;
       letter-spacing: 0.4px;
-      padding: 20px 0px;
-      margin: -20px auto 0px;
+      padding: 20px 10px;
 
       .highlight {
-        font-size: 15px;
+        font-size: 12px;
         color: rgb(91, 91, 95);
         line-height: 1;
-        background: rgb(247, 186, 60);
-        display: block;
+        background: #00acc8;
+
         padding: 2px 17px;
         border-radius: 15px;
-        margin: -8px 0px 4px;
+        // margin: -8px 0px 4px;
+        color: #fff;
+        font-weight: 300;
+        font-family: Ubuntu, arial, sans-serif;
+        position: absolute;
+        top: -5px;
+      }
+    }
+
+    li {
+      .name-plan__box {
+        font-family: Ubuntu, arial, sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
       }
     }
 
     li:nth-child(2) .name-plan__box {
-      background: rgb(233, 244, 250);
-      margin: -40px auto;
-      border-radius: 10px 10px 0px 0px;
+      background: #253746;
+      color: #fff;
+      //margin: -40px auto;
+      //border-radius: 10px 10px 0px 0px;
       position: absolute;
       left: 0px;
       max-width: 100%;
       right: 0px;
+      border-bottom: 2px solid $blue;
     }
   }
 }
@@ -1051,7 +1166,6 @@ $white: #ffffff;
   background: transparent;
 }
 
-
-.scroller{ 
+.scroller {
   scroll-behavior: smooth;
 }
