@@ -3126,6 +3126,8 @@
 
                 let maskCNPJCPF = (id) => {
                     let elementCPFCNPJ = document.getElementById(id)
+
+
                     elementCPFCNPJ.addEventListener('blur', (event) => {
                         elementCPFCNPJ.classList.remove('is-valid');
                         elementCPFCNPJ.classList.add('is-invalid');
@@ -3140,7 +3142,6 @@
                                 elementCPFCNPJ.classList.add('is-valid');
                             }
                        } 
-                        
                     });
 
                     elementCPFCNPJ.addEventListener('keydown', (event) => {
@@ -3166,6 +3167,7 @@
                                     field.mask(maskCpjCnpj.apply({}, arguments), options);
                                 }
                             };
+
                        $(`#${id}`).mask(maskCpjCnpj, ccOptions);
                     });
 
