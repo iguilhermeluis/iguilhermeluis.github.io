@@ -36,7 +36,7 @@
             <header id="titulo">
                 <h1>Gerador de CPF e CNPJ</h1>
             </header>
-            <form name="form_div">
+            <form name="form_main" onsubmit="return gera(event)">
                 <div>
                     <label>Número:</label>
                     <br />
@@ -57,7 +57,7 @@
                     </label>
                 </div>
                 <br />
-                <button id="botao" value="Gerar" onclick="gera()">Gerar</button>
+                <button id="botao" value="Gerar" >Gerar</button>
             </form>
         </div>
 
