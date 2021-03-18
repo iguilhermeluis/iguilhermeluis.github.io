@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title>Gerador de CPF e CNPJ - GERADOR DE PESSOAS</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Gerador Online de CPF E CNPJ válidos." />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2C2F33" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" />
+    <link rel="stylesheet" href="projeto.css" />
+</head>
+
+<body>
+    <section id="container">
+    <div class="box">
+
+        <header id="titulo">
+            <h1>Gerador de CPF e CNPJ</h1>
+        </header>
+        <form name="form_main">
+            <div>
+                <label>Número:</label>
+                <br />
+                <input type="text" placeholder="" name="digite" maxlength="15" name="numero" id="numero" size="20" type="text" readonly />
+            </div>
+
+            <br />
+
+            <div>
+                <label>Tipo:</label>
+                <br />
+                <label><input type="radio" name="tipo" value="cpf" id="cpf" checked="checked" />
+                    CPF
+                </label>
+                <label><input type="radio" name="tipo" value="cnpj" id="cnpj" />
+                    CNPJ
+                </label>
+                <label><input name="mascara" value="mascara" id="mascara" type="checkbox" />
+                    Máscara
+                </label>
+            </div>
+
+            <br />
+
+            <button id="botao" value="Gerar" onclick="gera()">Gerar</button>
+        </form> 
+    </div>
+
+    </section>
+ 
+    <section class="descricao">
+        <article>
+            <header>
+                <h2 class="titulo">O que é o CPF?</h2>
+            </header>
+            <main>
+                <p class="p">
+                    O Cadastro de Pessoas Físicas foi efetivamente instituído em 1968 por
+                    força do Decreto-lei nº 401 de 30 de dezembro de 1968.
+                </p>
+                <br />
+                <p class="p">
+                    O Cadastro de Pessoas Físicas (CPF ou CPF-MF) é o registro mantido pela
+                    Receita Federal do Brasil no qual podem se inscrever, uma única vez,
+                    quaisquer pessoas naturais, independentemente de idade ou nacionalidade,
+                    inclusive falecidas. Cada inscrito é unicamente identificado por um número
+                    de inscrição no CPF composto por 11 dígitos decimais. Esse número jamais
+                    muda senão por decisão judicial ou administrativa. Por meio da Lei 4.862
+                    de 29 de novembro de 1965, foi instituído o Registro das Pessoas Físicas
+                    para que a administração tributária nacional pudesse coletar as
+                    informações das Pessoas Físicas que eram obrigadas a apresentar a
+                    declaração de rendimentos e bens. Em 1968, pelo Decreto-Lei 401, de 30 de
+                    dezembro de 1968, esse Registro das Pessoas Físicas foi transformado no
+                    cadastro de pessoas físicas. O contribuinte que apresentou Declaração de
+                    Rendimentos do exercício de 1969 (ano-calendário de 1968), recebeu, da
+                    Receita Federal, no início de 1970, juntamente com o Manual de Orientação
+                    e formulários, duas vias do cartão de identificação do contribuinte (CIC),
+                    emitidas eletronicamente e com prazo de validade. A Declaração de
+                    Rendimentos do IRPF passou a ter um campo para indicação do número de
+                    inscrição no cadastro das pessoas físicas. Com o passar do tempo, o CPF
+                    ultrapassou os limites do imposto de renda e tornou-se um documento de
+                    suma importância no cotidiano do brasileiro pelo fato de a identidade no
+                    Brasil ser atribuída de forma descentralizada pela União, pelos Estados e
+                    pelo Distrito Federal, sendo tal cadastro um importante complemento por
+                    ter unicidade a nível nacional e por ser até recentemente o único cadastro
+                    nacional a conter os dados de brasileiros natos, naturalizados e
+                    estrangeiros residentes no país. A partir de 1º de dezembro de 2015, o CPF
+                    passou a ser emitido juntamente com a certidão de nascimento para evitar
+                    fraudes e problemas causados por homônimos.[4] Para tanto, os cartórios de
+                    registro civil informam os dados do recém-nascido ou da pessoa a ser
+                    registrada por um sistema on-line e, imediatamente, o número do CPF será
+                    repassado e impresso na certidão.
+                </p>
+            </main>
+        </article>
+
+        
+        <article>
+            <header>
+                <h2 class="titulo">O que é o CNPJ?</h2>
+            </header>
+            <main>
+                <p class="p">
+                    Em 1998, através da Instrução Normativa SRF nº 27, é instituído o Cadastro
+                    Nacional da Pessoa Jurídica (CNPJ), em substituição ao antigo Cadastro
+                    Geral de Contribuintes (CGC).
+                </p>
+                <br />
+                <p class="p">
+                    Da mesma forma que as pessoas precisam de um documento de cadastro para a
+                    identificação de informações a respeito de sua situação para com a Receita
+                    Federal e outros órgãos federais, também é exigido às empresas o cadastro
+                    com as principais informações a seu respeito. Obrigatório para todas as
+                    empresas em solo brasileiro, é o CNPJ que permite a realização das mais
+                    diferentes atividades que irão manter o estabelecimento atuante, desde as
+                    menores às maiores transações comerciais e independentemente do setor de
+                    atuação e da dimensão do negócio. Para compreender melhor a criação do
+                    CNPJ, é preciso conhecer o Cadastro Geral do Contribuinte (CGC), criado em
+                    1964 pelo Ministério da Fazenda. O CGC também era um cadastro de pessoas
+                    jurídicas com empresas no Brasil e de empresas no exterior com aplicação
+                    de capital no país. Sendo assim, o CNPJ é uma evolução do CGC, de modo que
+                    quem já tinha esse cadastro antes da alteração para CNPJ manteve o mesmo
+                    número. A mudança ocorreu em 1998, por meio da Instrução Normativa SRF nº
+                    27, na tentativa de simplificar os procedimentos de cadastro no âmbito das
+                    três esferas do Governo. Desde então, o controle sobre as empresas é
+                    centralizado, e não mais separados em âmbitos municipais, estaduais e da
+                    União. Além dessa alteração, o Cadastro passou por outra reformulação em
+                    2002, quando foi extinto o serviço de emissão dos cartões CNPJ. Desde
+                    então, a consulta deve ser feita online no site da Receita Federal, onde é
+                    possível emitir o Comprovante de Inscrição e de Situação Cadastral.
+                </p>
+            </main>
+        </article>
+
+    </section>
+
+
+    <footer>
+        <footer>
+            <p class="creditos">
+                Desenvolvido por
+                <a href="https://www.facebook.com/jorgelucas.cs" target="_blank">Lucas Corrêa </a>
+         &
+
+         <a href="https://www.linkedin.com/in/guilherme-luis-faustino/" target="_blank" >Guilherme Faustino </a>
+        </p>
+        </footer>
+    </footer>
+  
+
+    <script src="script.js"></script>
+</body>
+
+</html>
