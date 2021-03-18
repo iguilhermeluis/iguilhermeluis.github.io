@@ -2,12 +2,28 @@
 <html lang="pt-br">
 
 <head>
-    <title>Gerador de CPF e CNPJ - GERADOR DE PESSOAS</title>
-    <meta charset="utf-8" />
-    <meta name="description" content="Gerador Online de CPF E CNPJ válidos." />
+    <meta charset="utf-8">
+    <meta name="language" content="pt-BR">
+    <title>Gerador de CPF e CNPJ - Gerador de Pessoas grátis</title>
+    <meta name="description" content="Um gerador de cpf e cnpj online para gerar pessoas de teste válidos grátis">
+    <meta name="robots" content="all">
+    <meta name="author" content="Lucas Corrêa">
+    <meta name="keywords" content="Gerador de cpf, gerador de cnpj, gerador de pessoas">
+    <meta property="og:type" content="page">
+    <meta property="og:url" content="https://guilhermeluis.com/ferramentas/gerador-de-cpf-e-cnpj/">
+    <meta property="og:title" content="">
+    <meta property="og:image" content="https://guilhermeluis.com/ferramentas/gerador-de-cpf-e-cnpj/img/cover.jpg">
+    <meta property="og:description" content="Um gerador de cpf e cnpj online para gerar pessoas de teste válidos grátis">
+    <meta property="article:author" content="igulhermeluis">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@igulhermeluis">
+    <meta name="twitter:title" content="">
+    <meta name="twitter:creator" content="@igulhermeluis">
+    <meta name="twitter:description" content="Um gerador de cpf e cnpj online para gerar pessoas de teste válidos grátis">
+    <meta name="theme-color" content="#2C2F33" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#2C2F33" />
+ 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" />
     <link rel="stylesheet" href="projeto.css" />
 </head>
@@ -19,15 +35,13 @@
         <header id="titulo">
             <h1>Gerador de CPF e CNPJ</h1>
         </header>
-        <form name="form_main">
+        <form name="form_div">
             <div>
                 <label>Número:</label>
                 <br />
-                <input type="text" placeholder="" name="digite" maxlength="15" name="numero" id="numero" size="20" type="text" readonly />
-            </div>
-
-            <br />
-
+                <input type="text" placeholder=""   maxlength="15" name="numero" id="numero" size="20" type="text" readonly />
+            </div> 
+            <br /> 
             <div>
                 <label>Tipo:</label>
                 <br />
@@ -40,10 +54,8 @@
                 <label><input name="mascara" value="mascara" id="mascara" type="checkbox" />
                     Máscara
                 </label>
-            </div>
-
-            <br />
-
+            </div> 
+            <br /> 
             <button id="botao" value="Gerar" onclick="gera()">Gerar</button>
         </form> 
     </div>
@@ -52,16 +64,14 @@
  
     <section class="descricao">
         <article>
-            <header>
                 <h2 class="titulo">O que é o CPF?</h2>
-            </header>
-            <main>
+      
+            <div>
                 <p class="p">
                     O Cadastro de Pessoas Físicas foi efetivamente instituído em 1968 por
                     força do Decreto-lei nº 401 de 30 de dezembro de 1968.
-                </p>
-                <br />
-                <p class="p">
+                
+                <br /> 
                     O Cadastro de Pessoas Físicas (CPF ou CPF-MF) é o registro mantido pela
                     Receita Federal do Brasil no qual podem se inscrever, uma única vez,
                     quaisquer pessoas naturais, independentemente de idade ou nacionalidade,
@@ -93,22 +103,18 @@
                     registrada por um sistema on-line e, imediatamente, o número do CPF será
                     repassado e impresso na certidão.
                 </p>
-            </main>
         </article>
 
         
         <article>
-            <header>
-                <h2 class="titulo">O que é o CNPJ?</h2>
-            </header>
-            <main>
+            <h2 class="titulo">O que é o CNPJ?</h2>
+    
                 <p class="p">
                     Em 1998, através da Instrução Normativa SRF nº 27, é instituído o Cadastro
                     Nacional da Pessoa Jurídica (CNPJ), em substituição ao antigo Cadastro
                     Geral de Contribuintes (CGC).
-                </p>
-                <br />
-                <p class="p">
+               
+                <br /> 
                     Da mesma forma que as pessoas precisam de um documento de cadastro para a
                     identificação de informações a respeito de sua situação para com a Receita
                     Federal e outros órgãos federais, também é exigido às empresas o cadastro
@@ -130,26 +136,20 @@
                     2002, quando foi extinto o serviço de emissão dos cartões CNPJ. Desde
                     então, a consulta deve ser feita online no site da Receita Federal, onde é
                     possível emitir o Comprovante de Inscrição e de Situação Cadastral.
-                </p>
-            </main>
+                </p> 
         </article>
 
     </section>
 
 
-    <footer>
-        <footer>
+    <footer> 
             <p class="creditos">
                 Desenvolvido por
-                <a href="https://www.facebook.com/jorgelucas.cs" target="_blank">Lucas Corrêa </a>
+            <a href="https://www.facebook.com/jorgelucas.cs" target="_blank">Lucas Corrêa </a>
          &
-
          <a href="https://www.linkedin.com/in/guilherme-luis-faustino/" target="_blank" >Guilherme Faustino </a>
-        </p>
-        </footer>
-    </footer>
-  
-
+        </p> 
+    </footer> 
     <script src="script.js"></script>
 </body>
 
