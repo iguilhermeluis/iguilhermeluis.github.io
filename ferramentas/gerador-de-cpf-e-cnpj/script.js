@@ -4,11 +4,11 @@ let number_random = (number) => Math.round(Math.random() * number);
 let mod = (dividendo, divisor) =>
   Math.round(dividendo - Math.floor(dividendo / divisor) * divisor);
 
-document.form_main.addEventListener("submit", function (event) {
-  event.preventDefault();
-});
-
 function gera() {
+  document.form_main.addEventListener("submit", function (event) {
+    event.preventDefault();
+  });
+
   document.form_main.numero.value = document.form_main.tipo[0].checked
     ? cpf()
     : cnpj();
