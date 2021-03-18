@@ -4,6 +4,12 @@ let number_random = (number) => Math.round(Math.random() * number);
 let mod = (dividendo, divisor) =>
   Math.round(dividendo - Math.floor(dividendo / divisor) * divisor);
 
+document.addEventListener("keyup", function (event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    document.getElementById("myBtn").click();
+  }
+});
 function gera(e) {
   e.preventDefault();
 
