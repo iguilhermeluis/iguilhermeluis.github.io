@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html>
   <head>
@@ -2531,8 +2531,7 @@
 
             <!-- EXPORT EXCEL -->
             <script src="js2/data/03-dadosinterpretacao.js"></script>
-            <!-- <script src="js2/data/04-dadosclusters.js"></script> -->
-            <script src="js2/data/dados_clustes_novo.js"></script>
+            <script src="js2/data/04-dadosclusters.js"></script>
             <script src="js2/data/05-dadosclustersagrupados.js"></script>
 
             <!-- EXPORT TABELA  -->
@@ -2617,11 +2616,10 @@
               }
 
               function RetornarDados() {
-                // RetornarDadosClientesRFMScoreInterpretacao();
-                // RetornarDadosClusters();
-                // RetornarDadosClustersAgrupados();
-                // RecuperarDadosInterpretacaoR();
-
+                RetornarDadosClientesRFMScoreInterpretacao();
+                RetornarDadosClusters();
+                RetornarDadosClustersAgrupados();
+                RecuperarDadosInterpretacaoR();
                 GerarGraficos();
               }
 
@@ -2654,7 +2652,7 @@
                     "",
                     "Último pedido (O quão é Recente)",
                     "Quantidade de Pedidos (Fidelidade)",
-                    "AvgR",
+                    "AvgRD",
                     "AvgF",
                     "AvgM",
                     tooltipHtmlBubble,
