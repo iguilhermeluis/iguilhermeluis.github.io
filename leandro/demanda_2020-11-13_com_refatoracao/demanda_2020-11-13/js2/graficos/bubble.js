@@ -37,28 +37,36 @@ function GerarGraficoBubble(
   var yAxisBubble = chartBubble.yAxes.push(new am4charts.ValueAxis());
 
   xAxisBubble.title.text = legendaX;
-  yAxisBubble.title.text = legendaY;
-
   xAxisBubble.title.fontWeight = 600;
-  yAxisBubble.title.fontWeight = 600;
-
-  yAxisBubble.renderer.labels.template.adapter.add("text", function (text) {
-    return parseInt(text);
-  });
-
   xAxisBubble.renderer.minGridDistance = 50;
-
   xAxisBubble.renderer.grid.template.disabled = false;
-  yAxisBubble.renderer.grid.template.disabled = false;
   xAxisBubble.renderer.axisFills.template.disabled = true;
-  yAxisBubble.renderer.axisFills.template.disabled = true;
-  yAxisBubble.renderer.ticks.template.disabled = false;
   xAxisBubble.renderer.ticks.template.disabled = false;
+
+  yAxisBubble.title.text = legendaY;
+  yAxisBubble.title.fontWeight = 600;
+  yAxisBubble.renderer.grid.template.disabled = true;
+  yAxisBubble.renderer.labels.template.disabled = true;
+  yAxisBubble.min = 0;
+
+  function createGrid(value) {
+    let step = yAxisBubble.axisRanges.create();
+    step.value = value;
+    step.label.text = "{value}";
+  }
+
+  let valores = data.map((el) => el[valorY]);
+  valores = Array.from(new Set(valores)); //remove numeros duplicados
+
+  createGrid(0);
+  valores.forEach((element) => {
+    createGrid(element);
+  });
 
   //var range = dadosInterpretacao;
   for (var i = 0; i < range.length; i++) {
     var item = range[i];
-
+    console.warn("item", item);
     createRangerX(
       xAxisBubble,
       item.MinR,
