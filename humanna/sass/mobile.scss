@@ -1,0 +1,511 @@
+/* Código geral, que será herdado por qualquer dispositivos.
+   nesse caso, seria o código usado no desktop, na maioria das   vezes. 
+   Se você já conhecer a ideia do Mobile First, esse primeiro código será destinado para mobiles.
+*/
+
+/* 
+ Pra dispositivos que tem uma largura mínima de 768 pixels. Tablets, por exemplo.
+*/
+
+
+
+/* Mobile directives */
+#menu_mobile
+{
+	//display:none;
+	
+}
+
+
+/*MENU ICON HAMBURGUE*/
+
+/* Icon 1 */
+
+#nav-icon1, #nav-icon2, #nav-icon3, #nav-icon4 {
+	position: absolute;
+	width: rem(40px);
+	height: rem(25px);
+	margin: rem(-30px auto 50px 90px);
+	margin-right:rem(-42px);
+	-webkit-transform: rotate(0deg);
+	-moz-transform: rotate(0deg);
+	-o-transform: rotate(0deg);
+	transform: rotate(0deg);
+	-webkit-transition: .5s ease-in-out;
+	-moz-transition: .5s ease-in-out;
+	-o-transition: .5s ease-in-out;
+	transition: .5s ease-in-out;
+	cursor: pointer;
+	right: rem(50px);
+    top: rem(50px);
+  }
+  
+  #nav-icon1 span, #nav-icon3 span, #nav-icon4 span {
+	display: block;
+	position: absolute;
+	height: rem(7px);
+	width: 100%;
+	background: #3fada0;
+	border-radius: 9px;
+	opacity: 1;
+	left: 0;
+	-webkit-transform: rotate(0deg);
+	-moz-transform: rotate(0deg);
+	-o-transform: rotate(0deg);
+	transform: rotate(0deg);
+	-webkit-transition: .25s ease-in-out;
+	-moz-transition: .25s ease-in-out;
+	-o-transition: .25s ease-in-out;
+	transition: .25s ease-in-out;
+  }
+  
+  #nav-icon1 span:nth-child(1) {
+	top: 0px;
+  }
+  
+  #nav-icon1 span:nth-child(2) {
+	top: 14px;
+  }
+  
+  #nav-icon1 span:nth-child(3) {
+	top: 28px;
+  }
+  
+  #nav-icon1.open span:nth-child(1) {
+	top: 18px;
+	-webkit-transform: rotate(135deg);
+	-moz-transform: rotate(135deg);
+	-o-transform: rotate(135deg);
+	transform: rotate(135deg);
+  }
+  
+  #nav-icon1.open span:nth-child(2) {
+	opacity: 0;
+	left: -60px;
+  }
+  
+  #nav-icon1.open span:nth-child(3) {
+	top: 18px;
+	-webkit-transform: rotate(-135deg);
+	-moz-transform: rotate(-135deg);
+	-o-transform: rotate(-135deg);
+	transform: rotate(-135deg);
+  }
+ 
+  #navMenuMobile, #nav-icon1{
+	  display:none;
+  }
+  .navMenuMobileOpen {
+	display:flex!important;
+  }
+
+
+
+@media screen and (max-width: 768px) {
+    body{
+        overflow-x: hidden;
+        width: 100%;
+    }
+     #nav-icon1{
+        display:block;
+    }
+
+    .header-main
+    {
+        background: #fff;
+        height: rem(120px);
+        padding-top:rem(20px);
+        display: block;
+        -webkit-box-shadow: 2px 10px 5px 0px rgba(0,0,0,0.24);
+        -moz-box-shadow: 2px 10px 5px 0px rgba(0,0,0,0.24);
+        box-shadow: 2px 10px 5px 0px rgba(0,0,0,0.24);
+        z-index: 9999;
+        img{
+            margin-left: rem(-35px);
+            margin-top: rem(10px);
+            height: rem(60px);
+        }
+        .row
+        {
+          .mobilenav
+          {
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: column;
+            width: 100vh !important;
+            color:#fff;
+            z-index: 999;
+            margin-top:rem(15px);
+            padding: 0;
+            background:  #3fada0;
+            display: none;
+            a
+            {
+                background:  #3fada0;
+                text-decoration: none;
+                font-size: rem(18px);
+                color: #fff;
+                padding: rem(10px 0 10px 30px);
+                width: 100vh !important;
+                box-sizing: border-box;
+            &:hover
+              {
+                text-decoration: none; 
+                color: darken(#3fada0, 10%);
+                transition: .5s;
+                
+              }
+            }
+      
+          }
+        }
+       
+    }
+
+    #bannerGUI, .owl-carousel .owl-item , .owl-carousel .owl-item img {
+        height: rem(340px) !important;
+    }
+    .sobreposicao-banner
+    {
+      overflow-x: hidden;
+     
+     .grid-info-banner
+     {
+      margin-top: rem(180px);
+      
+        .box-info-bannner
+        {
+            text-align: right;
+            max-width: rem(785px);
+            height: rem(370px);
+            font-weight: 300;
+            color:#fff;
+            
+            #infoCatBanner
+            {
+                font-size: rem(30px);
+                margin-bottom: rem(30px);
+                
+            }
+    
+            #infoTitleBanner
+            {
+                font-size: rem(48px);
+            }
+    
+            #infoDescBanner
+            {
+                font-size: rem(16px);
+                margin: rem(20px 0);
+            }
+    
+        }
+  
+     }
+
+     
+     
+    }
+
+    .main-produtos
+    {
+      height: rem(600px);
+      z-index: 999;
+      margin-top:120vh;
+     
+      .groupBtnProdutosMain a
+      { 
+        margin: 5px;
+        font-size: rem(14px);
+        width: auto;
+      }
+    }
+
+    
+      
+  .sobreposicao-banner
+  {
+    background-image: url(../assets/image/sobreposicao-banner.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    top: rem(-120px) !important;
+    width: 100%;
+    height: rem(1350px);
+    z-index: 2;
+   
+   .grid-info-banner
+   {
+    margin-top: rem(180px);
+    align-items: center;
+    justify-content:flex-end;
+    
+    .box-info-bannner
+    {
+        text-align: right;
+        max-width: rem(785px);
+        height: rem(370px);
+        font-weight: 300;
+        color:#fff;
+        font-size: rem(21px);
+        
+        #infoCatBanner
+        {
+          font-size: rem(30px);
+          margin-bottom: rem(60px);
+          
+          &:after{
+            content: "";
+            display: block;
+            width: rem(90px);
+            height: rem(8px);
+            margin-top: rem(15px);
+            background: #7CC5E4;
+            position: absolute;
+            right: rem(15px);
+            
+          }
+        }
+
+        #infoTitleBanner
+        {
+          font-size: rem(55px);
+        }
+
+        #infoDescBanner
+        {
+          font-size: rem(25px);
+          margin: rem(40px 0);
+        }
+
+    }
+
+   }
+   
+  }
+      
+  .groupBtnControl{
+    margin-top: rem(200px);
+}
+
+.box-image-produto{
+  height: rem(200px);
+}
+.box-legenda-produto
+{        
+  height: rem(200px);
+  width: 60%;
+  align-items: center;
+  justify-content: space-around;
+  
+  flex-direction: column;
+  color:#fff;
+
+  .title-produto
+  {
+    font-size: rem(16px) !important;
+    width: 80%;
+    margin: 0 auto;
+  }
+  .descricao-produto
+  {
+    font-size: rem(12px);
+    width: 80%;
+    margin: 0 auto;
+  }
+  a
+  {
+    width: rem(150px);
+    height: rem(30px);
+    font-size: rem(12px);
+   
+  }
+}
+
+.row-subproduto{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+
+  div{
+    width: 25%;
+  
+    img{
+      width: 80%;
+    }
+  }
+
+}
+
+.box-subproduto
+{
+  background: #fff;
+  margin-top: rem(25px);
+  .box-images-subproduto
+  {
+    align-items: center;
+    justify-content: center;
+    img{
+      cursor: pointer;
+    }
+
+    height: rem(100px);
+  }
+
+  #title-produto-din
+  {
+
+    font-size: rem(24px);
+  }
+  
+  #descricao-produto-din
+  {
+    font-size: rem(16px);
+    margin-top: rem(15px);
+    
+  }
+
+}
+
+.catalogo-produtos nav a {
+  font-size: rem(13px);
+  height: rem(40px);
+  width: auto;
+}
+
+
+.banner .box-banner {
+  overflow: hidden;
+}
+
+.descricao-produto
+  {
+    font-size: rem(15px) !important;
+  }
+  .main-produtos .box-produto .box-legenda-produto a {
+    color: #106d56;
+    width: rem(150px);
+    font-size: rem(14px);
+}
+ .box-legenda-produto, .box-image-produto {
+  height: rem(250px) ;
+}
+
+.main-produtos .box-produto .box-image-produto img {
+  width: 100%;
+  height:  rem(250px);
+}
+
+.main-produtos .box-produto .box-legenda-produto {
+  background: #106d56;
+  height: rem(250px);
+  width: 60%;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  color: #fff;
+}
+
+footer{
+  height:rem(400px);
+  .box-footer-contato{
+    padding-top:rem(30px);
+    box-sizing: border-box;
+
+    .box-rede-social{
+      margin-top: rem(25px);
+
+      a{
+        margin: rem(5px);
+      }
+    }
+
+  
+
+  h4{
+    font-size: rem(21px);
+  }
+
+  p{
+    font-size: rem(16px);
+  }
+
+  }
+
+}
+
+
+
+.box-form-contato{
+  flex-direction: column;
+  margin:0 auto;
+  color:#229678;
+  margin-top: rem(60px);
+  input[type="text"], textarea{
+    background: #F1F1F2;
+    color:#229678;
+    width: rem(320px);
+    height: rem(50px);
+    margin-bottom: rem(10px);
+    padding-left: rem(20px);
+    box-sizing: border-box;
+    
+    align-items: center;
+    justify-content: center;
+  }
+  #divDoBtnEnviar{
+    margin-top: rem(20px);
+    background:#229678;
+    width: rem(320px);
+    color:#fff;
+    text-align: center;
+    height: rem(50px);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: rem(20px);
+  }
+  form{
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+
+
+
+
+
+
+}
+/* 
+ Com uma largura mínima de 992 pixels. Monitores por exemplo.
+*/
+@media screen and (min-width: 720px) {
+ #bannerGUI, .owl-carousel .owl-item , .owl-carousel .owl-item img {
+        height: rem(600px) !important;
+    }
+}
+@media screen and (min-width: 1200px) {
+ #bannerGUI, .owl-carousel .owl-item , .owl-carousel .owl-item img {
+        height: rem(730px) !important;
+    }
+}
+
+@media screen and (min-width: 1920px) {
+ #bannerGUI, .owl-carousel .owl-item , .owl-carousel .owl-item img {
+        height: rem(840px) !important;
+    }
+}
+/* 
+ Dispositivos com largura mínima de 1200 pixels. Por exemplo TVs.
+*/
+@media screen and (max-width: 1300px) {
+  
+}

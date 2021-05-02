@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Humanna Material médico-hospitalar</title>
+        
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="language" content="pt-br" />
+
+        <link rel="apple-touch-icon" sizes="57x57" href="assets/image/icone/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="assets/image/icone/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="assets/image/icone/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="assets/image/icone/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="assets/image/icone/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="assets/image/icone/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="assets/image/icone/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="assets/image/icone/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="assets/image/icone/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="assets/image/icone/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="assets/image/icone/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="assets/image/icone/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="assets/image/icone/favicon-16x16.png">
+        <link rel="manifest" href="assets/image/icone/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="assets/image/icone/ms-icon-144x144.png">
+        <meta name="theme-color" content="#3fada0">
+
+
+        <link rel="stylesheet" href="css/lite-grid-min.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+        <link href="assets/plugin/owl/css/style.css" rel="stylesheet" type="text/css" />
+       
+    </head>
+    <body>
+        <header class="header-main">
+            <div class="container">
+                <div class="row">
+
+                    <a href="index.html" class="col-md-6" >
+                        <img src="assets/image/logo_humanna.png" alt="logo da Humanna" title="clique para voltar a página inicial">
+                    </a>
+
+                    <div id="#navMenuMobil">
+                            <div id="nav-icon1">
+								<span></span>
+								<span></span>
+								<span></span>
+							</div>
+                    </div>
+                
+                    <nav class="col-md-6 mobilenav">
+                        <a href="index.html">HOME</a>
+                        <a href="empresa.html">A EMPRESA</a>
+                        <a href="produtos.html">PRODUTOS</a>
+                        <a href="contato.html">CONTATO</a>
+                    </nav>
+
+                </div>
+            </div>
+        </header>
+    
+        <div class="banner">
+            <div class="box-banner">
+                <div class="owl-theme owl-carousel" id="bannerGUI">
+                    <div>
+                        <img src="assets/image/banner-1-humanna.jpg" alt="Humanna">
+                    </div>
+                    <div>
+                        <img src="assets/image/banner-2-humanna.jpg" alt="Humanna">
+                    </div>
+                    <div>
+                        <img src="assets/image/banner-3-humanna.jpg" alt="Humanna">
+                    </div>               
+                </div>
+                <div class="sobreposicao-banner">
+                    
+                    <button id="btnSlide" onclick="avancarSlide()">
+                       
+                    </button>
+
+                    <button onclick="voltarSlide()">
+
+                    </button>
+
+                    <div class="container grid-info-banner">
+                            <div class="box-info-bannner">
+                                    <p id="infoCatBanner">LINHA médico-hospitalar</p>
+            
+                                    <p id="infoTitleBanner"><b>Garantir</b> saúde</p>
+                                    
+                                    <p id="infoDescBanner">Nossa proposta é disponibilizar completa linha de material<br>
+                                        médico-hospitalar, acompanhando as inovações presentes no mundo.</p>
+                                    
+                                    <span id="btnBanner">
+                                        <a href="produtos.html">VER CATÁLOGO</a>
+                                    </span>
+                            </div>
+                    </div>
+                    
+                    
+                    <div class="groupBtnControl">
+                        <span class="btnCircle" onclick="alterarSlideComBtn(0)">
+                        </span>
+                        
+                        <span class="btnCircle" onclick="alterarSlideComBtn(1)">
+                        </span>
+            
+                        <span class="btnCircle btnCircleActive" onclick="alterarSlideComBtn(2)">
+                        </span>
+            
+                    </div>
+            
+
+                </div>
+            </div>            
+        </div>
+
+        <section class="container main-produtos">
+
+            <h2>PRODUTOS</h2>
+            <nav class="groupBtnProdutosMain alinhamento">
+                    <a  onclick="filtrarProdutos(5)">LANÇAMENTOS</a>
+                    <a  onclick="filtrarProdutos(1)">CABEÇA/PESCOÇO</a>
+                    <a  onclick="filtrarProdutos(3)">COLUNA</a>
+                    <a  onclick="filtrarProdutos(2)">BIOMATERIAS</a>
+                    <a  onclick="filtrarProdutos(4)">ESTÉTICA</a>
+            </nav>
+
+            <div class="box-produto cabeca">
+      
+                <div class="box-image-produto">
+                    <img src="assets/image/produto_index_a.jpg" alt="Produto a" title="produto a">
+                </div>
+                    
+                <div class="box-legenda-produto">
+                    <p class="title-produto">Bainha de <br>
+                    <strong>Sialoendoscopia</strong></p>
+
+                    <p class="descricao-produto">
+                        Imprescindível no tratamento minimamente invasivo de desobstrução da glândula salivar.
+                    </p>
+
+                    <a href="produtos/cabeca/bainha_sialoendoscopia.html" title="clique para ver detalhes do produto">
+                        VER PRODUTO
+                    </a>
+                </div> 
+            </div>
+
+            <div class="box-produto coluna">
+                
+                    <div class="box-image-produto">
+                        <img src="assets/image/produtos/coluna/VERTEBROPLASTIA.png" alt="Produto a" title="produto a">
+                    </div>
+                        
+                    <div class="box-legenda-produto">
+                        <p class="title-produto">Vertebroplastia</p>
+    
+                        <p class="descricao-produto">
+                                As cânulas de Sucção Tuba-Clean de aspiração foram especificamente 
+                                projetadas para oferecer sucção de precisão para procedimentos ENT.
+                               
+                        </p>
+    
+                        <a href="produtos/coluna/vertebroplastia.html" title="clique para ver detalhes do produto">
+                                VER PRODUTO
+                            </a>
+                    </div> 
+            </div>
+
+            <div class="box-produto biomateria">  
+                        <div class="box-image-produto">
+                            <img src="assets/image/produtos/biomateria/ENXERTO-OSSEO.png" alt="Produto a" title="produto a">
+                        </div>
+                            
+                        <div class="box-legenda-produto">
+                            <p class="title-produto">Enxerto Ósseo</p>
+        
+                            <p class="descricao-produto">
+                                    CBone-Puxer foi desenvolvido com biomaterial sintético a base de fosfato β-tricálcio.
+                                </p>
+        
+                                <a href="produtos/biomaterias/enxerto_osseo_cbone_puxer.html" title="clique para ver detalhes do produto">
+                                        VER PRODUTO
+                                    </a>
+                        </div> 
+            </div>
+
+            <div class="box-produto estetica">
+                
+                        <div class="box-image-produto">
+                            <img src="assets/image/produtos/estetica/EZ-FUNNEL.png" alt="Produto a" title="produto a">
+                        </div>
+                            
+                        <div class="box-legenda-produto">
+                            <p class="title-produto">EZ-FUNNEL</p>
+        
+                            <p class="descricao-produto">
+                                    Introdução de implantes mamários, de peitoral e de glúteos. </p>
+        
+                                    <a href="produtos/estetica/ez-funnel.html" title="clique para ver detalhes do produto">
+                                            VER PRODUTO
+                                        </a>
+                        </div> 
+            </div>     
+        </section>
+        
+        <section class="container box-subproduto">
+            <div class="row">
+                <div class="col-md-6 box-images-subproduto">
+                    <div class="row row-subproduto" >
+                        <div class="col-md-3">
+                           
+                            <img src="assets/image/icon-humano.png" alt=" " title=" " onclick="mudarTexto(1)">
+                        </div>
+                        <div class="col-md-3">
+                            <img src="assets/image/icon-vertebra.png" alt=" " title=" " onclick="mudarTexto(2)">
+                        </div>
+                        <div class="col-md-3">
+                            <img src="assets/image/icon-medicamento.png" alt=" " title=" " onclick="mudarTexto(3)">
+                        </div>
+                        <div class="col-md-3">
+                            <img src="assets/image/icon-estetica.png" alt=" " title=" " onclick="mudarTexto(0)">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <!-- DADOS TROCADO DINAMICAMENTE VIA JQUERY  -->
+                    <h3 id="title-produto-din">Estética</h3>
+
+                    <p id="descricao-produto-din" >
+                     Produtos para cirurgia plástica:<br>
+                     compromisso com a qualidade e <br>
+                     segurança.</p>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="box-mapa">
+            <div class="map gmaps" id="map_canvas"></div>  <!-- google maps -->
+        </section>
+
+        
+
+<footer class="container-fluid">
+    <div class="box-footer-contato">
+      <h4>CONTATO</h4>
+      <br>
+      <br>
+      <p> Rua Aliphia Zaheter Kfuri 80, Guapimirim - RJ <br>
+          CEP: 25.946-610 - Brasil <br>
+          Tel: +55 21 2010-7770 <br>
+          E-mail: diretoria@humannamedical.com.br </p>
+          <div class="box-rede-social">
+              <a href="#">
+                  <img src="assets/image/icon-fb.png" title="Clique na nossa página do Facebook" alt="ícone-facebook">
+              </a>
+              <a href="#">
+                    <img src="assets/image/icon-insta.png" title="Clique na nossa página do Instagram" alt="ícone-instagram">
+              </a>
+              <a href="#">
+                    <img src="assets/image/icon-tt.png" title="Clique na nossa página do Twitter" alt="ícone-Twitter">
+                </a>
+          </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <p class="creditos">Designed by <a target="_blank" title="Analista de sistemas Java" href="https://www.linkedin.com/in/erika-klein-a3860848/">Erika Klein</a> & <a target="_blank" title="Desenvolvedor de aplicativos, sites e sistemas." href="https://www.guilhermeluis.com">Guilherme Luis</a></p>
+    </footer>
+    <script type="text/javascript" src="assets/plugin/owl/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/script.js"></script> 
+    <script type="text/javascript" src="assets/plugin/owl/js/owl.carousel.js"></script>
+    <script>
+        function voltarSlide(){
+            $(".owl-prev").trigger("click");
+        }
+        function avancarSlide(){
+            $(".owl-next").trigger("click");
+        }
+        
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0FwKO07nEcQi-YVsFgUmqCjxtgzC4b-k&libraries=places&callback=initMap" async defer></script>     
+    <script type="text/javascript" src="js/maps.js"></script>
+    </body>
+</html>
