@@ -66,7 +66,6 @@ function GerarGraficoBubble(
   //var range = dadosInterpretacao;
   for (var i = 0; i < range.length; i++) {
     var item = range[i];
-    console.warn("item", item);
     createRangerX(
       xAxisBubble,
       item.MinR,

@@ -1,0 +1,176 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  outline: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  height: 100vh;
+  font-family: "Roboto", sans-serif;
+ 
+}
+
+.left,
+.right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 600px;
+
+}
+
+.left {
+  background-image: url("../img/bg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #fff;
+}
+
+.box-text{
+    max-width: 800px;
+    padding: 30px 20px;
+}
+
+.left h3 {
+  font-weight: 400;
+  font-size: 36px;
+  margin-bottom: 40px;
+}
+
+.left h4 {
+  font-weight: 400;
+  font-size: 24px;
+  margin-bottom: 40px;
+}
+
+.highlight {
+  color: #967745;
+  font-weight: 700;
+}
+
+.left .title-list {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.left ul {
+  list-style: none;
+  margin-bottom: 30px;
+}
+
+.left ul li {
+  font-size: 18px;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+.left ul li:before {
+  display: inline-block;
+  content: " ";
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+  background-color: #967745;
+  margin-right: 10px;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.right .box-content {
+    max-width: 600px;
+    padding: 30px 20px;
+}
+
+.right h1,
+.right h2 {
+  text-align: center;
+  font-weight: 400;
+}
+
+.right h1 {
+  font-size: 36px;
+}
+
+.right h2 {
+  font-size: 18px;
+  margin-bottom: 60px;
+}
+
+.right form {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-end;
+}
+
+.right form input[type="text"],
+.right form select {
+  background: #eee;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  height: 60px;
+  padding-left: 15px;
+  width: 100%;
+}
+ 
+.right form .box-date {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  color: #878787;
+}
+.right form .box-date div {
+  flex: 1;
+  padding-right: 15px;
+}
+
+.right form .box-date p {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+.right form .box-date label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 7px;
+  font-weight: 400;
+}
+.right form .box-date label input {
+  margin-right: 5px;
+}
+
+.right form button {
+    background: #967745;
+    display: block;
+    width: 100px;
+    cursor: pointer;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.right form button:hover{
+    background: #86693b;
+}
+
+.right  form .legal {
+    font-weight: 400;
+    font-size: 14px;
+    color: #878787;
+    margin-top:30px
+}

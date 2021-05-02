@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Restaurante XYZ</title>
+    <meta name="description" content="O restaurante com a maior variedade de receitas com os melhores chefes" />
+    <meta name="theme-color" content="#967745" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <script src="js/script.js"></script>
+</head>
+
+<body>
+    <div class="left">
+        <div class="box-text">
+            <h3>
+                Assine hoje mesmo nosso newsletter e receba o seu e-book
+                <span class="highlight">gratuitamente!</span>
+            </h3>
+            <h4>
+                É bem fácil conseguir o seu e-book de receitas exclusivas dos nosso
+                chefes gratuitamente! Basta preencher o formulário ao lado com o seu
+                nome e e-mail. Em seguida é só aguardar o e-mail na sua caixa de
+                entrada com o link para o download e pronto!
+            </h4>
+
+            <p class="title-list">Conteúdo</p>
+            <ul>
+                <li>Receitas de doces e sobremesas</li>
+                <li>Receitas de pratos salgados</li>
+                <li>Receitas low carb</li>
+                <li>Receitas de peixes e frutos do mar</li>
+            </ul>
+
+            <p class="text-alert">
+                <b>Atenção:</b> E-book gratuito só até amanhã! Preencha agora!
+            </p>
+        </div>
+    </div>
+    <div class="right">
+        <div class="box-content">
+            <h1>Restaurante <span class="highlight">XYZ</span></h1>
+            <h2>
+                O restaurante com a maior variedade de receitas com os melhores chefes
+            </h2>
+
+            <form id="formulario" name="formulario"  >
+                <input type="text" placeholder="Digite seu nome" name="nome" />
+                <input type="text" placeholder="Digite seu e-mail" name="email" />
+                <select  name="dicas">
+                    <option value="">Quais dicas você quer receber?</option>
+                    <option value="doces">Receitas de doces e sobremesas</option>
+                    <option value="salgados">Receitas de salgados</option>
+                    <option value="low carb">Receitas low carb</option>
+                    <option value="frutos do mar">
+                        Receitas de peixes e frutos do mar
+                    </option>
+                </select>
+
+                <div class="box-date">
+                    <div>
+                        <p>Qual o melhor dia para receber dicas?</p>
+                        <label><input type="radio" value="segunda" name="dt" checked/>Segunda-feira</label>
+                        <label><input type="radio" value="terca" name="dt" />Terça-feira</label>
+                        <label><input type="radio" value="quarta" name="dt" />Quarta-feira</label>
+                        <label><input type="radio" value="quinta" name="dt" />Quinta-feira</label>
+                        <label><input type="radio" value="sexta" name="dt" />Sexta-feira</label>
+                        <label><input type="radio" value="sabado" name="dt" />Sábado</label>
+                        <label><input type="radio" value="domingo" name="dt" />Domingo</label>
+                    </div>
+                    <div>
+                        <p>Qual a melhor horário para receber dicas?</p>
+                        <label><input type="radio" value="manhã" name="hr" checked/>Manhã</label>
+                        <label><input type="radio" value="terca" name="hr" />Tarde</label>
+                        <label><input type="radio" value="quarta" name="hr" />Noite</label>
+                        
+                    </div>
+                </div>
+
+
+                <div>
+                  <button>Enviar</button>
+                </div>
+
+                <p class="legal">De acordo com as Leis 12.965/2014 e 13.709/2018, que regulam o uso da Internet e o tratamento de dados pessoais no Brasil, autorizo Restaurante XYZ a enviar notificações por e-mail ou outros meios e concordo com sua Política de Privacidade.</p>
+
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
