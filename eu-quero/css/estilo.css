@@ -1,0 +1,80 @@
+		body{
+			font-family: 'Raleway', sans-serif;
+			background-color:#2e2e2d;
+			background-repeat:repeat-y;
+			margin:0;
+		}
+		.container-video{
+			height: auto;
+			overflow:hidden;	
+		}
+		#background{
+			position:fixed;
+			top:0px;
+			right:0;
+			bottom:0;
+			min-width:100%;
+			min-height:100%;
+			width:100%;
+			height:auto;
+			background-cover: cover;
+			z-index:-999;
+		}
+		.container{
+			margin-top:10px;
+			width:1200px;
+			margin:0 auto;
+		}
+		.container header{
+			margin-top:10px;
+		}
+		.texto-destaque{
+			width:400px;
+			margin-top:30px;
+		}
+		.clear {
+			clear: both;
+		}
+		.f-right{
+			float:right;
+		}
+		.texto-destaque h1{
+			color:#fff;
+			font-weight:800;
+			font-size:36px;
+			
+		}
+		.texto-destaque h1:after{
+			content:" ";
+			display:block;
+			width:30px;
+			height:4px;
+			background: #eb5a64;
+			margin:5px 0;
+		}
+		.texto-destaque p{
+			color:#fff;
+			font-weight:700;
+			font-size:21px;
+			margin-top:-20px;
+		}
+		.cronometro{
+			position:absolute;
+			bottom:50px;
+			width:400px;
+		}
+		.cronometro h3{
+			color: #fff;
+			font-weight:800;
+			font-size:27px;
+		}
+		
+		#contador{
+			font-weight:800;
+			font-size:60px;
+			color:#eb5a64;
+			margin-top:-30px;
+		}
+		#log{
+			color:#ea5964;
+		}
