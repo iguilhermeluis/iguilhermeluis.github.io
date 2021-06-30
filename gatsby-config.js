@@ -1,4 +1,6 @@
 module.exports = {
+  pathPrefix: "/iguilhermeluis.github.io",
+  
   siteMetadata: {
     title: 'Gatsby + Netlify CMS Starter',
     description:
