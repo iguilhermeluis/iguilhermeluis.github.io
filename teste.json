@@ -1,0 +1,17 @@
+{
+  "@context": "http://schema.org",
+  "@type": "Person",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://guilhermeluis.com"
+  },
+  "url": "https://guilhermeluis.com",
+  "sameAs": [
+    "https://twitter.com/gldesenvolvedor",
+    "https://github.com/iguilhermeluis",
+    "https://guilhermeluis.com/"
+  ],
+  "image": "https://guilhermeluis.com/img/guilherme-luis-faustino.webp",
+  "name": "Guilherme Luis Faustino",
+  "description": "Software Engineer 💻 | Front End Champion of Rio de Janeiro 🏆 | Professor 🎓"
+}
